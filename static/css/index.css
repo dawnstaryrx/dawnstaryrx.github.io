@@ -1,0 +1,27 @@
+.top-div {
+    background-color: rgb(216, 227, 235);
+    height: 60px;
+    font-size: 30px;
+}
+
+.menu {}
+
+.menu2-left {
+    height: 600px;
+    width: 30%;
+    background-color: rgba(213, 204, 191, 0.3);
+    display: inline;
+    float: left;
+}
+
+.menu2-right {
+    height: 600px;
+    width: 60%;
+    display: inline;
+    float: left;
+}
+
+.menu2-iframe {
+    height: 600px;
+    width: 120%;
+}
