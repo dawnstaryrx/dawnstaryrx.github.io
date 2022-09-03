@@ -8,7 +8,7 @@
 
 .menu2-left {
     height: 600px;
-    width: 30%;
+    width: 15%;
     background-color: rgba(213, 204, 191, 0.3);
     display: inline;
     float: left;
@@ -16,7 +16,7 @@
 
 .menu2-right {
     height: 600px;
-    width: 60%;
+    width: 80%;
     display: inline;
     float: left;
 }
