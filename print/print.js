@@ -1,6 +1,6 @@
 let input = document.querySelector(".input");
 let run = document.querySelector("button");
-let output = document.querySelector("pre");
+let output = document.querySelector(".output");
 
 function main() {
     run.addEventListener("click", function () {
