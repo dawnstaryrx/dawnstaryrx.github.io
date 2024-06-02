@@ -5,3 +5,6 @@
 {{ with .Site.GetPage "/blog" }}
 <a href="{{ "blog" | relURL }}">Blog</a>
 {{ end }}
+{{ with .Site.GetPage "/algorithm" }}
+<a href="{{ "algorithm" | relURL }}">Algorithm</a>
+{{ end }}

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>遗传算法 on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
-    <link>http://localhost:1313/blog/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link>
-    <description>Recent content in 遗传算法 on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</description>
+    <title>遗传算法 on Dawn Star&#39;s Blog</title>
+    <link>http://localhost:1313/algorithm/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 遗传算法 on Dawn Star&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
     <lastBuildDate>Sat, 01 Jun 2024 09:54:08 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/blog/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/algorithm/%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>智能算法01 遗传算法</title>
-      <link>http://localhost:1313/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link>
+      <link>http://localhost:1313/blog/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link>
       <pubDate>Sat, 01 Jun 2024 09:54:08 +0800</pubDate>
-      <guid>http://localhost:1313/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</guid>
+      <guid>http://localhost:1313/blog/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</guid>
       <description>This is a page about »智能算法01 遗传算法«.&#xA;$$ \Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt,. $$&#xA;$$ \Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt,. $$</description>
     </item>
   </channel>

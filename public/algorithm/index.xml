@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Algorithm on Dawn Star&#39;s Blog</title>
+    <title>Algorithm on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
     <link>http://localhost:1313/algorithm/</link>
-    <description>Recent content in Algorithm on Dawn Star&#39;s Blog</description>
+    <description>Recent content in Algorithm on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Sun, 02 Jun 2024 12:44:58 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 02 Jun 2024 13:53:09 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/algorithm/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Test</title>
-      <link>http://localhost:1313/algorithm/test/</link>
-      <pubDate>Sun, 02 Jun 2024 12:44:58 +0800</pubDate>
-      <guid>http://localhost:1313/algorithm/test/</guid>
-      <description>测试 111 1111</description>
+      <title>智能算法01 遗传算法</title>
+      <link>http://localhost:1313/algorithm/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Sun, 02 Jun 2024 13:53:09 +0800</pubDate>
+      <guid>http://localhost:1313/algorithm/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</guid>
+      <description>内容~~~</description>
     </item>
   </channel>
 </rss>
