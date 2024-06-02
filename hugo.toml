@@ -10,8 +10,8 @@ theme = 'hugo-bearblog'
 title = "Dawn Star's Blog"
 author = "Jane Doe"
 copyright = "Copyright © 2020, Jane Doe."
-# languageCode = "en-US"
-languageCode = "zh-han"
+languageCode = "en-US"
+# languageCode = "zh-han"
 # Generate a nice robots.txt for SEO
 enableRobotsTXT = true
 
