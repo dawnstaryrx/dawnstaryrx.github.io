@@ -1,5 +1,5 @@
 +++
-title = "How to use Hugo"
+title = "Hugo的使用"
 date = "2024-06-02T13:49:05+08:00"
 
 #

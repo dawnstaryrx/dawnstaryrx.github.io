@@ -1,10 +1,10 @@
-<a href="{{ "" | relURL }}">Home</a>
+<a href="{{ "" | relURL }}">主页</a>
 {{ range .Site.Menus.main }}
 <a href="{{ .URL }}">{{ .Name }}</a>
 {{ end }}
 {{ with .Site.GetPage "/blog" }}
-<a href="{{ "blog" | relURL }}">Blog</a>
+<a href="{{ "blog" | relURL }}">博客</a>
 {{ end }}
 {{ with .Site.GetPage "/algorithm" }}
-<a href="{{ "algorithm" | relURL }}">Algorithm</a>
+<a href="{{ "algorithm" | relURL }}">算法</a>
 {{ end }}

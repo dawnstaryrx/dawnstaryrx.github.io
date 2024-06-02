@@ -10,10 +10,10 @@
     <lastBuildDate>Sun, 02 Jun 2024 13:49:05 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>How to use Hugo</title>
-      <link>http://localhost:1313/how-to-use-hugo/</link>
+      <title>Hugo的使用</title>
+      <link>http://localhost:1313/hugo%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Sun, 02 Jun 2024 13:49:05 +0800</pubDate>
-      <guid>http://localhost:1313/how-to-use-hugo/</guid>
+      <guid>http://localhost:1313/hugo%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
       <description>常用的Hugo命令 新建文件&#xA;hugo new content content/blog/Hugo命令.md </description>
     </item>
   </channel>
