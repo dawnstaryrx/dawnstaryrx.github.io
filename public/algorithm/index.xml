@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Algorithm on Dawn Star&#39;s Blog</title>
+    <link>http://localhost:1313/algorithm/</link>
+    <description>Recent content in Algorithm on Dawn Star&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2020, Jane Doe.</copyright>
+    <lastBuildDate>Sun, 02 Jun 2024 12:44:58 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Test</title>
+      <link>http://localhost:1313/algorithm/test/</link>
+      <pubDate>Sun, 02 Jun 2024 12:44:58 +0800</pubDate>
+      <guid>http://localhost:1313/algorithm/test/</guid>
+      <description>测试 111 1111</description>
+    </item>
+  </channel>
+</rss>

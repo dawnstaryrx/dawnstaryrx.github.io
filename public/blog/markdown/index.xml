@@ -5,17 +5,10 @@
     <link>http://localhost:1313/blog/markdown/</link>
     <description>Recent content in Markdown on Dawn Star&#39;s Blog</description>
     <generator>Hugo</generator>
-    <language>zh-han</language>
+    <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Sat, 01 Jun 2024 09:54:08 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 03 Jan 2020 00:00:00 +0000</lastBuildDate>
     <atom:link href="http://localhost:1313/blog/markdown/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>智能算法01 遗传算法</title>
-      <link>http://localhost:1313/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link>
-      <pubDate>Sat, 01 Jun 2024 09:54:08 +0800</pubDate>
-      <guid>http://localhost:1313/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</guid>
-      <description>This is a page about »智能算法01 遗传算法«.</description>
-    </item>
     <item>
       <title>Markdown Syntax Guide</title>
       <link>http://localhost:1313/markdown-syntax-guide/</link>
