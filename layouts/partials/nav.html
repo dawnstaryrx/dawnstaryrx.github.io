@@ -3,7 +3,7 @@
 <a href="{{ .URL }}">{{ .Name }}</a>
 {{ end }}
 {{ with .Site.GetPage "/blog" }}
-<a href="{{ "blog" | relURL }}">博客</a>
+<a href="{{ "blog" | relURL }}">博文</a>
 {{ end }}
 {{ with .Site.GetPage "/algorithm" }}
 <a href="{{ "algorithm" | relURL }}">算法</a>
