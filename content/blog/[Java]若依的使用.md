@@ -6,10 +6,10 @@ tags = ["Java",]
 
 # 一、若依搭建
 
-前后端分离版本，前端使用Vue3，后端使用Springboot。
-软件环境：JDK11，MySQL8，Redis，Maven，Node
-后端地址：https://github.com/yangzongzhuan/RuoYi-Vue
-前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3
+前后端分离版本，前端使用Vue3，后端使用Springboot。  
+软件环境：JDK11，MySQL8，Redis，Maven，Node  
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue  
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3 
 
 ## 后端运行
 
@@ -23,6 +23,16 @@ tags = ["Java",]
 1. Git克隆并初始化项目；
 2. 安装依赖，`npm install`；
 3. 运行前端项目，`npm run dev`。
+
+# 二、功能详解
+
+## 1. 权限控制
+
+
+
+## 2. 数据字典
+
+
 
 
 
