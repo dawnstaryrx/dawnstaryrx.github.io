@@ -8,7 +8,7 @@ theme = 'hugo-bearblog'
 # Basic metadata configuration for your blog.
 # title = "Hugo ʕ•ᴥ•ʔ Bear Blog"
 title = "ᕕ( ᐛ )ᕗ DawnStar's Blog"
-author = "Jane Doe"
+author = "Dawn"
 copyright = "Copyright © 2020, Jane Doe."
 languageCode = "en-US"
 # languageCode = "zh-han"
