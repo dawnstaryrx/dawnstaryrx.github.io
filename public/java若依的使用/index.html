@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://dawnstar.top/images/favicon.png" />
+<title>[Java]若依的使用 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+<meta name="title" content="[Java]若依的使用" />
+<meta name="description" content="一、若依搭建 前后端分离版本，前端使用Vue3，后端使用Springboot。
+软件环境：JDK11，MySQL8，Redis，Maven，Node
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3
+后端运行 Git克隆并初始化项目，git clone xxx； MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本； 启动Redis； 运行后端项目。 前端运行 Git克隆并初始化项目； 安装依赖，npm install； 运行前端项目，npm run dev。 二、功能详解 1. 权限控制 2. 数据字典 " />
+<meta name="keywords" content="Java," />
+
+
+<meta property="og:url" content="https://dawnstar.top/java%E8%8B%A5%E4%BE%9D%E7%9A%84%E4%BD%BF%E7%94%A8/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
+  <meta property="og:title" content="[Java]若依的使用">
+  <meta property="og:description" content="一、若依搭建 前后端分离版本，前端使用Vue3，后端使用Springboot。
+软件环境：JDK11，MySQL8，Redis，Maven，Node
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3
+后端运行 Git克隆并初始化项目，git clone xxx； MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本； 启动Redis； 运行后端项目。 前端运行 Git克隆并初始化项目； 安装依赖，npm install； 运行前端项目，npm run dev。 二、功能详解 1. 权限控制 2. 数据字典 ">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2024-06-27T20:09:05+08:00">
+    <meta property="article:modified_time" content="2024-06-27T20:09:05+08:00">
+    <meta property="article:tag" content="Java">
+    <meta property="og:image" content="https://dawnstar.top/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://dawnstar.top/images/share.png">
+  <meta name="twitter:title" content="[Java]若依的使用">
+  <meta name="twitter:description" content="一、若依搭建 前后端分离版本，前端使用Vue3，后端使用Springboot。
+软件环境：JDK11，MySQL8，Redis，Maven，Node
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3
+后端运行 Git克隆并初始化项目，git clone xxx； MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本； 启动Redis； 运行后端项目。 前端运行 Git克隆并初始化项目； 安装依赖，npm install； 运行前端项目，npm run dev。 二、功能详解 1. 权限控制 2. 数据字典 ">
+
+
+
+
+  <meta itemprop="name" content="[Java]若依的使用">
+  <meta itemprop="description" content="一、若依搭建 前后端分离版本，前端使用Vue3，后端使用Springboot。
+软件环境：JDK11，MySQL8，Redis，Maven，Node
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3
+后端运行 Git克隆并初始化项目，git clone xxx； MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本； 启动Redis； 运行后端项目。 前端运行 Git克隆并初始化项目； 安装依赖，npm install； 运行前端项目，npm run dev。 二、功能详解 1. 权限控制 2. 数据字典 ">
+  <meta itemprop="datePublished" content="2024-06-27T20:09:05+08:00">
+  <meta itemprop="dateModified" content="2024-06-27T20:09:05+08:00">
+  <meta itemprop="wordCount" content="24">
+  <meta itemprop="image" content="https://dawnstar.top/images/share.png">
+  <meta itemprop="keywords" content="Java">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  body {
+    font-family: Verdana, sans-serif;
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/blog">博文</a>
+
+
+<a href="/algorithm">算法</a>
+
+
+<a href="/computerBase">计算机基础</a>
+
+</nav>
+</header>
+  <main>
+ 
+<h1>[Java]若依的使用</h1>
+<p>
+  <i>
+    <time datetime='2024-06-27' pubdate>
+      27 Jun, 2024
+    </time>
+  </i>
+</p>
+ 
+<content>
+  <h1 id="一若依搭建">一、若依搭建</h1>
+<p>前后端分离版本，前端使用Vue3，后端使用Springboot。<br>
+软件环境：JDK11，MySQL8，Redis，Maven，Node<br>
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue<br>
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3</p>
+<h2 id="后端运行">后端运行</h2>
+<ol>
+<li>Git克隆并初始化项目，<code>git clone xxx</code>；</li>
+<li>MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本；</li>
+<li>启动Redis；</li>
+<li>运行后端项目。</li>
+</ol>
+<h2 id="前端运行">前端运行</h2>
+<ol>
+<li>Git克隆并初始化项目；</li>
+<li>安装依赖，<code>npm install</code>；</li>
+<li>运行前端项目，<code>npm run dev</code>。</li>
+</ol>
+<h1 id="二功能详解">二、功能详解</h1>
+<h2 id="1-权限控制">1. 权限控制</h2>
+<h2 id="2-数据字典">2. 数据字典</h2>
+
+</content>
+<p>
+  
+  <a href="https://dawnstar.top/blog/java/">#Java</a>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>
