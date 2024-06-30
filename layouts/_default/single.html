@@ -1,5 +1,5 @@
 {{ define "main" }}
-{{ if or (eq .Type "algorithm") (eq .Type "blog") }}
+{{ if or (eq .Type "algorithm") (eq .Type "computerBase") (eq .Type "blog") }}
 {{ if not .Params.menu }}
 <h1>{{ .Title }}</h1>
 <p>
