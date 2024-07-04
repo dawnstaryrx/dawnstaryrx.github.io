@@ -1,5 +1,5 @@
 +++
-title = "【Java】若依的使用"
+title = "[Java]若依的使用"
 date = "2024-06-27T20:09:05+08:00"
 tags = ["Java",]
 
