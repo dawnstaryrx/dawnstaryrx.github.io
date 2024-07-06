@@ -83,3 +83,47 @@ https://jakhuang.github.io/form-generator/#/
 
 # 四、项目结构
 
+## 1. 后端部分
+
+### 后端结构
+
+- ruoyi-admin：后台服务，包含通用功能的controller和启动类；
+- ruoyi-common：通用工具。
+  - annotation自定义注解，config全局配置，constant通用常量，**core核心控制**，enums通用枚举，**exception通用异常**，filter过滤器处理，**utils通用工具类**，xss自定义xss校验。
+- ruoyi-framework：框架核心。
+  - aspectj自定义AOP，**config系统配置**，datasource多数据源，interceptor拦截器处理，manager异步处理，**security权限控制，web前端控制**。
+- ruoyi-generator：代码生成（可移除）。
+- ruoyi-quartz：定时任务（可移除）。
+- ruoyi-system：系统模块。domain，mapper，service。
+- ruoyi-ui。
+
+
+
+### 项目中的配置
+
+- 位于ruoyi-admin的resources目录下；
+- i18n：国际化支持；
+- META-INF：项目的元信息（描述数据的数据），无需修改。
+- mybatis：mabatis相关的配置；
+- application.yml：项目中的核心配置；
+- application-druid.yml：数据库连接配置。
+- banner.txt：项目启动，打印信息配置。
+- logback.xml：日志相关配置。
+
+
+
+### 模块依赖关系
+
+![image-20240704150410364](https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F04%2F598933c142267f43916484e966d2060d-image-20240704150410364-38d879.png)
+
+
+
+## 2. 前端部分
+
+![image-20240704151112938](https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F04%2F8215e1eadb677f16a0d863aaef177091-image-20240704151112938-d69dbd.png)
+
+
+
+## 3. 表结构
+
+![image-20240704151153558](https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F04%2Ff50b0c635383c4b7c5c3e4b21d24fec7-image-20240704151153558-294909.png)
