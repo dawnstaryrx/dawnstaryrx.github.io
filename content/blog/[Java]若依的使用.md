@@ -127,3 +127,30 @@ https://jakhuang.github.io/form-generator/#/
 ## 3. 表结构
 
 ![image-20240704151153558](https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F04%2Ff50b0c635383c4b7c5c3e4b21d24fec7-image-20240704151153558-294909.png)
+
+# 五、二次开发
+
+## 1. 新建业务模块
+
+- 若依框架修改器：一键修改RuoYi框架包名、项目名的工具。  
+- 地址：https://gitee.com/lpf_project/RuoYi-MT/releases
+
+![image-20240706095459079](https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F06%2Fcf70b312722b362c23ba721886752a4e-image-20240706095459079-8f239f.png)
+
+新建sky-merchant业务模块  
+
+1. 新建子模块，需引入核心模块（复制粘贴入口模块中的即可）
+2. 父工程版本锁定
+3. 服务入口模块sky-admin添加依赖sky-merchant
+
+
+
+## 2. 菜品管理
+
+- 利用若依代码生成器（主子表模板），生成菜品管理的前后端代码。
+
+![image-20240706102111958](https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F06%2F48a5b231340e3738bcde2d12ffd69dd9-image-20240706102111958-dfc7bc.png)
+
+- 配置代码生成信息。
+- 下载代码，导入项目。
+
