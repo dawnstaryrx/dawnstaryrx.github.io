@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Thu, 27 Jun 2024 20:09:05 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 10 Jul 2024 20:54:34 +0800</lastBuildDate>
     <atom:link href="http://localhost:1313/blog/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Java]NIO</title>
+      <link>http://localhost:1313/javanio/</link>
+      <pubDate>Wed, 10 Jul 2024 20:54:34 +0800</pubDate>
+      <guid>http://localhost:1313/javanio/</guid>
+      <description>一. NIO 基础 non-blocking io 非阻塞 IO&#xA;1. 三大组件 1.1 Channel &amp;amp; Buffer channel 有一点类似于 stream，它就是读写数据的双向通道，可以从 channel 将数据读入 buffer，也可以将 buffer 的数据写入 channel，而之前的 stream 要么是输入，要么是输出，channel 比 stream 更为底层&#xA;graph LR&#xD;channel --&amp;gt; buffer&#xD;buffer --&amp;gt; channel 常见的 Channel 有&#xA;FileChannel DatagramChannel SocketChannel ServerSocketChannel buffer 则用来缓冲读写数据，常见的 buffer 有&#xA;ByteBuffer MappedByteBuffer DirectByteBuffer HeapByteBuffer ShortBuffer IntBuffer LongBuffer FloatBuffer DoubleBuffer CharBuffer 1.2 Selector selector 单从字面意思不好理解，需要结合服务器的设计演化来理解它的用途&#xA;多线程版设计 graph TD&#xD;subgraph 多线程版&#xD;t1(thread) --&amp;gt; s1(socket1)&#xD;t2(thread) --&amp;gt; s2(socket2)&#xD;t3(thread) --&amp;gt; s3(socket3)&#xD;end ⚠️ 多线程版缺点 内存占用高 线程上下文切换成本高 只适合连接数少的场景 线程池版设计 graph TD&#xD;subgraph 线程池版&#xD;t4(thread) --&amp;gt; s4(socket1)&#xD;t5(thread) --&amp;gt; s5(socket2)&#xD;t4(thread) -.</description>
+    </item>
     <item>
       <title>[Java]若依的使用</title>
       <link>http://localhost:1313/java%E8%8B%A5%E4%BE%9D%E7%9A%84%E4%BD%BF%E7%94%A8/</link>

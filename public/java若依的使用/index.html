@@ -71,7 +71,7 @@ quartz模块task包下创建任务类； 添加任务规则； 启动任务。 3
 3.2 代码生成 自动生成前后端CRUD代码； 提供三种生成模板：单表，树表（层级关系，能展开折叠，呈现父子关系，如部门表），主子表（一对多，如菜品表与口味表）。 四、项目结构 1. 后端部分 后端结构 ruoyi-admin：后台服务，包含通用功能的controller和启动类； ruoyi-common：通用工具。 annotation自定义注解，config全局配置，constant通用常量，core核心控制，enums通用枚举，exception通用异常，filter过滤器处理，utils通用工具类，xss自定义xss校验。 ruoyi-framework：框架核心。 aspectj自定义AOP，config系统配置，datasource多数据源，interceptor拦截器处理，manager异步处理，security权限控制，web前端控制。 ruoyi-generator：代码生成（可移除）。 ruoyi-quartz：定时任务（可移除）。 ruoyi-system：系统模块。domain，mapper，service。 ruoyi-ui。 项目中的配置 位于ruoyi-admin的resources目录下； i18n：国际化支持； META-INF：项目的元信息（描述数据的数据），无需修改。 mybatis：mabatis相关的配置； application.">
   <meta itemprop="datePublished" content="2024-06-27T20:09:05+08:00">
   <meta itemprop="dateModified" content="2024-06-27T20:09:05+08:00">
-  <meta itemprop="wordCount" content="90">
+  <meta itemprop="wordCount" content="104">
   <meta itemprop="image" content="http://localhost:1313/images/share.png">
   <meta itemprop="keywords" content="Java">
 <meta name="referrer" content="no-referrer-when-downgrade" />
@@ -267,6 +267,7 @@ quartz模块task包下创建任务类； 添加任务规则； 启动任务。 3
   <header><link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
 <a href="/" class="title">
   <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
 </a>
@@ -393,6 +394,28 @@ quartz模块task包下创建任务类； 添加任务规则； 启动任务。 3
 <p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F04%2F8215e1eadb677f16a0d863aaef177091-image-20240704151112938-d69dbd.png" alt="image-20240704151112938"></p>
 <h2 id="3-表结构">3. 表结构</h2>
 <p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F04%2Ff50b0c635383c4b7c5c3e4b21d24fec7-image-20240704151153558-294909.png" alt="image-20240704151153558"></p>
+<h1 id="五二次开发">五、二次开发</h1>
+<h2 id="1-新建业务模块">1. 新建业务模块</h2>
+<ul>
+<li>若依框架修改器：一键修改RuoYi框架包名、项目名的工具。</li>
+<li>地址：https://gitee.com/lpf_project/RuoYi-MT/releases</li>
+</ul>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F06%2Fcf70b312722b362c23ba721886752a4e-image-20240706095459079-8f239f.png" alt="image-20240706095459079"></p>
+<p>新建sky-merchant业务模块</p>
+<ol>
+<li>新建子模块，需引入核心模块（复制粘贴入口模块中的即可）</li>
+<li>父工程版本锁定</li>
+<li>服务入口模块sky-admin添加依赖sky-merchant</li>
+</ol>
+<h2 id="2-菜品管理">2. 菜品管理</h2>
+<ul>
+<li>利用若依代码生成器（主子表模板），生成菜品管理的前后端代码。</li>
+</ul>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F06%2F48a5b231340e3738bcde2d12ffd69dd9-image-20240706102111958-dfc7bc.png" alt="image-20240706102111958"></p>
+<ul>
+<li>配置代码生成信息。</li>
+<li>下载代码，导入项目。</li>
+</ul>
 
 </content>
 <p>
