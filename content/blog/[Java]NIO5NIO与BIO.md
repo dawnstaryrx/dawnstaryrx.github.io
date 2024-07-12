@@ -2,7 +2,7 @@
 title = "[Java]NIO5NIO与BIO"
 date = "2024-07-12T09:53:24+08:00"
 
-tags = ["java","netty","python","智能算法",]
+tags = ["Java","Netty"]
 +++
 
 ## 5. NIO vs BIO

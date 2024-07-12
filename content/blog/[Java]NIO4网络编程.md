@@ -2,7 +2,7 @@
 title = "[Java]NIO4网络编程"
 date = "2024-07-12T09:52:40+08:00"
 
-tags = ["java","netty","python","智能算法",]
+tags = ["Java","Netty"]
 +++
 
 ## 4. 网络编程

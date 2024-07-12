@@ -1,7 +1,8 @@
 +++
 title = "[Java]NIO1三大组件"
 date = "2024-07-12T09:51:47+08:00"
-tags = ["java","netty","python","智能算法",]
+tags = ["Java","Netty"]
+
 +++
 
 NIO non-blocking io 非阻塞 IO  
