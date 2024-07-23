@@ -1,5 +1,5 @@
 +++
-title = "[Django]项目创建与增删改查"
+title = "【Django】项目创建与增删改查"
 date = "2024-07-04T21:06:56+08:00"
 tags = ["python"]
 
