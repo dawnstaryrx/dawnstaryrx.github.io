@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://dawnstar.top/images/favicon.png" />
+<title>【SQL】进阶01 Case表达式 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+<meta name="title" content="【SQL】进阶01 Case表达式" />
+<meta name="description" content="一、基本语法 -- 简单case表达式case sexwhen &#39;1&#39; then &#39;男&#39;when &#39;2&#39; then &#39;女&#39;else &#39;其他&#39; end--搜索case表达式case when sex = &#39;1&#39; then &#39;男&#39;when sex = &#39;2&#39; then &#39;女&#39;else &#39;其他&#39; end 注意：
+统一各分支返回的数据类型； 不要忘了写end; 养成写else子句的习惯。 二、应用 1. 将已有编号转换为新的方式并统计 -- 建表CREATE TABLE PopTbl(pref_name VARCHAR(32) PRIMARY KEY,population INTEGER NOT NULL);INSERT INTO PopTbl VALUES(&#39;德岛&#39;, 100);INSERT INTO PopTbl VALUES(&#39;香川&#39;, 200);INSERT INTO PopTbl VALUES(&#39;爱媛&#39;, 150);INSERT INTO PopTbl VALUES(&#39;高知&#39;, 200);INSERT INTO PopTbl VALUES(&#39;福冈&#39;, 300);INSERT INTO PopTbl VALUES(&#39;佐贺&#39;, 100);INSERT INTO PopTbl VALUES(&#39;长崎&#39;, 200);INSERT INTO PopTbl VALUES(&#39;东京&#39;, 400);INSERT INTO PopTbl VALUES(&#39;群马&#39;, 50); 按地区分类统计：" />
+<meta name="keywords" content="SQL," />
+
+
+<meta property="og:url" content="https://dawnstar.top/database/sql%E8%BF%9B%E9%98%B601-case%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
+  <meta property="og:title" content="【SQL】进阶01 Case表达式">
+  <meta property="og:description" content="一、基本语法 -- 简单case表达式case sexwhen &#39;1&#39; then &#39;男&#39;when &#39;2&#39; then &#39;女&#39;else &#39;其他&#39; end--搜索case表达式case when sex = &#39;1&#39; then &#39;男&#39;when sex = &#39;2&#39; then &#39;女&#39;else &#39;其他&#39; end 注意：
+统一各分支返回的数据类型； 不要忘了写end; 养成写else子句的习惯。 二、应用 1. 将已有编号转换为新的方式并统计 -- 建表CREATE TABLE PopTbl(pref_name VARCHAR(32) PRIMARY KEY,population INTEGER NOT NULL);INSERT INTO PopTbl VALUES(&#39;德岛&#39;, 100);INSERT INTO PopTbl VALUES(&#39;香川&#39;, 200);INSERT INTO PopTbl VALUES(&#39;爱媛&#39;, 150);INSERT INTO PopTbl VALUES(&#39;高知&#39;, 200);INSERT INTO PopTbl VALUES(&#39;福冈&#39;, 300);INSERT INTO PopTbl VALUES(&#39;佐贺&#39;, 100);INSERT INTO PopTbl VALUES(&#39;长崎&#39;, 200);INSERT INTO PopTbl VALUES(&#39;东京&#39;, 400);INSERT INTO PopTbl VALUES(&#39;群马&#39;, 50); 按地区分类统计：">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="database">
+    <meta property="article:published_time" content="2024-07-24T19:37:55+08:00">
+    <meta property="article:modified_time" content="2024-07-24T19:37:55+08:00">
+    <meta property="article:tag" content="SQL">
+    <meta property="og:image" content="https://dawnstar.top/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://dawnstar.top/images/share.png">
+  <meta name="twitter:title" content="【SQL】进阶01 Case表达式">
+  <meta name="twitter:description" content="一、基本语法 -- 简单case表达式case sexwhen &#39;1&#39; then &#39;男&#39;when &#39;2&#39; then &#39;女&#39;else &#39;其他&#39; end--搜索case表达式case when sex = &#39;1&#39; then &#39;男&#39;when sex = &#39;2&#39; then &#39;女&#39;else &#39;其他&#39; end 注意：
+统一各分支返回的数据类型； 不要忘了写end; 养成写else子句的习惯。 二、应用 1. 将已有编号转换为新的方式并统计 -- 建表CREATE TABLE PopTbl(pref_name VARCHAR(32) PRIMARY KEY,population INTEGER NOT NULL);INSERT INTO PopTbl VALUES(&#39;德岛&#39;, 100);INSERT INTO PopTbl VALUES(&#39;香川&#39;, 200);INSERT INTO PopTbl VALUES(&#39;爱媛&#39;, 150);INSERT INTO PopTbl VALUES(&#39;高知&#39;, 200);INSERT INTO PopTbl VALUES(&#39;福冈&#39;, 300);INSERT INTO PopTbl VALUES(&#39;佐贺&#39;, 100);INSERT INTO PopTbl VALUES(&#39;长崎&#39;, 200);INSERT INTO PopTbl VALUES(&#39;东京&#39;, 400);INSERT INTO PopTbl VALUES(&#39;群马&#39;, 50); 按地区分类统计：">
+
+
+
+
+  <meta itemprop="name" content="【SQL】进阶01 Case表达式">
+  <meta itemprop="description" content="一、基本语法 -- 简单case表达式case sexwhen &#39;1&#39; then &#39;男&#39;when &#39;2&#39; then &#39;女&#39;else &#39;其他&#39; end--搜索case表达式case when sex = &#39;1&#39; then &#39;男&#39;when sex = &#39;2&#39; then &#39;女&#39;else &#39;其他&#39; end 注意：
+统一各分支返回的数据类型； 不要忘了写end; 养成写else子句的习惯。 二、应用 1. 将已有编号转换为新的方式并统计 -- 建表CREATE TABLE PopTbl(pref_name VARCHAR(32) PRIMARY KEY,population INTEGER NOT NULL);INSERT INTO PopTbl VALUES(&#39;德岛&#39;, 100);INSERT INTO PopTbl VALUES(&#39;香川&#39;, 200);INSERT INTO PopTbl VALUES(&#39;爱媛&#39;, 150);INSERT INTO PopTbl VALUES(&#39;高知&#39;, 200);INSERT INTO PopTbl VALUES(&#39;福冈&#39;, 300);INSERT INTO PopTbl VALUES(&#39;佐贺&#39;, 100);INSERT INTO PopTbl VALUES(&#39;长崎&#39;, 200);INSERT INTO PopTbl VALUES(&#39;东京&#39;, 400);INSERT INTO PopTbl VALUES(&#39;群马&#39;, 50); 按地区分类统计：">
+  <meta itemprop="datePublished" content="2024-07-24T19:37:55+08:00">
+  <meta itemprop="dateModified" content="2024-07-24T19:37:55+08:00">
+  <meta itemprop="wordCount" content="435">
+  <meta itemprop="image" content="https://dawnstar.top/images/share.png">
+  <meta itemprop="keywords" content="SQL">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/java">Java</a>
+
+
+<a href="/python">Python</a>
+
+
+<a href="/algorithm">算法</a>
+
+
+<a href="/database">数据库</a>
+
+
+<a href="/computerbase">计算机基础</a>
+
+
+<a href="/blog">其它</a>
+
+</nav>
+</header>
+  <main>
+
+<content>
+  <h1 id="一基本语法">一、基本语法</h1>
+<pre tabindex="0"><code>-- 简单case表达式
+case sex
+	when &#39;1&#39; then &#39;男&#39;
+	when &#39;2&#39; then &#39;女&#39;
+else &#39;其他&#39; end
+
+--搜索case表达式
+case when sex = &#39;1&#39; then &#39;男&#39;
+	 when sex = &#39;2&#39; then &#39;女&#39;
+else &#39;其他&#39; end
+</code></pre><p>注意：</p>
+<ul>
+<li>统一各分支返回的数据类型；</li>
+<li>不要忘了写end;</li>
+<li>养成写else子句的习惯。</li>
+</ul>
+<h1 id="二应用">二、应用</h1>
+<h2 id="1-将已有编号转换为新的方式并统计">1. 将已有编号转换为新的方式并统计</h2>
+<pre tabindex="0"><code>-- 建表
+CREATE TABLE PopTbl
+(pref_name VARCHAR(32) PRIMARY KEY,
+ population INTEGER NOT NULL);
+
+INSERT INTO PopTbl VALUES(&#39;德岛&#39;, 100);
+INSERT INTO PopTbl VALUES(&#39;香川&#39;, 200);
+INSERT INTO PopTbl VALUES(&#39;爱媛&#39;, 150);
+INSERT INTO PopTbl VALUES(&#39;高知&#39;, 200);
+INSERT INTO PopTbl VALUES(&#39;福冈&#39;, 300);
+INSERT INTO PopTbl VALUES(&#39;佐贺&#39;, 100);
+INSERT INTO PopTbl VALUES(&#39;长崎&#39;, 200);
+INSERT INTO PopTbl VALUES(&#39;东京&#39;, 400);
+INSERT INTO PopTbl VALUES(&#39;群马&#39;, 50);
+</code></pre><p>按地区分类统计：</p>
+<pre tabindex="0"><code>SELECT
+case
+	when pref_name = &#39;德岛&#39; OR pref_name = &#39;香川&#39; OR pref_name = &#39;爱媛&#39; OR pref_name = &#39;高知&#39; then &#39;四国&#39;
+	when pref_name = &#39;福冈&#39; OR pref_name = &#39;佐贺&#39; OR pref_name = &#39;长崎&#39; then  &#39;九州&#39; 
+	ELSE  &#39;其他&#39;
+END
+AS area_name, sum(population)
+FROM poptbl
+GROUP BY 
+case
+	when pref_name = &#39;德岛&#39; OR pref_name = &#39;香川&#39; OR pref_name = &#39;爱媛&#39; OR pref_name = &#39;高知&#39; then &#39;四国&#39;
+	when pref_name = &#39;福冈&#39; OR pref_name = &#39;佐贺&#39; OR pref_name = &#39;长崎&#39; then  &#39;九州&#39; 
+	ELSE  &#39;其他&#39;
+END;
+</code></pre><p>按人口数量分类统计：</p>
+<pre tabindex="0"><code>SELECT 
+case 
+	when population &lt;= 100 then &#39;01&#39;
+	when population &lt;= 200 then &#39;02&#39;
+	when population &lt;= 300 then &#39;03&#39;
+	when population &lt;= 400 then &#39;04&#39;
+	ELSE &#39;10&#39;
+END
+AS pop_class, COUNT(pref_name) AS cnt
+FROM poptbl
+GROUP BY pop_class;
+</code></pre><h2 id="2-用一条sql语句进行多条件统计">2. 用一条SQL语句进行多条件统计</h2>
+<pre tabindex="0"><code>CREATE TABLE PopTbl2
+(pref_name VARCHAR(32),
+ sex CHAR(1) NOT NULL,
+ population INTEGER NOT NULL,
+    PRIMARY KEY(pref_name, sex));
+
+INSERT INTO PopTbl2 VALUES(&#39;德岛&#39;, &#39;1&#39;,	60 );
+INSERT INTO PopTbl2 VALUES(&#39;德岛&#39;, &#39;2&#39;,	40 );
+INSERT INTO PopTbl2 VALUES(&#39;香川&#39;, &#39;1&#39;,	100);
+INSERT INTO PopTbl2 VALUES(&#39;香川&#39;, &#39;2&#39;,	100);
+INSERT INTO PopTbl2 VALUES(&#39;爱媛&#39;, &#39;1&#39;,	100);
+INSERT INTO PopTbl2 VALUES(&#39;爱媛&#39;, &#39;2&#39;,	50 );
+INSERT INTO PopTbl2 VALUES(&#39;高知&#39;, &#39;1&#39;,	100);
+INSERT INTO PopTbl2 VALUES(&#39;高知&#39;, &#39;2&#39;,	100);
+INSERT INTO PopTbl2 VALUES(&#39;福冈&#39;, &#39;1&#39;,	100);
+INSERT INTO PopTbl2 VALUES(&#39;福冈&#39;, &#39;2&#39;,	200);
+INSERT INTO PopTbl2 VALUES(&#39;佐贺&#39;, &#39;1&#39;,	20 );
+INSERT INTO PopTbl2 VALUES(&#39;佐贺&#39;, &#39;2&#39;,	80 );
+INSERT INTO PopTbl2 VALUES(&#39;长崎&#39;, &#39;1&#39;,	125);
+INSERT INTO PopTbl2 VALUES(&#39;长崎&#39;, &#39;2&#39;,	125);
+INSERT INTO PopTbl2 VALUES(&#39;东京&#39;, &#39;1&#39;,	250);
+INSERT INTO PopTbl2 VALUES(&#39;东京&#39;, &#39;2&#39;,	150);
+</code></pre><p>按性别和地区统计：</p>
+<pre tabindex="0"><code>SELECT pref_name, 
+SUM(case when sex = 1 then population ELSE 0 END ) AS cnt_m,
+SUM(case when sex = 2 then population ELSE 0 END ) AS cnt_f
+FROM poptbl2
+GROUP BY pref_name
+</code></pre><h2 id="3-在update语句里进行条件分支">3. 在update语句里进行条件分支</h2>
+<p>更新工资</p>
+<pre tabindex="0"><code>UPDATE salaries 
+SET salary = (
+	case 
+		when salary &gt;= 300000 then salary * 0.9
+		when salary &gt;= 250000 AND salary &lt; 280000 then salary * 1.2
+	ELSE salary end
+)
+</code></pre><p>主键值调换</p>
+<pre tabindex="0"><code>UPDATE sometable
+	SET p_key = (
+		case
+			when p_key = &#39;a&#39; then &#39;b&#39;,
+			when p_key = &#39;b&#39; then &#39;a&#39;,
+			ELSE p_key
+		end
+	)
+WHERE p_key IN (&#39;a&#39;, &#39;b&#39;)
+</code></pre>
+</content>
+<p>
+  
+  <a href="https://dawnstar.top/blog/sql/">#SQL</a>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

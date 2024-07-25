@@ -23,6 +23,9 @@ ignoreErrors = ["error-disable-taxonomy"]
   tags = "/blog/:slug"
   algorithm = "/algorithm/:slug/"
   computerBase = "/computerbase/:slug/"
+  database = "/database/:slug/"
+  java = "/java/:slug/"
+  python = "/python/:slug/"
 #  tags = "/algorithm/:slug"
 [params]
   # The "description" of your website. This is used in the meta data of your generated html.

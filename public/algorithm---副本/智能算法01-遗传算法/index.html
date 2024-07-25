@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="http://localhost:1313/images/favicon.png" />
+<title>智能算法01 遗传算法 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+<meta name="title" content="智能算法01 遗传算法" />
+<meta name="description" content="一、生物进化理论和遗传学基本知识 达尔文的自然选择学说 遗传：子代和父代具有相同或相似的形状，保证物种的稳定性； 变异：子代和父代、子代不同个体之间总有差异，是生命多样性的根源； 生存斗争和适者生存：具有适应性变异的个体被保留，不具有适应性变异的个体被淘汰。 达尔文自然选择学说认为： **遗传和变异是决定生物进化的内在因素。**遗传——保持物种的特性；变异——使物种适应新环境而不断向前发展。 **遗传物质的载体是染色体。**染色体是由DNA和蛋白质两种物质组成的。 **基因，染色体上具有控制生物形状的DNA片段。**一条染色体含有一个DNA分子，一个DNA分子上有许多个基因。基因存储着遗传信息，可以准确复制，也能发生突变。 生物遗传和进化的规律 染色体由基因构成，决定了生物的形状； 生物所有遗传信息包含在染色体中； 同源染色体的交叉或变异生成新的物种，使生物呈现新的形状； 适应能力强的基因或染色体，有更多的机会遗传到下一代。 二、遗传算法概述 该算法是根据大自然中生物体进化规律设计提出的。 是一种通过模拟自然进化过程搜索最优解的方法。 该算法通过数学的方式，利用计算机仿真运算，将问题的求解过程转换成类似生物进化中的染色体基因的交叉、变异等过程。 在求解较为复杂的组合优化问题时，相对一些常规的优化算法，通常能够较快获得较好的优化结果。 应用领域 函数优化：非线性、多模型、多目标的优化问题 自动控制：控制器参数的优化 机器人：路径优化 图像处理：图像处理过程中的特征提取、图像分割等的优化计算 三、遗传算法中的基本概念 个体：模拟生物个体，即可行解，对应染色体。 种群(population)：模拟生物种群，由若干个体组成，即可行解集。 染色体(chromosome)：可行解的编码表示（二进制编码）。比如：个体9对应染色体1001。可行解编码的分量，成为基因(gene)，01。当然，也可以通过实数编码。 适应度(fitness)：生物个体对环境的适应能力。 适应度函数(fitness function)：遗传算法用来评价个体（解）优劣的数学函数。通常情况下，适应度函数值越大，解的质量越好。 四、遗传操作 1 选择 遗传算法使用选择运算实现对个体进行优胜劣汰操作：
+适应度高的个体被遗传到下一代群体中的概率大； 不产生新个体。 经典的选择算子采用轮盘赌选择方法。 轮盘赌选择的基本思想是：个体被选中的概率与其适应度函数值大小成正比。设种群大小为 𝑛 ，个体 𝑖 的适应度为 𝐹𝑖 ，则个体 𝑖 被选中遗传到下一代群体的概率为： $$ 𝑃_𝑖=\frac{F_i}{\displaystyle \sum^{n}_{i = 1}F_i} $$ 例：假设有以下种群[16, 2, 8, 4, 1]，设个体值即为适应度值，可得选择概率和累积概率。轮盘赌选择可表示为：随机生成一个0~1的数，该数从上往下第一个小于的累积概率对应的个体，即为选择的个体。
+个体 适应度 选择概率 累计概率 16 16 0.516 0.516 2 2 0.065 0.581 8 8 0." />
+<meta name="keywords" content="智能算法," />
+
+
+<meta property="og:url" content="http://localhost:1313/algorithm---%E5%89%AF%E6%9C%AC/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
+  <meta property="og:title" content="智能算法01 遗传算法">
+  <meta property="og:description" content="一、生物进化理论和遗传学基本知识 达尔文的自然选择学说 遗传：子代和父代具有相同或相似的形状，保证物种的稳定性； 变异：子代和父代、子代不同个体之间总有差异，是生命多样性的根源； 生存斗争和适者生存：具有适应性变异的个体被保留，不具有适应性变异的个体被淘汰。 达尔文自然选择学说认为： **遗传和变异是决定生物进化的内在因素。**遗传——保持物种的特性；变异——使物种适应新环境而不断向前发展。 **遗传物质的载体是染色体。**染色体是由DNA和蛋白质两种物质组成的。 **基因，染色体上具有控制生物形状的DNA片段。**一条染色体含有一个DNA分子，一个DNA分子上有许多个基因。基因存储着遗传信息，可以准确复制，也能发生突变。 生物遗传和进化的规律 染色体由基因构成，决定了生物的形状； 生物所有遗传信息包含在染色体中； 同源染色体的交叉或变异生成新的物种，使生物呈现新的形状； 适应能力强的基因或染色体，有更多的机会遗传到下一代。 二、遗传算法概述 该算法是根据大自然中生物体进化规律设计提出的。 是一种通过模拟自然进化过程搜索最优解的方法。 该算法通过数学的方式，利用计算机仿真运算，将问题的求解过程转换成类似生物进化中的染色体基因的交叉、变异等过程。 在求解较为复杂的组合优化问题时，相对一些常规的优化算法，通常能够较快获得较好的优化结果。 应用领域 函数优化：非线性、多模型、多目标的优化问题 自动控制：控制器参数的优化 机器人：路径优化 图像处理：图像处理过程中的特征提取、图像分割等的优化计算 三、遗传算法中的基本概念 个体：模拟生物个体，即可行解，对应染色体。 种群(population)：模拟生物种群，由若干个体组成，即可行解集。 染色体(chromosome)：可行解的编码表示（二进制编码）。比如：个体9对应染色体1001。可行解编码的分量，成为基因(gene)，01。当然，也可以通过实数编码。 适应度(fitness)：生物个体对环境的适应能力。 适应度函数(fitness function)：遗传算法用来评价个体（解）优劣的数学函数。通常情况下，适应度函数值越大，解的质量越好。 四、遗传操作 1 选择 遗传算法使用选择运算实现对个体进行优胜劣汰操作：
+适应度高的个体被遗传到下一代群体中的概率大； 不产生新个体。 经典的选择算子采用轮盘赌选择方法。 轮盘赌选择的基本思想是：个体被选中的概率与其适应度函数值大小成正比。设种群大小为 𝑛 ，个体 𝑖 的适应度为 𝐹𝑖 ，则个体 𝑖 被选中遗传到下一代群体的概率为： $$ 𝑃_𝑖=\frac{F_i}{\displaystyle \sum^{n}_{i = 1}F_i} $$ 例：假设有以下种群[16, 2, 8, 4, 1]，设个体值即为适应度值，可得选择概率和累积概率。轮盘赌选择可表示为：随机生成一个0~1的数，该数从上往下第一个小于的累积概率对应的个体，即为选择的个体。
+个体 适应度 选择概率 累计概率 16 16 0.516 0.516 2 2 0.065 0.581 8 8 0.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="algorithm---副本">
+    <meta property="article:published_time" content="2024-06-02T13:53:09+08:00">
+    <meta property="article:modified_time" content="2024-06-02T13:53:09+08:00">
+    <meta property="article:tag" content="智能算法">
+    <meta property="og:image" content="http://localhost:1313/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/share.png">
+  <meta name="twitter:title" content="智能算法01 遗传算法">
+  <meta name="twitter:description" content="一、生物进化理论和遗传学基本知识 达尔文的自然选择学说 遗传：子代和父代具有相同或相似的形状，保证物种的稳定性； 变异：子代和父代、子代不同个体之间总有差异，是生命多样性的根源； 生存斗争和适者生存：具有适应性变异的个体被保留，不具有适应性变异的个体被淘汰。 达尔文自然选择学说认为： **遗传和变异是决定生物进化的内在因素。**遗传——保持物种的特性；变异——使物种适应新环境而不断向前发展。 **遗传物质的载体是染色体。**染色体是由DNA和蛋白质两种物质组成的。 **基因，染色体上具有控制生物形状的DNA片段。**一条染色体含有一个DNA分子，一个DNA分子上有许多个基因。基因存储着遗传信息，可以准确复制，也能发生突变。 生物遗传和进化的规律 染色体由基因构成，决定了生物的形状； 生物所有遗传信息包含在染色体中； 同源染色体的交叉或变异生成新的物种，使生物呈现新的形状； 适应能力强的基因或染色体，有更多的机会遗传到下一代。 二、遗传算法概述 该算法是根据大自然中生物体进化规律设计提出的。 是一种通过模拟自然进化过程搜索最优解的方法。 该算法通过数学的方式，利用计算机仿真运算，将问题的求解过程转换成类似生物进化中的染色体基因的交叉、变异等过程。 在求解较为复杂的组合优化问题时，相对一些常规的优化算法，通常能够较快获得较好的优化结果。 应用领域 函数优化：非线性、多模型、多目标的优化问题 自动控制：控制器参数的优化 机器人：路径优化 图像处理：图像处理过程中的特征提取、图像分割等的优化计算 三、遗传算法中的基本概念 个体：模拟生物个体，即可行解，对应染色体。 种群(population)：模拟生物种群，由若干个体组成，即可行解集。 染色体(chromosome)：可行解的编码表示（二进制编码）。比如：个体9对应染色体1001。可行解编码的分量，成为基因(gene)，01。当然，也可以通过实数编码。 适应度(fitness)：生物个体对环境的适应能力。 适应度函数(fitness function)：遗传算法用来评价个体（解）优劣的数学函数。通常情况下，适应度函数值越大，解的质量越好。 四、遗传操作 1 选择 遗传算法使用选择运算实现对个体进行优胜劣汰操作：
+适应度高的个体被遗传到下一代群体中的概率大； 不产生新个体。 经典的选择算子采用轮盘赌选择方法。 轮盘赌选择的基本思想是：个体被选中的概率与其适应度函数值大小成正比。设种群大小为 𝑛 ，个体 𝑖 的适应度为 𝐹𝑖 ，则个体 𝑖 被选中遗传到下一代群体的概率为： $$ 𝑃_𝑖=\frac{F_i}{\displaystyle \sum^{n}_{i = 1}F_i} $$ 例：假设有以下种群[16, 2, 8, 4, 1]，设个体值即为适应度值，可得选择概率和累积概率。轮盘赌选择可表示为：随机生成一个0~1的数，该数从上往下第一个小于的累积概率对应的个体，即为选择的个体。
+个体 适应度 选择概率 累计概率 16 16 0.516 0.516 2 2 0.065 0.581 8 8 0.">
+
+
+
+
+  <meta itemprop="name" content="智能算法01 遗传算法">
+  <meta itemprop="description" content="一、生物进化理论和遗传学基本知识 达尔文的自然选择学说 遗传：子代和父代具有相同或相似的形状，保证物种的稳定性； 变异：子代和父代、子代不同个体之间总有差异，是生命多样性的根源； 生存斗争和适者生存：具有适应性变异的个体被保留，不具有适应性变异的个体被淘汰。 达尔文自然选择学说认为： **遗传和变异是决定生物进化的内在因素。**遗传——保持物种的特性；变异——使物种适应新环境而不断向前发展。 **遗传物质的载体是染色体。**染色体是由DNA和蛋白质两种物质组成的。 **基因，染色体上具有控制生物形状的DNA片段。**一条染色体含有一个DNA分子，一个DNA分子上有许多个基因。基因存储着遗传信息，可以准确复制，也能发生突变。 生物遗传和进化的规律 染色体由基因构成，决定了生物的形状； 生物所有遗传信息包含在染色体中； 同源染色体的交叉或变异生成新的物种，使生物呈现新的形状； 适应能力强的基因或染色体，有更多的机会遗传到下一代。 二、遗传算法概述 该算法是根据大自然中生物体进化规律设计提出的。 是一种通过模拟自然进化过程搜索最优解的方法。 该算法通过数学的方式，利用计算机仿真运算，将问题的求解过程转换成类似生物进化中的染色体基因的交叉、变异等过程。 在求解较为复杂的组合优化问题时，相对一些常规的优化算法，通常能够较快获得较好的优化结果。 应用领域 函数优化：非线性、多模型、多目标的优化问题 自动控制：控制器参数的优化 机器人：路径优化 图像处理：图像处理过程中的特征提取、图像分割等的优化计算 三、遗传算法中的基本概念 个体：模拟生物个体，即可行解，对应染色体。 种群(population)：模拟生物种群，由若干个体组成，即可行解集。 染色体(chromosome)：可行解的编码表示（二进制编码）。比如：个体9对应染色体1001。可行解编码的分量，成为基因(gene)，01。当然，也可以通过实数编码。 适应度(fitness)：生物个体对环境的适应能力。 适应度函数(fitness function)：遗传算法用来评价个体（解）优劣的数学函数。通常情况下，适应度函数值越大，解的质量越好。 四、遗传操作 1 选择 遗传算法使用选择运算实现对个体进行优胜劣汰操作：
+适应度高的个体被遗传到下一代群体中的概率大； 不产生新个体。 经典的选择算子采用轮盘赌选择方法。 轮盘赌选择的基本思想是：个体被选中的概率与其适应度函数值大小成正比。设种群大小为 𝑛 ，个体 𝑖 的适应度为 𝐹𝑖 ，则个体 𝑖 被选中遗传到下一代群体的概率为： $$ 𝑃_𝑖=\frac{F_i}{\displaystyle \sum^{n}_{i = 1}F_i} $$ 例：假设有以下种群[16, 2, 8, 4, 1]，设个体值即为适应度值，可得选择概率和累积概率。轮盘赌选择可表示为：随机生成一个0~1的数，该数从上往下第一个小于的累积概率对应的个体，即为选择的个体。
+个体 适应度 选择概率 累计概率 16 16 0.516 0.516 2 2 0.065 0.581 8 8 0.">
+  <meta itemprop="datePublished" content="2024-06-02T13:53:09+08:00">
+  <meta itemprop="dateModified" content="2024-06-02T13:53:09+08:00">
+  <meta itemprop="wordCount" content="747">
+  <meta itemprop="image" content="http://localhost:1313/images/share.png">
+  <meta itemprop="keywords" content="智能算法">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/java">Java</a>
+
+
+
+<a href="/algorithm">算法</a>
+
+
+<a href="/database">数据库</a>
+
+
+<a href="/computerbase">计算机基础</a>
+
+
+<a href="/blog">其它</a>
+
+</nav>
+</header>
+  <main>
+
+<content>
+  <h2 id="一生物进化理论和遗传学基本知识">一、生物进化理论和遗传学基本知识</h2>
+<ul>
+<li>达尔文的自然选择学说
+<ul>
+<li><strong>遗传</strong>：子代和父代具有相同或相似的形状，保证物种的<strong>稳定性</strong>；</li>
+<li><strong>变异</strong>：子代和父代、子代不同个体之间总有差异，是生命<strong>多样性</strong>的根源；</li>
+<li><strong>生存斗争和适者生存</strong>：具有适应性变异的个体被保留，不具有适应性变异的个体被淘汰。</li>
+</ul>
+</li>
+<li>达尔文自然选择学说认为：
+<ul>
+<li>**遗传和变异是决定生物进化的内在因素。**遗传——保持物种的特性；变异——使物种适应新环境而不断向前发展。</li>
+<li>**遗传物质的载体是染色体。**染色体是由DNA和蛋白质两种物质组成的。</li>
+<li>**基因，染色体上具有控制生物形状的DNA片段。**一条染色体含有一个DNA分子，一个DNA分子上有许多个基因。基因存储着遗传信息，可以准确复制，也能发生突变。</li>
+</ul>
+</li>
+<li>生物遗传和进化的规律
+<ul>
+<li>染色体由基因构成，决定了生物的形状；</li>
+<li><strong>生物所有遗传信息包含在染色体中</strong>；</li>
+<li>同源染色体的<strong>交叉或变异</strong>生成新的物种，使生物呈现新的形状；</li>
+<li><strong>适应能力强的基因或染色体，有更多的机会遗传到下一代。</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="二遗传算法概述"><strong>二、遗传算法概述</strong></h2>
+<ul>
+<li>该算法是根据大自然中<strong>生物体进化规律</strong>设计提出的。</li>
+<li>是一种通过<strong>模拟自然进化过程搜索最优解</strong>的方法。</li>
+<li>该算法通过数学的方式，利用计算机仿真运算，将问题的求解过程转换成类似生物进化中的染色体基因的交叉、变异等过程。</li>
+<li>在求解较为复杂的组合优化问题时，相对一些常规的优化算法，通常能够较快获得较好的优化结果。</li>
+<li>应用领域
+<ul>
+<li>函数优化：非线性、多模型、多目标的优化问题</li>
+<li>自动控制：控制器参数的优化</li>
+<li>机器人：路径优化</li>
+<li>图像处理：图像处理过程中的特征提取、图像分割等的优化计算</li>
+</ul>
+</li>
+</ul>
+<h2 id="三遗传算法中的基本概念">三、遗传算法中的基本概念</h2>
+<ol>
+<li><strong>个体</strong>：模拟生物个体，即<strong>可行解</strong>，对应染色体。</li>
+<li><strong>种群</strong>(population)：模拟生物种群，由若干个体组成，即<strong>可行解集</strong>。</li>
+<li><strong>染色体</strong>(chromosome)：可行解的<strong>编码表示</strong>（<strong>二进制编码</strong>）。比如：个体9对应染色体1001。可行解编码的分量，成为<strong>基因</strong>(gene)，01。当然，也可以通过<strong>实数编码</strong>。</li>
+<li>适应度(fitness)：生物个体对环境的适应能力。</li>
+<li>适应度函数(fitness function)：遗传算法用来评价个体（解）优劣的数学函数。通常情况下，适应度函数值越大，解的质量越好。</li>
+</ol>
+<h2 id="四遗传操作">四、遗传操作</h2>
+<h3 id="1-选择">1 选择</h3>
+<p>遗传算法使用<strong>选择</strong>运算实现对个体进行优胜劣汰操作：</p>
+<ol>
+<li><strong>适应度高</strong>的个体被遗传到下一代群体中的<strong>概率大</strong>；</li>
+<li><strong>不产生新个体</strong>。</li>
+</ol>
+<p>经典的选择算子采用<strong>轮盘赌选择方法</strong>。 轮盘赌选择的基本思想是：<strong>个体被选中的概率与其适应度函数值大小成正比。<strong>设种群大小为 𝑛 ，个体 𝑖 的适应度为 𝐹𝑖 ，则个体 𝑖 被选中遗传到下一代群体的概率为：
+$$
+𝑃_𝑖=\frac{F_i}{\displaystyle \sum^{n}_{i = 1}F_i}
+$$
+例：假设有以下种群[16, 2, 8, 4, 1]，设个体值即为</strong>适应度值</strong>，可得<strong>选择概率</strong>和<strong>累积概率</strong>。轮盘赌选择可表示为：随机生成一个0~1的数，该数从上往下第一个小于的累积概率对应的个体，即为选择的个体。</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F06%2F03%2F654f2f752e7ccdb342bf8305baf0270e-image-20240603210420587-efde11.png" alt="image-20240603210420587"></p>
+<table>
+<thead>
+<tr>
+<th>个体</th>
+<th>适应度</th>
+<th>选择概率</th>
+<th>累计概率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td>16</td>
+<td>0.516</td>
+<td>0.516</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>0.065</td>
+<td>0.581</td>
+</tr>
+<tr>
+<td>8</td>
+<td>8</td>
+<td>0.258</td>
+<td>0.893</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>0.129</td>
+<td>0.968</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0.032</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>s <span style="color:#f92672">=</span> [<span style="color:#ae81ff">16</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">1</span>]                        <span style="color:#75715e"># 5个个体</span>
+</span></span><span style="display:flex;"><span>s_p <span style="color:#f92672">=</span> list(map(<span style="color:#66d9ef">lambda</span> x: x <span style="color:#f92672">/</span> sum(s), s))    <span style="color:#75715e"># 选择概率</span>
+</span></span><span style="display:flex;"><span>r <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()                      <span style="color:#75715e"># 0-1之间的随机数</span>
+</span></span><span style="display:flex;"><span>m <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(s)):
+</span></span><span style="display:flex;"><span>    m <span style="color:#f92672">+=</span> s_p[i]                             <span style="color:#75715e"># 求累积适应度</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> r <span style="color:#f92672">&lt;=</span> m:
+</span></span><span style="display:flex;"><span>        c <span style="color:#f92672">=</span> i
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>print(s[c])
+</span></span></code></pre></div><p>也可以有其他选择的方式，如<strong>随机选择</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">selection</span>(pop):
+</span></span><span style="display:flex;"><span>    sum_fitness <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>                            <span style="color:#75715e"># 适应度总和</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(pop)):
+</span></span><span style="display:flex;"><span>        sum_fitness <span style="color:#f92672">+=</span> pop[i]<span style="color:#f92672">.</span>fitness
+</span></span><span style="display:flex;"><span>    pop_new <span style="color:#f92672">=</span> [pop[<span style="color:#ae81ff">0</span>]]                         <span style="color:#75715e"># 假定pop[0]是最优个体，保留</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> len(pop_new) <span style="color:#f92672">&lt;</span> len(pop):             <span style="color:#75715e"># 基于轮盘赌的复制操作，直到复制到原始种群规模</span>
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>        m <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(pop)):
+</span></span><span style="display:flex;"><span>            m <span style="color:#f92672">+=</span> pop[i]<span style="color:#f92672">.</span>fitness <span style="color:#f92672">/</span> sum_fitness
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> r <span style="color:#f92672">&lt;=</span> m:
+</span></span><span style="display:flex;"><span>                pop_new<span style="color:#f92672">.</span>append(pop[i])
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pop_new
+</span></span></code></pre></div><h3 id="2-交叉">2 交叉</h3>
+<p>互换两个染色体某些位上的基因，是产生新个体的主要方法。</p>
+<p>例1：设染色体S1=01001011，S2=10010101，交换其后4位基因，得S1&rsquo;=01000101，S2&rsquo;=10011011</p>
+<p>例2：设个体1值为10，个体2值为20，按照2:8交叉，交叉后个体个体1′=10∗0.2+20∗0.8=18 ， 个体个体2′=10∗0.8+20∗0.2=12</p>
+<p>可以发生在一个断点或者多个断点。</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F06%2F03%2Fd737dee4adb0c2d5e9b9b9a5593d92d3-v2-be22a9676aea8e75183af678fcfaf51b_720w-2946e3.webp" alt="img"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">crossover</span>(pop):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, len(pop), <span style="color:#ae81ff">2</span>):                                    <span style="color:#75715e"># 0处最优个体保留</span>
+</span></span><span style="display:flex;"><span>        p <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> p <span style="color:#f92672">&lt;</span> Pc <span style="color:#f92672">and</span> len(pop) <span style="color:#f92672">&gt;</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>:                                <span style="color:#75715e"># 两两交叉</span>
+</span></span><span style="display:flex;"><span>            cross_range <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>            pop_i <span style="color:#f92672">=</span> pop[i]<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>            pop_j <span style="color:#f92672">=</span> pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>            pop[i]<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> pop_i <span style="color:#f92672">*</span> cross_range <span style="color:#f92672">+</span> pop_j <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> cross_range) 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> fitness(pop[i]<span style="color:#f92672">.</span>x) <span style="color:#f92672">&lt;</span> fitness(pop_i):                     <span style="color:#75715e"># 保留子代和父代中的最优个体</span>
+</span></span><span style="display:flex;"><span>                pop[i]<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> pop_i
+</span></span><span style="display:flex;"><span>            pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> pop_j <span style="color:#f92672">*</span> cross_range <span style="color:#f92672">+</span> pop_i <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> cross_range)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> fitness(pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>x) <span style="color:#f92672">&lt;</span> fitness(pop_j):
+</span></span><span style="display:flex;"><span>                pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> pop_j
+</span></span><span style="display:flex;"><span>            pop[i]<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> fitness(pop[i]<span style="color:#f92672">.</span>x)
+</span></span><span style="display:flex;"><span>            pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> fitness(pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>x)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pop
+</span></span></code></pre></div><h3 id="3-变异">3 变异</h3>
+<p>改变染色体某个(些)位上的基因。</p>
+<p>例1：染色体S=11001101，第三位发生变异，得S&rsquo;=11101101</p>
+<p>例2：实数编码，个体值为10∈[0, 100]，发送变异，即再随机生成一个数，如59。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mutation</span>(pop):
+</span></span><span style="display:flex;"><span>    pop_new <span style="color:#f92672">=</span> [pop[<span style="color:#ae81ff">0</span>]]                                    <span style="color:#75715e"># 0处最优个体保留</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, len(pop)):
+</span></span><span style="display:flex;"><span>        p <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>        ind <span style="color:#f92672">=</span> Individual()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> p <span style="color:#f92672">&lt;</span> Pm:                                        <span style="color:#75715e"># 0-1随机数 小于 变异概率，则进行变异</span>
+</span></span><span style="display:flex;"><span>            ind<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> Xx <span style="color:#f92672">+</span> (Xs <span style="color:#f92672">-</span> Xx) <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()   <span style="color:#75715e"># 重新生成定义域内的一个随机数</span>
+</span></span><span style="display:flex;"><span>            ind<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> fitness(ind<span style="color:#f92672">.</span>x)
+</span></span><span style="display:flex;"><span>            pop_new<span style="color:#f92672">.</span>append(ind)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            ind<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> pop[i]<span style="color:#f92672">.</span>x                              <span style="color:#75715e"># 大于等于 变异概率，不改</span>
+</span></span><span style="display:flex;"><span>            ind<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> pop[i]<span style="color:#f92672">.</span>fitness
+</span></span><span style="display:flex;"><span>            pop_new<span style="color:#f92672">.</span>append(ind)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pop_new
+</span></span></code></pre></div><h2 id="五遗传算法步骤">五、遗传算法步骤</h2>
+<ol>
+<li>初始化个体与种群；</li>
+<li>对优化问题的解进行编码——实数编码/二进制编码；</li>
+<li>个体评价，适应度函数的构造与应用；</li>
+<li>遗传操作：选择、交叉、变异；</li>
+<li>终止条件判断，不满足终止条件则转3。</li>
+</ol>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F06%2F03%2F5e903406fa339398e4408726ba56f898-v2-acfc75f53ce07cd00da5a624b465d769_1440w-fe3095.webp" alt="img"></p>
+<h2 id="六python实现">六、Python实现</h2>
+<p>求解f = x +10* sin(5* x)+7* cos(4* x)在[0, 10]上的最大值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> matplotlib <span style="color:#f92672">import</span> pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>NP <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>     <span style="color:#75715e"># 种群数量</span>
+</span></span><span style="display:flex;"><span>Pc <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.8</span>    <span style="color:#75715e"># 交叉率</span>
+</span></span><span style="display:flex;"><span>Pm <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>    <span style="color:#75715e"># 变异率</span>
+</span></span><span style="display:flex;"><span>G <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>      <span style="color:#75715e"># 最大遗传代数</span>
+</span></span><span style="display:flex;"><span>Xs <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>     <span style="color:#75715e"># 上限</span>
+</span></span><span style="display:flex;"><span>Xx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>      <span style="color:#75715e"># 下限</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fitness</span>(x):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>sin(<span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> x) <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span> <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>cos(<span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> x)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 个体类</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Individual</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  <span style="color:#75715e"># 染色体编码</span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  <span style="color:#75715e"># 个体适应度值</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __eq__(self, other):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> other<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> other<span style="color:#f92672">.</span>fitness
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 初始化种群</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">init_population</span>(pop, N):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(N):
+</span></span><span style="display:flex;"><span>        individual <span style="color:#f92672">=</span> Individual()  <span style="color:#75715e"># 个体初始化</span>
+</span></span><span style="display:flex;"><span>        individual<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>uniform(Xx, Xs)  <span style="color:#75715e"># 个体编码，0~10正态分布</span>
+</span></span><span style="display:flex;"><span>        individual<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> fitness(individual<span style="color:#f92672">.</span>x)  <span style="color:#75715e"># 计算个体适应度</span>
+</span></span><span style="display:flex;"><span>        pop<span style="color:#f92672">.</span>append(individual)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 选择：基于轮盘赌的复制操作</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">selection</span>(pop):
+</span></span><span style="display:flex;"><span>    sum_fitness <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(pop)):
+</span></span><span style="display:flex;"><span>        sum_fitness <span style="color:#f92672">+=</span> pop[i]<span style="color:#f92672">.</span>fitness
+</span></span><span style="display:flex;"><span>    pop_new <span style="color:#f92672">=</span> [pop[<span style="color:#ae81ff">0</span>]]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> len(pop_new) <span style="color:#f92672">&lt;</span> len(pop):
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>        m <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(pop)):
+</span></span><span style="display:flex;"><span>            m <span style="color:#f92672">+=</span> pop[i]<span style="color:#f92672">.</span>fitness <span style="color:#f92672">/</span> sum_fitness
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> r <span style="color:#f92672">&lt;=</span> m:
+</span></span><span style="display:flex;"><span>                pop_new<span style="color:#f92672">.</span>append(pop[i])
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pop_new
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 交叉</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">crossover</span>(pop):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, len(pop), <span style="color:#ae81ff">2</span>):
+</span></span><span style="display:flex;"><span>        p <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> p <span style="color:#f92672">&lt;</span> Pc <span style="color:#f92672">and</span> len(pop) <span style="color:#f92672">&gt;</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>:
+</span></span><span style="display:flex;"><span>            cross_range <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>            pop_i <span style="color:#f92672">=</span> pop[i]<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>            pop_j <span style="color:#f92672">=</span> pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>            pop[i]<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> pop_i <span style="color:#f92672">*</span> cross_range <span style="color:#f92672">+</span> pop_j <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> cross_range)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> fitness(pop[i]<span style="color:#f92672">.</span>x) <span style="color:#f92672">&lt;</span> fitness(pop_i):
+</span></span><span style="display:flex;"><span>                pop[i]<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> pop_i
+</span></span><span style="display:flex;"><span>            pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> pop_j <span style="color:#f92672">*</span> cross_range <span style="color:#f92672">+</span> pop_i <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> cross_range)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> fitness(pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>x) <span style="color:#f92672">&lt;</span> fitness(pop_j):
+</span></span><span style="display:flex;"><span>                pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> pop_j
+</span></span><span style="display:flex;"><span>            pop[i]<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> fitness(pop[i]<span style="color:#f92672">.</span>x)
+</span></span><span style="display:flex;"><span>            pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> fitness(pop[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>x)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pop
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 变异</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mutation</span>(pop):
+</span></span><span style="display:flex;"><span>    pop_new <span style="color:#f92672">=</span> [pop[<span style="color:#ae81ff">0</span>]]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, len(pop)):
+</span></span><span style="display:flex;"><span>        p <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>        ind <span style="color:#f92672">=</span> Individual()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> p <span style="color:#f92672">&lt;</span> Pm:
+</span></span><span style="display:flex;"><span>            ind<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> Xx <span style="color:#f92672">+</span> (Xs <span style="color:#f92672">-</span> Xx) <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>random()
+</span></span><span style="display:flex;"><span>            ind<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> fitness(ind<span style="color:#f92672">.</span>x)
+</span></span><span style="display:flex;"><span>            pop_new<span style="color:#f92672">.</span>append(ind)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            ind<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> pop[i]<span style="color:#f92672">.</span>x
+</span></span><span style="display:flex;"><span>            ind<span style="color:#f92672">.</span>fitness <span style="color:#f92672">=</span> pop[i]<span style="color:#f92672">.</span>fitness
+</span></span><span style="display:flex;"><span>            pop_new<span style="color:#f92672">.</span>append(ind)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pop_new
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 遗传算法</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">gene_algorithm</span>():
+</span></span><span style="display:flex;"><span>    pop <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    init_population(pop, NP)
+</span></span><span style="display:flex;"><span>    best <span style="color:#f92672">=</span> sorted(pop, key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> pop: pop<span style="color:#f92672">.</span>fitness, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)[<span style="color:#ae81ff">0</span>]  <span style="color:#75715e"># 最佳点</span>
+</span></span><span style="display:flex;"><span>    pop[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> best
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> k <span style="color:#f92672">in</span> range(G):
+</span></span><span style="display:flex;"><span>        pop <span style="color:#f92672">=</span> selection(pop)
+</span></span><span style="display:flex;"><span>        pop <span style="color:#f92672">=</span> crossover(pop)
+</span></span><span style="display:flex;"><span>        pop <span style="color:#f92672">=</span> mutation(pop)
+</span></span><span style="display:flex;"><span>        best <span style="color:#f92672">=</span> sorted(pop, key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> pop: pop<span style="color:#f92672">.</span>fitness, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)[<span style="color:#ae81ff">0</span>]  <span style="color:#75715e"># 最佳点</span>
+</span></span><span style="display:flex;"><span>        pop[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> best
+</span></span><span style="display:flex;"><span>    print(best<span style="color:#f92672">.</span>fitness)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pop
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+</span></span><span style="display:flex;"><span>    pop <span style="color:#f92672">=</span> gene_algorithm()
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 绘图</span>
+</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(Xx, Xs, <span style="color:#ae81ff">100000</span>)
+</span></span><span style="display:flex;"><span>    y <span style="color:#f92672">=</span> fitness(x)
+</span></span><span style="display:flex;"><span>    scatter_x <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([ind<span style="color:#f92672">.</span>x <span style="color:#66d9ef">for</span> ind <span style="color:#f92672">in</span> pop])
+</span></span><span style="display:flex;"><span>    print(scatter_x)
+</span></span><span style="display:flex;"><span>    scatter_y <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array([ind<span style="color:#f92672">.</span>fitness <span style="color:#66d9ef">for</span> ind <span style="color:#f92672">in</span> pop])
+</span></span><span style="display:flex;"><span>    best <span style="color:#f92672">=</span> sorted(pop, key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> pop: pop<span style="color:#f92672">.</span>fitness, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;best_x&#39;</span>, best<span style="color:#f92672">.</span>x)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;best_y&#39;</span>, best<span style="color:#f92672">.</span>fitness)
+</span></span><span style="display:flex;"><span>    plt<span style="color:#f92672">.</span>plot(x, y)
+</span></span><span style="display:flex;"><span>    plt<span style="color:#f92672">.</span>scatter(scatter_x, scatter_y, c<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>)
+</span></span><span style="display:flex;"><span>    plt<span style="color:#f92672">.</span>scatter(best<span style="color:#f92672">.</span>x, best<span style="color:#f92672">.</span>fitness, c<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;g&#39;</span>, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;best point&#39;</span>)
+</span></span><span style="display:flex;"><span>    plt<span style="color:#f92672">.</span>legend()
+</span></span><span style="display:flex;"><span>    plt<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F06%2F03%2F8113fa2355df775f5be2f95f34b3661b-v2-511df97f56040927c97ef58225792352_1440w-ced891.webp" alt="img"></p>
+
+</content>
+<p>
+  
+  <a href="http://localhost:1313/blog/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95/">#智能算法</a>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

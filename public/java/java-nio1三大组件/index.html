@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://dawnstar.top/images/favicon.png" />
+<title>【Java NIO1】三大组件 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+<meta name="title" content="【Java NIO1】三大组件" />
+<meta name="description" content="NIO non-blocking io 非阻塞 IO
+BIO blocking io 阻塞IO
+0.流与块 Standard IO是对字节流的读写，在进行IO之前，首先创建一个流对象，流对象进行读写操作都是按字节 ，一个字节一个字节的来读或写。而NIO把IO抽象成块，类似磁盘的读写，每次IO操作的单位都是一个块，块被读入内存之后就是一个byte[]，NIO一次可以读或写多个字节。
+I/O 与 NIO 最重要的区别是数据打包和传输的方式，I/O 以流的方式处理数据，而 NIO 以块的方式处理数据。
+面向流的 I/O 一次处理一个字节数据：一个输入流产生一个字节数据，一个输出流消费一个字节数据。为流式数据创建过滤器非常容易，链接几个过滤器，以便每个过滤器只负责复杂处理机制的一部分。不利的一面是，面向流的 I/O 通常相当慢。
+面向块的 I/O 一次处理一个数据块：按块处理数据比按流处理数据要快得多。但是面向块的 I/O 缺少一些面向流的 I/O 所具有的优雅性和简单性。
+1. 三大组件 1.1 Channel &amp; Buffer channel （通道）有一点类似于 stream，它就是读写数据的双向通道，可以从 channel 将数据读入 buffer（缓冲区，用于存储数据的内存块，是NIO中的数据容器），也可以将 buffer 的数据写入 channel，而之前的 stream 要么是输入，要么是输出，channel 比 stream 更为底层。
+graph LRchannel --&gt; bufferbuffer --&gt; channel 常见的 Channel 有
+FileChannel：文件传输通道 DatagramChannel：UDP时传输通道 SocketChannel：TCP时传输通道，客户端服务器端都能用 ServerSocketChannel：TCP时传输通道，服务器端 buffer 则用来缓冲读写数据，常见的 buffer 有" />
+<meta name="keywords" content="Java,Netty," />
+
+
+<meta property="og:url" content="https://dawnstar.top/java/java-nio1%E4%B8%89%E5%A4%A7%E7%BB%84%E4%BB%B6/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
+  <meta property="og:title" content="【Java NIO1】三大组件">
+  <meta property="og:description" content="NIO non-blocking io 非阻塞 IO
+BIO blocking io 阻塞IO
+0.流与块 Standard IO是对字节流的读写，在进行IO之前，首先创建一个流对象，流对象进行读写操作都是按字节 ，一个字节一个字节的来读或写。而NIO把IO抽象成块，类似磁盘的读写，每次IO操作的单位都是一个块，块被读入内存之后就是一个byte[]，NIO一次可以读或写多个字节。
+I/O 与 NIO 最重要的区别是数据打包和传输的方式，I/O 以流的方式处理数据，而 NIO 以块的方式处理数据。
+面向流的 I/O 一次处理一个字节数据：一个输入流产生一个字节数据，一个输出流消费一个字节数据。为流式数据创建过滤器非常容易，链接几个过滤器，以便每个过滤器只负责复杂处理机制的一部分。不利的一面是，面向流的 I/O 通常相当慢。
+面向块的 I/O 一次处理一个数据块：按块处理数据比按流处理数据要快得多。但是面向块的 I/O 缺少一些面向流的 I/O 所具有的优雅性和简单性。
+1. 三大组件 1.1 Channel &amp; Buffer channel （通道）有一点类似于 stream，它就是读写数据的双向通道，可以从 channel 将数据读入 buffer（缓冲区，用于存储数据的内存块，是NIO中的数据容器），也可以将 buffer 的数据写入 channel，而之前的 stream 要么是输入，要么是输出，channel 比 stream 更为底层。
+graph LRchannel --&gt; bufferbuffer --&gt; channel 常见的 Channel 有
+FileChannel：文件传输通道 DatagramChannel：UDP时传输通道 SocketChannel：TCP时传输通道，客户端服务器端都能用 ServerSocketChannel：TCP时传输通道，服务器端 buffer 则用来缓冲读写数据，常见的 buffer 有">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="java">
+    <meta property="article:published_time" content="2024-07-12T09:51:47+08:00">
+    <meta property="article:modified_time" content="2024-07-12T09:51:47+08:00">
+    <meta property="article:tag" content="Java">
+    <meta property="article:tag" content="Netty">
+    <meta property="og:image" content="https://dawnstar.top/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://dawnstar.top/images/share.png">
+  <meta name="twitter:title" content="【Java NIO1】三大组件">
+  <meta name="twitter:description" content="NIO non-blocking io 非阻塞 IO
+BIO blocking io 阻塞IO
+0.流与块 Standard IO是对字节流的读写，在进行IO之前，首先创建一个流对象，流对象进行读写操作都是按字节 ，一个字节一个字节的来读或写。而NIO把IO抽象成块，类似磁盘的读写，每次IO操作的单位都是一个块，块被读入内存之后就是一个byte[]，NIO一次可以读或写多个字节。
+I/O 与 NIO 最重要的区别是数据打包和传输的方式，I/O 以流的方式处理数据，而 NIO 以块的方式处理数据。
+面向流的 I/O 一次处理一个字节数据：一个输入流产生一个字节数据，一个输出流消费一个字节数据。为流式数据创建过滤器非常容易，链接几个过滤器，以便每个过滤器只负责复杂处理机制的一部分。不利的一面是，面向流的 I/O 通常相当慢。
+面向块的 I/O 一次处理一个数据块：按块处理数据比按流处理数据要快得多。但是面向块的 I/O 缺少一些面向流的 I/O 所具有的优雅性和简单性。
+1. 三大组件 1.1 Channel &amp; Buffer channel （通道）有一点类似于 stream，它就是读写数据的双向通道，可以从 channel 将数据读入 buffer（缓冲区，用于存储数据的内存块，是NIO中的数据容器），也可以将 buffer 的数据写入 channel，而之前的 stream 要么是输入，要么是输出，channel 比 stream 更为底层。
+graph LRchannel --&gt; bufferbuffer --&gt; channel 常见的 Channel 有
+FileChannel：文件传输通道 DatagramChannel：UDP时传输通道 SocketChannel：TCP时传输通道，客户端服务器端都能用 ServerSocketChannel：TCP时传输通道，服务器端 buffer 则用来缓冲读写数据，常见的 buffer 有">
+
+
+
+
+  <meta itemprop="name" content="【Java NIO1】三大组件">
+  <meta itemprop="description" content="NIO non-blocking io 非阻塞 IO
+BIO blocking io 阻塞IO
+0.流与块 Standard IO是对字节流的读写，在进行IO之前，首先创建一个流对象，流对象进行读写操作都是按字节 ，一个字节一个字节的来读或写。而NIO把IO抽象成块，类似磁盘的读写，每次IO操作的单位都是一个块，块被读入内存之后就是一个byte[]，NIO一次可以读或写多个字节。
+I/O 与 NIO 最重要的区别是数据打包和传输的方式，I/O 以流的方式处理数据，而 NIO 以块的方式处理数据。
+面向流的 I/O 一次处理一个字节数据：一个输入流产生一个字节数据，一个输出流消费一个字节数据。为流式数据创建过滤器非常容易，链接几个过滤器，以便每个过滤器只负责复杂处理机制的一部分。不利的一面是，面向流的 I/O 通常相当慢。
+面向块的 I/O 一次处理一个数据块：按块处理数据比按流处理数据要快得多。但是面向块的 I/O 缺少一些面向流的 I/O 所具有的优雅性和简单性。
+1. 三大组件 1.1 Channel &amp; Buffer channel （通道）有一点类似于 stream，它就是读写数据的双向通道，可以从 channel 将数据读入 buffer（缓冲区，用于存储数据的内存块，是NIO中的数据容器），也可以将 buffer 的数据写入 channel，而之前的 stream 要么是输入，要么是输出，channel 比 stream 更为底层。
+graph LRchannel --&gt; bufferbuffer --&gt; channel 常见的 Channel 有
+FileChannel：文件传输通道 DatagramChannel：UDP时传输通道 SocketChannel：TCP时传输通道，客户端服务器端都能用 ServerSocketChannel：TCP时传输通道，服务器端 buffer 则用来缓冲读写数据，常见的 buffer 有">
+  <meta itemprop="datePublished" content="2024-07-12T09:51:47+08:00">
+  <meta itemprop="dateModified" content="2024-07-12T09:51:47+08:00">
+  <meta itemprop="wordCount" content="170">
+  <meta itemprop="image" content="https://dawnstar.top/images/share.png">
+  <meta itemprop="keywords" content="Java,Netty">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/java">Java</a>
+
+
+<a href="/python">Python</a>
+
+
+<a href="/algorithm">算法</a>
+
+
+<a href="/database">数据库</a>
+
+
+<a href="/computerbase">计算机基础</a>
+
+
+<a href="/blog">其它</a>
+
+</nav>
+</header>
+  <main>
+
+<content>
+  <p>NIO non-blocking io 非阻塞 IO</p>
+<p>BIO blocking io 阻塞IO</p>
+<h2 id="0流与块">0.流与块</h2>
+<p>Standard IO是对字节流的读写，在进行IO之前，首先创建一个流对象，流对象进行读写操作都是按字节 ，一个字节一个字节的来读或写。而NIO把IO抽象成块，类似磁盘的读写，每次IO操作的单位都是一个块，块被读入内存之后就是一个byte[]，NIO一次可以读或写多个字节。</p>
+<p>I/O 与 NIO 最重要的区别是数据打包和传输的方式，I/O 以流的方式处理数据，而 NIO 以块的方式处理数据。</p>
+<p><strong>面向流的 I/O</strong> 一次处理一个字节数据：一个输入流产生一个字节数据，一个输出流消费一个字节数据。为流式数据创建过滤器非常容易，链接几个过滤器，以便每个过滤器只负责复杂处理机制的一部分。不利的一面是，面向流的 I/O 通常相当慢。</p>
+<p><strong>面向块的 I/O</strong> 一次处理一个数据块：按块处理数据比按流处理数据要快得多。但是面向块的 I/O 缺少一些面向流的 I/O 所具有的优雅性和简单性。</p>
+<h2 id="1-三大组件">1. 三大组件</h2>
+<h3 id="11-channel--buffer">1.1 Channel &amp; Buffer</h3>
+<p>channel （通道）有一点类似于 stream，它就是读写数据的<strong>双向通道</strong>，可以从 channel 将数据读入 buffer（缓冲区，用于存储数据的内存块，是NIO中的数据容器），也可以将 buffer 的数据写入 channel，而之前的 stream 要么是输入，要么是输出，channel 比 stream 更为底层。</p>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph LR
+channel --&gt; buffer
+buffer --&gt; channel
+</code></pre><p>常见的 Channel 有</p>
+<ul>
+<li>FileChannel：文件传输通道</li>
+<li>DatagramChannel：UDP时传输通道</li>
+<li>SocketChannel：TCP时传输通道，客户端服务器端都能用</li>
+<li>ServerSocketChannel：TCP时传输通道，服务器端</li>
+</ul>
+<p>buffer 则用来缓冲读写数据，常见的 buffer 有</p>
+<ul>
+<li><strong>ByteBuffer</strong>
+<ul>
+<li>MappedByteBuffer</li>
+<li>DirectByteBuffer</li>
+<li>HeapByteBuffer</li>
+</ul>
+</li>
+<li>ShortBuffer</li>
+<li>IntBuffer</li>
+<li>LongBuffer</li>
+<li>FloatBuffer</li>
+<li>DoubleBuffer</li>
+<li>CharBuffer</li>
+</ul>
+<h3 id="12-selector">1.2 Selector</h3>
+<p>选择器用于监控多个通道的IO事件，当一个或多个事件发生时，选择器会通知对应的通道进行处理。使用选择器可以实现单线程处理多个通道的IO操作，提高系统的并发性能。</p>
+<p>selector（选择器） 单从字面意思不好理解，需要结合服务器的设计演化来理解它的用途</p>
+<h4 id="多线程版设计">多线程版设计</h4>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+subgraph 多线程版
+t1(thread) --&gt; s1(socket1)
+t2(thread) --&gt; s2(socket2)
+t3(thread) --&gt; s3(socket3)
+end
+</code></pre><h4 id="-多线程版缺点">⚠️ 多线程版缺点</h4>
+<ul>
+<li>内存占用高</li>
+<li>线程上下文切换成本高</li>
+<li>只适合连接数少的场景</li>
+</ul>
+<h4 id="线程池版设计">线程池版设计</h4>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+subgraph 线程池版
+t4(thread) --&gt; s4(socket1)
+t5(thread) --&gt; s5(socket2)
+t4(thread) -.-&gt; s6(socket3)
+t5(thread) -.-&gt; s7(socket4)
+end
+</code></pre><h4 id="-线程池版缺点">⚠️ 线程池版缺点</h4>
+<ul>
+<li>阻塞模式下，线程仅能处理一个 socket 连接</li>
+<li>仅适合短连接场景（短连接指的是在数据传送过程中，只在需要发送数据时，才去建立一个连接，数据发送完成后，则断开此连接，即每次连接只完成一项业务的发送）</li>
+</ul>
+<h4 id="selector-版设计">selector 版设计</h4>
+<p>selector 的作用就是配合一个线程来管理多个 channel，获取这些 channel 上发生的事件，这些 channel 工作在非阻塞模式下，不会让线程吊死在一个 channel 上。适合连接数特别多，但流量低的场景（low traffic）</p>
+<pre tabindex="0"><code class="language-mermaid" data-lang="mermaid">graph TD
+subgraph selector 版
+thread --&gt; selector
+selector --&gt; c1(channel)
+selector --&gt; c2(channel)
+selector --&gt; c3(channel)
+end
+</code></pre><p>调用 selector 的 select() 会阻塞直到 channel 发生了读写就绪事件，这些事件发生，select 方法就会返回这些事件交给 thread 来处理。</p>
+
+</content>
+<p>
+  
+  <a href="https://dawnstar.top/blog/java/">#Java</a>
+  
+  <a href="https://dawnstar.top/blog/netty/">#Netty</a>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

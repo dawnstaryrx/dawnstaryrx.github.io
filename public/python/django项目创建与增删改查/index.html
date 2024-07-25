@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://dawnstar.top/images/favicon.png" />
+<title>【Django】项目创建与增删改查 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+<meta name="title" content="【Django】项目创建与增删改查" />
+<meta name="description" content="一、常用命令 # 创建虚拟环境virtualenv venv# 激活虚拟环境source venv/Scripts/activate# 取消激活deactivate# 安装Djangopip install Django# 创建项目django-admin startproject studybud# 到manage.py所在目录运行项目cd studybudpython manage.py runserver# 数据库迁移python manage.py makemigrations # 生成了对应的sql语句，没真正将改动迁移到数据库中python manage.py migrate# 创建超级用户python manage.py createsuperuser#把英文改为中文LANGUAGE_CODE = &#39;zh-hans&#39;#把国际时区改为中国时区TIME_ZONE = &#39;Asia/Shanghai&#39;# Pygment生成CSSpygmentize -S default -f html -a .codehilite &gt; default.css 二、app创建 # 创建app python manage.py startapp base # 注册app-&gt;settings." />
+<meta name="keywords" content="python," />
+
+
+<meta property="og:url" content="https://dawnstar.top/python/django%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
+  <meta property="og:title" content="【Django】项目创建与增删改查">
+  <meta property="og:description" content="一、常用命令 # 创建虚拟环境virtualenv venv# 激活虚拟环境source venv/Scripts/activate# 取消激活deactivate# 安装Djangopip install Django# 创建项目django-admin startproject studybud# 到manage.py所在目录运行项目cd studybudpython manage.py runserver# 数据库迁移python manage.py makemigrations # 生成了对应的sql语句，没真正将改动迁移到数据库中python manage.py migrate# 创建超级用户python manage.py createsuperuser#把英文改为中文LANGUAGE_CODE = &#39;zh-hans&#39;#把国际时区改为中国时区TIME_ZONE = &#39;Asia/Shanghai&#39;# Pygment生成CSSpygmentize -S default -f html -a .codehilite &gt; default.css 二、app创建 # 创建app python manage.py startapp base # 注册app-&gt;settings.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="python">
+    <meta property="article:published_time" content="2024-07-04T21:06:56+08:00">
+    <meta property="article:modified_time" content="2024-07-04T21:06:56+08:00">
+    <meta property="article:tag" content="Python">
+    <meta property="og:image" content="https://dawnstar.top/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://dawnstar.top/images/share.png">
+  <meta name="twitter:title" content="【Django】项目创建与增删改查">
+  <meta name="twitter:description" content="一、常用命令 # 创建虚拟环境virtualenv venv# 激活虚拟环境source venv/Scripts/activate# 取消激活deactivate# 安装Djangopip install Django# 创建项目django-admin startproject studybud# 到manage.py所在目录运行项目cd studybudpython manage.py runserver# 数据库迁移python manage.py makemigrations # 生成了对应的sql语句，没真正将改动迁移到数据库中python manage.py migrate# 创建超级用户python manage.py createsuperuser#把英文改为中文LANGUAGE_CODE = &#39;zh-hans&#39;#把国际时区改为中国时区TIME_ZONE = &#39;Asia/Shanghai&#39;# Pygment生成CSSpygmentize -S default -f html -a .codehilite &gt; default.css 二、app创建 # 创建app python manage.py startapp base # 注册app-&gt;settings.">
+
+
+
+
+  <meta itemprop="name" content="【Django】项目创建与增删改查">
+  <meta itemprop="description" content="一、常用命令 # 创建虚拟环境virtualenv venv# 激活虚拟环境source venv/Scripts/activate# 取消激活deactivate# 安装Djangopip install Django# 创建项目django-admin startproject studybud# 到manage.py所在目录运行项目cd studybudpython manage.py runserver# 数据库迁移python manage.py makemigrations # 生成了对应的sql语句，没真正将改动迁移到数据库中python manage.py migrate# 创建超级用户python manage.py createsuperuser#把英文改为中文LANGUAGE_CODE = &#39;zh-hans&#39;#把国际时区改为中国时区TIME_ZONE = &#39;Asia/Shanghai&#39;# Pygment生成CSSpygmentize -S default -f html -a .codehilite &gt; default.css 二、app创建 # 创建app python manage.py startapp base # 注册app-&gt;settings.">
+  <meta itemprop="datePublished" content="2024-07-04T21:06:56+08:00">
+  <meta itemprop="dateModified" content="2024-07-04T21:06:56+08:00">
+  <meta itemprop="wordCount" content="1381">
+  <meta itemprop="image" content="https://dawnstar.top/images/share.png">
+  <meta itemprop="keywords" content="Python">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/java">Java</a>
+
+
+<a href="/python">Python</a>
+
+
+<a href="/algorithm">算法</a>
+
+
+<a href="/database">数据库</a>
+
+
+<a href="/computerbase">计算机基础</a>
+
+
+<a href="/blog">其它</a>
+
+</nav>
+</header>
+  <main>
+
+<content>
+  <h2 id="一常用命令">一、常用命令</h2>
+<pre tabindex="0"><code># 创建虚拟环境
+virtualenv venv
+# 激活虚拟环境
+source venv/Scripts/activate
+# 取消激活
+deactivate
+# 安装Django
+pip install Django
+# 创建项目
+django-admin startproject studybud
+# 到manage.py所在目录运行项目
+cd studybud
+python manage.py runserver
+
+# 数据库迁移
+python manage.py makemigrations # 生成了对应的sql语句，没真正将改动迁移到数据库中
+python manage.py migrate
+
+# 创建超级用户
+python manage.py createsuperuser
+
+#把英文改为中文
+LANGUAGE_CODE = &#39;zh-hans&#39;
+#把国际时区改为中国时区
+TIME_ZONE = &#39;Asia/Shanghai&#39;
+
+# Pygment生成CSS
+pygmentize -S default -f html -a .codehilite &gt; default.css
+</code></pre><h2 id="二app创建">二、app创建</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e"># 创建app</span>
+</span></span><span style="display:flex;"><span>python manage<span style="color:#f92672">.</span>py startapp base
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注册app-&gt;settings.py-&gt;INSTALLED_APPS add</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;base.apps.BaseConfig&#39;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建针对该应用的urls.py </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># include该app的urls.py</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.urls <span style="color:#f92672">import</span> path, include
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#34;&#34;</span>, include(<span style="color:#e6db74">&#39;base.urls&#39;</span>))
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 根目录创建templates</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># app创建templates/app_name</span>
+</span></span></code></pre></div><h2 id="三django基础">三、Django基础</h2>
+<h3 id="一view">(一)、View</h3>
+<h4 id="1-基于函数的视图">1. 基于函数的视图</h4>
+<p>urls.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.urls <span style="color:#f92672">import</span> path
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> views
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#34;&#34;</span>, views<span style="color:#f92672">.</span>home, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;home page&#34;</span>),
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#34;room/&#34;</span>, views<span style="color:#f92672">.</span>room, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;room page&#34;</span>),
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.http <span style="color:#f92672">import</span> HttpResponse
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">home</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74">&#34;Hello world!&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">room</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74">&#34;room page&#34;</span>)
+</span></span></code></pre></div><h4 id="2-返回html">2. 返回html</h4>
+<pre tabindex="0"><code># template 创建 home.html, room.html
+# 添加settings.py-&gt;TEMPLATES-&gt;&#34;DIRS&#34;
+BASE_DIR / &#39;templates&#39;,
+</code></pre><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.shortcuts <span style="color:#f92672">import</span> render
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">home</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;home.html&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">room</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;room.html&#34;</span>)
+</span></span></code></pre></div><h4 id="3-传递数据">3. 传递数据</h4>
+<p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>rooms <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;id&#39;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;name&#39;</span>: <span style="color:#e6db74">&#34;Let&#39;s learn Python!&#34;</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;id&#39;</span>: <span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#39;name&#39;</span>: <span style="color:#e6db74">&#34;Let&#39;s learn Java!&#34;</span>},
+</span></span><span style="display:flex;"><span>    {<span style="color:#e6db74">&#39;id&#39;</span>: <span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#39;name&#39;</span>: <span style="color:#e6db74">&#34;Let&#39;s learn Vue!&#34;</span>},
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">home</span>(request):
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;rooms&#39;</span>: rooms}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;home.html&#34;</span>, context)
+</span></span></code></pre></div><h4 id="4-从数据库查询数据">4. 从数据库查询数据</h4>
+<pre tabindex="0"><code>queryset = ModelName.objects.all()/get()/filter()/exclude()
+</code></pre><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">home</span>(request):
+</span></span><span style="display:flex;"><span>    rooms <span style="color:#f92672">=</span> Room<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;rooms&#39;</span>: rooms}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;base/home.html&#34;</span>, context)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">room</span>(request, pk):
+</span></span><span style="display:flex;"><span>    room <span style="color:#f92672">=</span> Room<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(id<span style="color:#f92672">=</span>int(pk))
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;room&#39;</span>: room}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;base/room.html&#34;</span>, context)
+</span></span></code></pre></div><h3 id="二template">(二)、Template</h3>
+<h4 id="1-常用语法">1. 常用语法</h4>
+<pre tabindex="0"><code># 包含navbar模版
+{% include &#39;navbar.html&#39; %}
+
+# for循环
+{% for room in rooms %}
+    &lt;div&gt;
+        &lt;h5&gt;{{ room.id }} -- {{ room.name }}&lt;/h5&gt;
+    &lt;/div&gt;
+{% endfor %}
+
+# if判断
+{% if request.user.is_authenticated %}
+&lt;a href=&#34;{% url &#39;logout-page&#39; %}&#34;&gt;Logout&lt;/a&gt;
+{% else %}
+&lt;a href=&#34;{% url &#39;login-page&#39; %}&#34;&gt;Login&lt;/a&gt;
+{% endif %}
+</code></pre><h4 id="2-模版继承">2. 模版继承</h4>
+<p>main.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">html</span> <span style="color:#a6e22e">lang</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;en&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">meta</span> <span style="color:#a6e22e">charset</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;UTF-8&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">title</span>&gt;Study Bud&lt;/<span style="color:#f92672">title</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">head</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>    {% include &#39;navbar.html&#39; %}
+</span></span><span style="display:flex;"><span>    {% block content %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    {% endblock%}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">body</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">html</span>&gt;
+</span></span></code></pre></div><p>home.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{% extends &#39;main.html&#39; %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% block content %}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">h1</span>&gt;Home Template&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>{% endblock content%}
+</span></span></code></pre></div><h3 id="三urlspy">(三)、urls.py</h3>
+<h4 id="静态url">静态url</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.urls <span style="color:#f92672">import</span> path
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> views
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>urlpatterns <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#34;&#34;</span>, views<span style="color:#f92672">.</span>home, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;home page&#34;</span>),
+</span></span><span style="display:flex;"><span>    path(<span style="color:#e6db74">&#34;room/&#34;</span>, views<span style="color:#f92672">.</span>room, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;room page&#34;</span>),
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><h4 id="动态url">动态url</h4>
+<pre tabindex="0"><code>path(&#34;room/&lt;str:pk&gt;/&#34;, views.room, name = &#34;room page&#34;)
+&lt;a href=&#34;{% url &#39;room page&#39; room.id %}&#34;&gt;{{ room.name }}&lt;/a&gt;
+</code></pre><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">room</span>(request, pk):
+</span></span><span style="display:flex;"><span>    room <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> rooms:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> i[<span style="color:#e6db74">&#39;id&#39;</span>] <span style="color:#f92672">==</span> int(pk):
+</span></span><span style="display:flex;"><span>            room <span style="color:#f92672">=</span> i
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;room&#39;</span>: room}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;base/room.html&#34;</span>, context)
+</span></span></code></pre></div><h3 id="四modelspy">(四)、models.py</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib.auth.models <span style="color:#f92672">import</span> User
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Topic</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    name <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __str__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>name
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Room</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    host <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ForeignKey(User, on_delete<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>SET_NULL, null<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    topic <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ForeignKey(Topic, on_delete<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>SET_NULL, null<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    name <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>)
+</span></span><span style="display:flex;"><span>    description <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>TextField(null<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, blank<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># participants =</span>
+</span></span><span style="display:flex;"><span>    updated <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>DateTimeField(auto_now<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    created <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>DateTimeField(auto_now_add<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __str__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>name
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Message</span>(models<span style="color:#f92672">.</span>Model):
+</span></span><span style="display:flex;"><span>    user <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ForeignKey(User, on_delete<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>CASCADE)
+</span></span><span style="display:flex;"><span>    room <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>ForeignKey(Room, on_delete<span style="color:#f92672">=</span>models<span style="color:#f92672">.</span>CASCADE)
+</span></span><span style="display:flex;"><span>    body <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>TextField()
+</span></span><span style="display:flex;"><span>    updated <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>DateTimeField(auto_now<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>    created <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>DateTimeField(auto_now_add<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __str__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>body[<span style="color:#ae81ff">0</span>:<span style="color:#ae81ff">10</span>]
+</span></span></code></pre></div><h3 id="五adminpy">(五)、admin.py</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> .models <span style="color:#f92672">import</span> Room
+</span></span><span style="display:flex;"><span>admin<span style="color:#f92672">.</span>site<span style="color:#f92672">.</span>register(Room)
+</span></span></code></pre></div><h2 id="四crud">四、CRUD</h2>
+<h3 id="一增-create">(一)、增-Create</h3>
+<p>urls.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>path(<span style="color:#e6db74">&#34;create-room/&#34;</span>, views<span style="color:#f92672">.</span>create_room, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;create-room&#34;</span>),
+</span></span></code></pre></div><p>forms.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.forms <span style="color:#f92672">import</span> ModelForm
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .models <span style="color:#f92672">import</span> Room
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RoomForm</span>(ModelForm):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meta</span>:
+</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> Room
+</span></span><span style="display:flex;"><span>        fields <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;__all__&#34;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># fields = [&#39;name&#39;, ...]</span>
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.shortcuts <span style="color:#f92672">import</span> redirect
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> .forms <span style="color:#f92672">import</span> RoomForm
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_room</span>(request):
+</span></span><span style="display:flex;"><span>    form <span style="color:#f92672">=</span> RoomForm()
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;form&#39;</span>: form}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>:
+</span></span><span style="display:flex;"><span>        form <span style="color:#f92672">=</span> RoomForm(request<span style="color:#f92672">.</span>POST)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> form<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            form<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#34;home-page&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#39;base/room_form.html&#39;</span>, context)
+</span></span></code></pre></div><p>room_form.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{% extends &#39;main.html&#39; %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% block content %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        {% csrf_token %}
+</span></span><span style="display:flex;"><span>        {{ form.as_p }}
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Submit&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">form</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% endblock content %}
+</span></span></code></pre></div><p>home.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;create-room&#39; %}&#34;</span>&gt; Create Room &lt;/<span style="color:#f92672">a</span>&gt;
+</span></span></code></pre></div><h3 id="二改-update">(二)、改-Update</h3>
+<p>urls.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>path(<span style="color:#e6db74">&#34;update-room/&lt;str:pk&gt;/&#34;</span>, views<span style="color:#f92672">.</span>update_room, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;update-room&#34;</span>),
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update_room</span>(request, pk):
+</span></span><span style="display:flex;"><span>    room <span style="color:#f92672">=</span> Room<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(id<span style="color:#f92672">=</span>int(pk))
+</span></span><span style="display:flex;"><span>    form <span style="color:#f92672">=</span> RoomForm(instance<span style="color:#f92672">=</span>room)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>:
+</span></span><span style="display:flex;"><span>        form <span style="color:#f92672">=</span> RoomForm(request<span style="color:#f92672">.</span>POST, instance<span style="color:#f92672">=</span>room)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> form<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            form<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#34;home-page&#34;</span>)
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;form&#39;</span>: form}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#39;base/room_form.html&#39;</span>, context)
+</span></span></code></pre></div><p>home.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;update-room&#39; room.id %}&#34;</span>&gt;Edit&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span></code></pre></div><h3 id="三删-delete">(三)、删-Delete</h3>
+<p>urls.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>path(<span style="color:#e6db74">&#34;delete-room/&lt;str:pk&gt;/&#34;</span>, views<span style="color:#f92672">.</span>delete_room, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;delete-room&#34;</span>),
+</span></span></code></pre></div><p>delete.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{% extends &#34;main.html&#34; %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% block content %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;POST&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    {% csrf_token %}
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">p</span>&gt; Are you sure you want to delete &#34;{{ obj.name }}&#34; ? &lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ request.META.HTTP_REFERER }}&#34;</span>&gt;Go back&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Confirm&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">form</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% endblock content %}
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">delete_room</span>(request, pk):
+</span></span><span style="display:flex;"><span>    room <span style="color:#f92672">=</span> Room<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(id<span style="color:#f92672">=</span>int(pk))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>:
+</span></span><span style="display:flex;"><span>        room<span style="color:#f92672">.</span>delete()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#39;home-page&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#39;base/delete.html&#39;</span>, {<span style="color:#e6db74">&#39;obj&#39;</span>:room})
+</span></span></code></pre></div><p>home.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;delete-room&#39; room.id %}&#34;</span>&gt;Delete&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span></code></pre></div><h3 id="四查-retrieve">(四)、查-Retrieve</h3>
+<h4 id="1-侧边栏">1. 侧边栏</h4>
+<p>home.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{% extends &#39;main.html&#39; %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% block content %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">style</span>&gt;
+</span></span><span style="display:flex;"><span>    .<span style="color:#a6e22e">home-container</span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">display</span>: <span style="color:#66d9ef">grid</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">grid-template-columns</span>: <span style="color:#ae81ff">1</span>fr <span style="color:#ae81ff">3</span>fr;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">style</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;home-container&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">h3</span>&gt;Browse Topics&lt;/<span style="color:#f92672">h3</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">hr</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;home-page&#39; %}&#34;</span>&gt; All &lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        {% for topic in topics %}
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;home-page&#39; %}?q={{ topic.name }}&#34;</span>&gt; {{ topic.name }} &lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        {% endfor %}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;create-room&#39; %}&#34;</span>&gt; Create Room &lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>            {% for room in rooms %}
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;update-room&#39; room.id %}&#34;</span>&gt;Edit&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;delete-room&#39; room.id %}&#34;</span>&gt;Delete&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">span</span>&gt;@{{ room.host }}&lt;/<span style="color:#f92672">span</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">h5</span>&gt;{{ room.id }} -- &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;room-page&#39; room.id %}&#34;</span>&gt;{{ room.name }}&lt;/<span style="color:#f92672">a</span>&gt;&lt;/<span style="color:#f92672">h5</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">small</span>&gt;{{ room.topic }}&lt;/<span style="color:#f92672">small</span>&gt;
+</span></span><span style="display:flex;"><span>                &lt;<span style="color:#f92672">hr</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>            {% endfor %}
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% endblock content%}
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">home</span>(request):
+</span></span><span style="display:flex;"><span>    q <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>GET<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;q&#39;</span>) <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>GET<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;q&#39;</span>) <span style="color:#f92672">!=</span> <span style="color:#66d9ef">None</span> <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    rooms <span style="color:#f92672">=</span> Room<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()<span style="color:#f92672">.</span>filter(topic__name__icontains <span style="color:#f92672">=</span> q)
+</span></span><span style="display:flex;"><span>    topics <span style="color:#f92672">=</span> Topic<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;rooms&#39;</span>: rooms, <span style="color:#e6db74">&#39;topics&#39;</span>: topics}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;base/home.html&#34;</span>, context)
+</span></span></code></pre></div><h4 id="2-搜索框">2. 搜索框</h4>
+<p>navbar.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">h1</span>&gt;Study Bud&lt;/<span style="color:#f92672">h1</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;home-page&#39; %}&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;get&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;q&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Search Rooms...&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">form</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">hr</span>&gt;
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.db.models <span style="color:#f92672">import</span> Q
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">home</span>(request):
+</span></span><span style="display:flex;"><span>    q <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>GET<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;q&#39;</span>) <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>GET<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;q&#39;</span>) <span style="color:#f92672">!=</span> <span style="color:#66d9ef">None</span> <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    rooms <span style="color:#f92672">=</span> Room<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()<span style="color:#f92672">.</span>filter(
+</span></span><span style="display:flex;"><span>        Q(topic__name__icontains <span style="color:#f92672">=</span> q) <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>        Q(name__icontains <span style="color:#f92672">=</span> q) <span style="color:#f92672">|</span>
+</span></span><span style="display:flex;"><span>        Q(description__contains <span style="color:#f92672">=</span> q)
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    topics <span style="color:#f92672">=</span> Topic<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>all()
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;rooms&#39;</span>: rooms, <span style="color:#e6db74">&#39;topics&#39;</span>: topics}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;base/home.html&#34;</span>, context)
+</span></span></code></pre></div><h4 id="3-查询数量">3. 查询数量</h4>
+<p>home.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">h5</span>&gt;{{ room_count }} rooms available&lt;/<span style="color:#f92672">h5</span>&gt;
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>room_count <span style="color:#f92672">=</span> rooms<span style="color:#f92672">.</span>count()
+</span></span></code></pre></div><h2 id="五用户操作">五、用户操作</h2>
+<h3 id="一登录">(一)、登录</h3>
+<p>urls.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>path(<span style="color:#e6db74">&#34;login/&#34;</span>, views<span style="color:#f92672">.</span>loginPage, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;login-page&#34;</span>),
+</span></span></code></pre></div><p>navbar.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;login-page&#39; %}&#34;</span>&gt;Login&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span></code></pre></div><p>login_register.html 消息弹出</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{% extends &#39;main.html&#39; %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% block content %}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;POST&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        {% csrf_token %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">label</span>&gt;Username:&lt;/<span style="color:#f92672">label</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;username&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Enter Username here...&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">br</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">label</span>&gt;Password:&lt;/<span style="color:#f92672">label</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Enter Password here...&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">br</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Login&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">form</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>{% endblock content %}
+</span></span></code></pre></div><p>main.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{% include &#39;navbar.html&#39; %}
+</span></span><span style="display:flex;"><span>    {% if messages %}
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">ul</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;messages&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        {% for message in messages %}
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>            {{ message }}
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>        {% endfor %}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">ul</span>&gt;
+</span></span><span style="display:flex;"><span>    {% endif %}
+</span></span><span style="display:flex;"><span>{% block content %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% endblock%}
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib.auth.models <span style="color:#f92672">import</span> User
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib <span style="color:#f92672">import</span> messages
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib.auth <span style="color:#f92672">import</span> authenticate, login, logout
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">loginPage</span>(request):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>:
+</span></span><span style="display:flex;"><span>        username <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>POST<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;username&#34;</span>)<span style="color:#f92672">.</span>lower()
+</span></span><span style="display:flex;"><span>        password <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>POST<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;password&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>            user <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(username<span style="color:#f92672">=</span>username)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>            messages<span style="color:#f92672">.</span>error(request, <span style="color:#e6db74">&#34;User does not exist.&#34;</span>)
+</span></span><span style="display:flex;"><span>        user <span style="color:#f92672">=</span> authenticate(request, username<span style="color:#f92672">=</span>username, password<span style="color:#f92672">=</span>password)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> user <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            login(request, user)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#39;home-page&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            messages<span style="color:#f92672">.</span>error(request, <span style="color:#e6db74">&#34;Username OR password does not exist.&#34;</span>)
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;base/login_register.html&#34;</span>, context)
+</span></span></code></pre></div><h3 id="二登出">(二)、登出</h3>
+<p>urls.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>path(<span style="color:#e6db74">&#34;logout/&#34;</span>, views<span style="color:#f92672">.</span>logoutPage, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;logout-page&#34;</span>),
+</span></span></code></pre></div><p>navbar.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{% if request.user.is_authenticated %}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;logout-page&#39; %}&#34;</span>&gt;Logout&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>{% else %}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;login-page&#39; %}&#34;</span>&gt;Login&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>{% endif %}
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">logoutPage</span>(request):
+</span></span><span style="display:flex;"><span>    logout(request)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#39;home-page&#39;</span>)
+</span></span></code></pre></div><h3 id="三限制访问">(三)、限制访问</h3>
+<h4 id="1-限制登录">1. 限制登录</h4>
+<p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.contrib.auth.decorators <span style="color:#f92672">import</span> login_required
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@login_required</span>(login_url<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;login-page&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_room</span>(request):
+</span></span><span style="display:flex;"><span>    form <span style="color:#f92672">=</span> RoomForm()
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;form&#39;</span>: form}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>:
+</span></span><span style="display:flex;"><span>        form <span style="color:#f92672">=</span> RoomForm(request<span style="color:#f92672">.</span>POST)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> form<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            form<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#34;home-page&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#39;base/room_form.html&#39;</span>, context)
+</span></span></code></pre></div><h4 id="2-限制特定用户">2. 限制特定用户</h4>
+<p>home.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{% if request.user == room.host %}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;update-room&#39; room.id %}&#34;</span>&gt;Edit&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;delete-room&#39; room.id %}&#34;</span>&gt;Delete&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>{% endif %}
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a6e22e">@login_required</span>(login_url<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;login-page&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update_room</span>(request, pk):
+</span></span><span style="display:flex;"><span>    room <span style="color:#f92672">=</span> Room<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(id<span style="color:#f92672">=</span>int(pk))
+</span></span><span style="display:flex;"><span>    form <span style="color:#f92672">=</span> RoomForm(instance<span style="color:#f92672">=</span>room)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>user <span style="color:#f92672">!=</span> room<span style="color:#f92672">.</span>host:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> HttpResponse(<span style="color:#e6db74">&#34;You are not allowed here!&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>:
+</span></span><span style="display:flex;"><span>        form <span style="color:#f92672">=</span> RoomForm(request<span style="color:#f92672">.</span>POST, instance<span style="color:#f92672">=</span>room)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> form<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            form<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#34;home-page&#34;</span>)
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;form&#39;</span>: form}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#39;base/room_form.html&#39;</span>, context)
+</span></span></code></pre></div><h4 id="3-防止用户重新登录">3. 防止用户重新登录</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">loginPage</span>(request):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>user<span style="color:#f92672">.</span>is_authenticated:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#34;home-page&#34;</span>)
+</span></span></code></pre></div><h3 id="四注册">(四)、注册</h3>
+<p>登录 views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">loginPage</span>(request):
+</span></span><span style="display:flex;"><span>    page <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;login-page&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># ......</span>
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;page&#34;</span>:page}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;base/login_register.html&#34;</span>, context)
+</span></span></code></pre></div><p>urls.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>path(<span style="color:#e6db74">&#34;register/&#34;</span>, views<span style="color:#f92672">.</span>registerPage, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;register-page&#34;</span>),
+</span></span></code></pre></div><p>login_register.html</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>{% extends &#39;main.html&#39; %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% block content %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>{% if page == &#39;login-page&#39; %}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;POST&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        {% csrf_token %}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">label</span>&gt;Username:&lt;/<span style="color:#f92672">label</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;username&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Enter Username here...&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">br</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">label</span>&gt;Password:&lt;/<span style="color:#f92672">label</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;password&#34;</span> <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Enter Password here...&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">br</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Login&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">form</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>        havent signed up yet?
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;register-page&#39; %}&#34;</span>&gt;Sign up&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>{% else %}
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;POST&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        {% csrf_token %}
+</span></span><span style="display:flex;"><span>        {{ form.as_p }}
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Register&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">form</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>        already signed up yet?
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">p</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{% url &#39;login-page&#39; %}&#34;</span>&gt;Login&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>{% endif %}
+</span></span><span style="display:flex;"><span>{% endblock content %}
+</span></span></code></pre></div><p>views.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">registerPage</span>(request):
+</span></span><span style="display:flex;"><span>    page <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;register-page&#34;</span>
+</span></span><span style="display:flex;"><span>    form <span style="color:#f92672">=</span> UserCreationForm()
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>:
+</span></span><span style="display:flex;"><span>        form <span style="color:#f92672">=</span> UserCreationForm(request<span style="color:#f92672">.</span>POST)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> form<span style="color:#f92672">.</span>is_valid():
+</span></span><span style="display:flex;"><span>            user <span style="color:#f92672">=</span> form<span style="color:#f92672">.</span>save(commit<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
+</span></span><span style="display:flex;"><span>            user<span style="color:#f92672">.</span>username <span style="color:#f92672">=</span> user<span style="color:#f92672">.</span>username<span style="color:#f92672">.</span>lower()
+</span></span><span style="display:flex;"><span>            user<span style="color:#f92672">.</span>save()
+</span></span><span style="display:flex;"><span>            login(request, user)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> redirect(<span style="color:#e6db74">&#39;home-page&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            messages<span style="color:#f92672">.</span>error(request, <span style="color:#e6db74">&#34;An error occurred during registration.&#34;</span>)
+</span></span><span style="display:flex;"><span>    context <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;page&#34;</span>: page, <span style="color:#e6db74">&#34;form&#34;</span>: form}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> render(request, <span style="color:#e6db74">&#34;base/login_register.html&#34;</span>, context)
+</span></span></code></pre></div>
+</content>
+<p>
+  
+  <a href="https://dawnstar.top/blog/python/">#Python</a>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>
