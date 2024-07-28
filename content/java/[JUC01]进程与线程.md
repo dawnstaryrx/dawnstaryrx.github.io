@@ -1,5 +1,5 @@
 +++
-title = "【Java】JUC01进程与线程"
+title = "【JUC01】进程与线程"
 date = "2024-07-24T08:15:56+08:00"
 
 tags = ["Java"]
