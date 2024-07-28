@@ -1,10 +1,9 @@
 +++
-# This title is used as the og:title on Hugo's internal
-# opengraph structured data template on the home page.
-# See https://ogp.me/ and https://gohugo.io/templates/internal#open-graph.
 title = "DawnStar"
 +++
 
-Hello,there is DawnStar's blog.
+哈喽！这里是DawnStar的博客网站。  
 
-# 纵一苇之所如，凌万顷之茫然
+主要分享一些编程学习过程中记录的笔记，以及自己对遇到问题的总结。包括：Java，Python，算法，MySQL，Vue，React等。
+
+### 纵一苇之所如，凌万顷之茫然
