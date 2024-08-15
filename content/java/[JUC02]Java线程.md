@@ -185,3 +185,78 @@ yield
 
 - 调用yield会让当前线程从Running进入Runnable状态，然后调度执行其它同优先级的线程。如果这时没有同优先级的线程，那么不能保证让当前线程暂停的效果
 - 具体的实现依赖于操作系统的任务调度器
+
+## 3. 线程优先级
+
+- 线程优先级会提示调度器优先调度该线程，但它仅仅是一个提示，调度器可以忽略它。
+- 如果CPU比较忙，那么优先级高的线程会获得更多的时间片，但CPU闲时，优先级没有作用
+
+```java
+Runnable task1 = () -> {
+    int count = 0;
+    for (;;){
+        System.out.println("----->1     "+count++);
+
+    }
+};
+Runnable task2 = () -> {
+    int count = 0;
+    for (;;){
+        Thread.yield();
+        System.out.println("     ----->2    "+count++);
+    }
+};
+Thread t1 = new Thread(task1, "t1");
+Thread t2 = new Thread(task2, "t2");
+t1.setPriority(Thread.MAX_PRIORITY);
+t2.setPriority(Thread.MIN_PRIORITY);
+t1.start();
+t2.start();
+```
+
+## 4. sleep应用-防止CPU占用100%
+
+### sleep实现
+
+在没有利用CPU来计算时，不要让while(true)空转浪费CPU，这时可以使用yeild或者sleep来让出CPU的使用权给其他程序。
+
+```
+while (true){
+    try{
+        Thread.sleep(50);
+    }catch (InterruptedException e){
+        e.printStackTrace();
+    }
+}
+```
+
+- 可以用wait或者条件变量达到类似的效果
+- 不同的是，后两种都需要加锁，并且需要相应的唤醒操作，一般适用于需要同步的场景
+- sleep适用于无需锁同步的场景
+
+## 5. join
+
+```java
+static int r = 0;
+public static void main(String[] args) throws InterruptedException {
+    test1();
+}
+public static void test1() throws InterruptedException {
+    log.info("开始");
+    Thread t1 = new Thread(() -> {
+        log.info("t1 开始");
+        try {
+            sleep(1);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        log.info("t1 结束");
+        r = 10;
+    } , "t1");
+    t1.start();
+    // t1.join(); // 让线程对象加入到主线程中
+    log.info("r = {}", r);
+    log.info("结束");
+}
+```
+
