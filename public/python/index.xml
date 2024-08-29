@@ -7,8 +7,22 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Thu, 04 Jul 2024 21:06:56 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 19 Aug 2024 09:05:53 +0800</lastBuildDate>
     <atom:link href="https://dawnstar.top/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Wagtail02]第一个网站</title>
+      <link>https://dawnstar.top/python/wagtail02%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99/</link>
+      <pubDate>Mon, 19 Aug 2024 09:05:53 +0800</pubDate>
+      <guid>https://dawnstar.top/python/wagtail02%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99/</guid>
+      <description>创建app&#xA;python manage.py startapp blog 注册app到mysite/settings/base.py&#xA;INSTALLED_APPS = [ &amp;#34;blog&amp;#34;, # &amp;lt;- Our new blog app. &amp;#34;home&amp;#34;, &amp;#34;search&amp;#34;, &amp;#34;wagtail.contrib.forms&amp;#34;, &amp;#34;wagtail.contrib.redirects&amp;#34;, &amp;#34;wagtail.embeds&amp;#34;, &amp;#34;wagtail.sites&amp;#34;, &amp;#34;wagtail.users&amp;#34;, #... other packages ] 一、博客首页 编辑blog/models.py&#xA;from django.db import models # Add these: from wagtail.models import Page from wagtail.fields import RichTextField from wagtail.admin.panels import FieldPanel class BlogIndexPage(Page): intro = RichTextField(blank=True) content_panels = Page.content_panels + [ FieldPanel(&amp;#39;intro&amp;#39;) ] template = &amp;#39;blog/blog_index_page.html&amp;#39; 创建迁移文件并迁移&#xA;python manage.py makemigrations python manage.py migrate 创建文件blog/templates/blog/blog_index_page.</description>
+    </item>
+    <item>
+      <title>[Wagtail01]创建</title>
+      <link>https://dawnstar.top/python/wagtail01%E5%88%9B%E5%BB%BA/</link>
+      <pubDate>Sun, 18 Aug 2024 21:52:49 +0800</pubDate>
+      <guid>https://dawnstar.top/python/wagtail01%E5%88%9B%E5%BB%BA/</guid>
+      <description>一、创建并激活虚拟环境 py -m venv mysite\env # then mysite\env\Scripts\activate.bat # if mysite\env\Scripts\activate.bat doesn&amp;#39;t work, run: mysite\env\Scripts\activate 二、安装Wagtail pip install wagtail 三、创建站点 wagtail start mysite mysite 项目结构：&#xA;mysite/ ├── .dockerignore ├── Dockerfile ├── home/ ├── manage.py* ├── mysite/ ├── requirements.txt └── search/ 安装依赖：&#xA;cd mysite pip install -r requirements.txt 四、创建数据库 python manage.py migrate Every time you alter your model, then you must run the python manage.py migrate command to update the database.</description>
+    </item>
     <item>
       <title>【Django】项目创建与增删改查</title>
       <link>https://dawnstar.top/python/django%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/</link>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>前端 on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+    <link>https://dawnstar.top/blog/%E5%89%8D%E7%AB%AF/</link>
+    <description>Recent content in 前端 on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2020, Jane Doe.</copyright>
+    <lastBuildDate>Wed, 31 Jul 2024 16:22:16 +0800</lastBuildDate>
+    <atom:link href="https://dawnstar.top/blog/%E5%89%8D%E7%AB%AF/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vue3项目搭建</title>
+      <link>https://dawnstar.top/vue3%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Wed, 31 Jul 2024 16:22:16 +0800</pubDate>
+      <guid>https://dawnstar.top/vue3%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</guid>
+      <description>一、使用vite创建项目 vite官方中文文档：https://cn.vitejs.dev/guide/&#xA;npm create vite@latest 进入项目&#xA;npm install&#xD;npm run dev 更换镜像源&#xA;npm config set registry https://registry.npmmirror.com&#xD;npm config set registry https://registry.npm.taobao.org 二、配置Vue3文件 1. 配置vite环境变量及配置代理 解决跨域问题&#xA;import { defineConfig } from &amp;#39;vite&amp;#39; import vue from &amp;#39;@vitejs/plugin-vue&amp;#39; import { resolve } from &amp;#39;path&amp;#39;; export default defineConfig({ plugins: [vue()], server: { // 配置前端服务地址和端口 // 服务器主机名 host: &amp;#39;0.0.0.0&amp;#39;, // 端口号 port: 80, // 设为 true 时若端口已被占用则会直接退出，而不是尝试下一个可用端口 strictPort: false, // 服务器启动时自动在浏览器中打开应用程序,当此值为字符串时，会被用作 URL 的路径名 open: false, // 自定义代理规则 proxy: { // 选项写法 &amp;#39;/api&amp;#39;: { target: &amp;#39;http://localhost:8080&amp;#39;, changeOrigin: true, rewrite: path =&amp;gt; path.</description>
+    </item>
+  </channel>
+</rss>

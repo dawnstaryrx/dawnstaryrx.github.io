@@ -7,20 +7,34 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Wed, 24 Jul 2024 09:31:04 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 01 Aug 2024 16:06:35 +0800</lastBuildDate>
     <atom:link href="https://dawnstar.top/blog/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>【Java】JUC02-Java线程</title>
-      <link>https://dawnstar.top/java/javajuc02-java%E7%BA%BF%E7%A8%8B/</link>
+      <title>【SpringSecurity2】基于数据库实现认证和授权</title>
+      <link>https://dawnstar.top/java/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</link>
+      <pubDate>Thu, 01 Aug 2024 16:06:35 +0800</pubDate>
+      <guid>https://dawnstar.top/java/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>【SpringSecurity1】初识SpringSecurity</title>
+      <link>https://dawnstar.top/java/springsecurity1%E5%88%9D%E8%AF%86springsecurity/</link>
+      <pubDate>Tue, 30 Jul 2024 08:34:45 +0800</pubDate>
+      <guid>https://dawnstar.top/java/springsecurity1%E5%88%9D%E8%AF%86springsecurity/</guid>
+      <description>一、安全框架是什么 安全框架的本质就是一堆过滤器的组成，目的在于保护系统资源的访问是被允许的，所以在到达资源之前会做一系列的验证工作，这些验证工作通过一系列的过滤器完成。安全框架通常的功能有认证、授权、防止常见的网络攻击，以此为核心拓展其他功能。比如session管理，密码加密，权限管理等功能。&#xA;二、常见的安全框架 1. Apache Shiro 功能 Shiro 干净利落地 处理身份认证，授权，会话管理和加密。 Apache Shiro 的首要目标是易于使用和理解。框架应该尽可能掩盖复杂的地方，暴露一个干净而直观的 API，来简化开发人员在应用程序安全上所花费的时间。&#xA;四大核心功能——身份验证，授权，会话管理和加密 Authentication ：简称为“登录”，这是一个证明用户是谁的行为。 Authorization ：访问控制的过程，也就是决定“谁”可以去访问“什么”。 Session Management ： 管理用户特定的会话，即使在非 Web 或 EJB 应用程序。 Cryptography ：通过使用加密算法保持数据安全同时易于使用。 额外功能 Web Support： web 支持的 API 能够轻松地保护 Web 应用程序。 Caching ：缓存是用来确保操作的快速而又高效的。 Concurrency ：Apache Shiro 利用它的并发特性来支持多线程应用程序。 Testing ：测试功能来帮助编写单元测试和集成测试。 Run As ：一个允许用户 以 另一个用户身份(如果允许) 运行的功能，有时候在管理脚本时很有用 Remember Me ：在会话中记住用户的身份，这样用户只需要在强制登录时登录。 特点&#xA;Shiro 框架具有 直观、易用 等特性，同时也能提供了 健壮的安全性 ，在常规的企业级应用中，其实也够用了。&#xA;2. SpringSecurity Spring Security是一个 功能强大且高度可定制的，主要负责为 Java 程序提供声明式的身份验证和访问控制的安全框架。其前身是Acegi Security ，后来被收纳为 Spring 的一个子项目，并更名为了Spring Security。</description>
+    </item>
+    <item>
+      <title>【JUC02】Java线程</title>
+      <link>https://dawnstar.top/java/juc02java%E7%BA%BF%E7%A8%8B/</link>
       <pubDate>Wed, 24 Jul 2024 09:31:04 +0800</pubDate>
-      <guid>https://dawnstar.top/java/javajuc02-java%E7%BA%BF%E7%A8%8B/</guid>
+      <guid>https://dawnstar.top/java/juc02java%E7%BA%BF%E7%A8%8B/</guid>
       <description>一、创建和运行线程 Java程序在启动时，都已经创建了一个主线程。&#xA;1. 方法一：直接使用Thread // 创建线程对象，指定名字t1 Thread t = new Thread(&amp;#34;t1&amp;#34;){ public void run(){ // 要执行的任务 log.debug(&amp;#34;hello&amp;#34;); } }; // 启动线程 t.start(); log.debug(&amp;#34;hello main&amp;#34;); 结果&#xA;2. 方法二：使用Runnable配合Thread 把【线程】和【任务】（要执行的代码）分开&#xA;Thread代表线程 Runnable代表可运行的任务 Runnable runnable = new Runnable() { @Override public void run() { // 要执行的任务 log.debug(&amp;#34;running&amp;#34;); } }; // 创建线程对象 Thread t1 = new Thread(runnable, &amp;#34;t1&amp;#34;); // 启动线程 t1.start(); 3. lambda简化 Java8以后使用lambda精简代码&#xA;Runnable task2 = () -&amp;gt; log.debug(&amp;#34;task2&amp;#34;); Thread t2 = new Thread(task2, &amp;#34;t2&amp;#34;); t2.</description>
     </item>
     <item>
-      <title>【Java】JUC01进程与线程</title>
-      <link>https://dawnstar.top/java/javajuc01%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/</link>
+      <title>【JUC01】进程与线程</title>
+      <link>https://dawnstar.top/java/juc01%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/</link>
       <pubDate>Wed, 24 Jul 2024 08:15:56 +0800</pubDate>
-      <guid>https://dawnstar.top/java/javajuc01%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/</guid>
+      <guid>https://dawnstar.top/java/juc01%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/</guid>
       <description>一、进程与线程 1. 进程 进程由指令和数据组成，但这些指令要运行，数据要读写，就必须将指令加载至CPU，数据加载至内存。在指令运行过程中还需要用到磁盘、网络等设备。进程就是用来加载指令、管理内存、管理IO的。 当一个程序被运行，从磁盘加载这个程序的代码至内存，这时就开启了一个进程。 进程可以视为程序的一个实例。大部分程序可以同时运行多个实例进程，也有的程序只能启动一个进程实例。 2. 线程 一个进程之内可以分为一到多个线程。 一个线程就是一个指令流，将指令流中的一条条指令以一定的顺序交给CPU执行。 Java中，线程作为最小调度单位，进程作为资源分配的最小单位。在Windows中进程是不活动的，只是作为线程的容器。 3. 二者对比 进程基本上是相互独立的，而线程存在于进程内，是进程的一个子集。 进程拥有共享的资源，例如内存空间等，供其内部的线程共享。 进程间通信较为复杂 同一台计算机的进程通信称为 IPC （Inter-process communication） 不同计算机之间的进程通信，需要通过网络，并遵守共同的协议，如HTTP 线程通信相对简单，因为它们共享进程内的内存，例如多个线程可以访问同一个共享变量 线程更轻量，线程上下文切换成本一般要比进程上下文切换低 二、并发与并行 将线程轮流使用CPU的做法称为并发。 并发（Concurrent）是同一时间应对（dealing with）多件事情的能力； 并行（Parallel）是同一时间动手做（doing）多件事情的能力。 三、同步与异步 从方法调用的角度来讲，如果&#xA;需要等待返回结果，才能继续运行就是同步； 不需要等待返回结果，就能继续运行就是异步。 注意：同步在多线程中还有另外一层意思，是让多个线程步调一致。</description>
     </item>
     <item>

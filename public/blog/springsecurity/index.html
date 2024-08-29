@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://dawnstar.top/images/favicon.png" />
+<title>SpringSecurity | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+<meta name="title" content="SpringSecurity" />
+<meta name="description" content="Hugo &#43; Bear = :heart:" />
+<meta name="keywords" content="docker,java,netty,nginx,python,redis,springsecurity,sql,前端,智能算法,算法," />
+
+
+<meta property="og:url" content="https://dawnstar.top/blog/springsecurity/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
+  <meta property="og:title" content="SpringSecurity">
+  <meta property="og:description" content="Hugo &#43; Bear = :heart:">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="website">
+    <meta property="og:image" content="https://dawnstar.top/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://dawnstar.top/images/share.png">
+  <meta name="twitter:title" content="SpringSecurity">
+  <meta name="twitter:description" content="Hugo &#43; Bear = :heart:">
+
+
+
+
+  <meta itemprop="name" content="SpringSecurity">
+  <meta itemprop="description" content="Hugo &#43; Bear = :heart:">
+  <meta itemprop="dateModified" content="2024-08-01T16:06:35+08:00">
+  <meta itemprop="image" content="https://dawnstar.top/images/share.png">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <link rel="alternate" type="application/rss+xml" href="https://dawnstar.top/blog/springsecurity/index.xml" title="ᕕ( ᐛ )ᕗ DawnStar's Blog" />
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/java">Java</a>
+
+
+<a href="/python">Python</a>
+
+
+<a href="/algorithm">算法</a>
+
+
+<a href="/database">数据库</a>
+
+
+<a href="/computerbase">计算机基础</a>
+
+
+<a href="/blog">其它</a>
+
+</nav>
+</header>
+  <main>
+<content>
+  
+  <h3 style="margin-bottom:0">Filtering for "SpringSecurity"</h3>
+  <small>
+    <a href="/blog">Remove filter</a>
+  </small>
+  
+  <ul class="blog-posts">
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2024-08-01' pubdate>
+            01 Aug, 2024
+          </time>
+        </i>
+      </span>
+      <a href="https://dawnstar.top/java/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/">【SpringSecurity2】基于数据库实现认证和授权</a>
+    </li>
+    
+    <li>
+      <span>
+        <i>
+          <time datetime='2024-07-30' pubdate>
+            30 Jul, 2024
+          </time>
+        </i>
+      </span>
+      <a href="https://dawnstar.top/java/springsecurity1%E5%88%9D%E8%AF%86springsecurity/">【SpringSecurity1】初识SpringSecurity</a>
+    </li>
+    
+  </ul>
+  
+  
+</content>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>
