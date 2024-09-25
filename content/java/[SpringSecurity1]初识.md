@@ -118,6 +118,24 @@ spring:
 
 基于内存的用户分析认证流程。
 
+1. **用户请求认证**：
+   - 当用户通过浏览器访问受保护的资源时，Spring Security 会拦截请求。
+   - 如果用户尚未认证，Spring Security 会将用户重定向到登录页面或返回 401 未授权响应（取决于是否启用了表单登录或 HTTP Basic 认证）。
+2. **用户登录**：
+   - 用户在登录页面提交用户名和密码。
+   - Spring Security 会根据用户输入的用户名和密码调用 `UserDetailsService`，在该场景下是 `InMemoryUserDetailsManager`，用以加载用户信息。
+3. **验证用户**：
+   - `InMemoryUserDetailsManager` 会根据用户名查找内存中的用户（在上面的例子中，它检查 `user` 或 `admin`）。
+   - 如果找到用户，Spring Security 将通过配置的 `PasswordEncoder` 对用户输入的密码进行加密，并与内存中存储的加密密码进行匹配。
+   - 如果密码匹配，则用户被认证通过。
+4. **授权流程**：
+   - Spring Security 认证完成后，将根据用户角色进行授权检查。
+   - 例如，上述配置中 `/admin/**` 路径只有拥有 `ADMIN` 角色的用户可以访问，而 `/user/**` 路径则需要 `USER` 角色。
+   - 如果用户具有足够的权限，Spring Security 会允许请求继续处理；否则，用户将收到拒绝访问的响应（403 Forbidden）。
+5. **处理结果**：
+   - 如果认证和授权成功，Spring Security 将允许用户访问受保护的资源。
+   - 如果认证或授权失败，系统会重定向回登录页面或者返回错误响应（如 401 或 403）。
+
 ## 2. Security配置类
 
 ### 定义用户名和密码
@@ -365,7 +383,14 @@ httpSecurity.authorizeHttpRequests(
 
 访问`/hello`要有ADMIN角色。
 
+角色是一种权限的抽象，通常用于定义用户的访问级别。Spring Security 使用角色来进行权限控制。
+
+- **定义角色**：角色通常使用 `ROLE_` 前缀来表示，如 `ROLE_ADMIN`、`ROLE_USER`，但在代码中使用时，Spring Security 自动处理，不需要手动添加前缀。
+- **分配角色**：用户可以分配一个或多个角色，每个角色代表用户可以执行的特定操作。
+
 ### 权限配置
+
+授权（Authorization）是确定已认证的用户是否具有访问特定资源的权限。Spring Security 提供了多种方式来实现授权控制，最常用的方式是在安全配置类中通过 `authorizeRequests` 方法来配置 URL 路径的访问权限。
 
 ```java
 UserDetails adminUser = User
