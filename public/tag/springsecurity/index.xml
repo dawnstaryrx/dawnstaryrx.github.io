@@ -11,16 +11,16 @@
     <atom:link href="http://localhost:1313/tag/springsecurity/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[SpringSecurity2]基于数据库实现认证和授权</title>
-      <link>http://localhost:1313/codetravel/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</link>
+      <link>http://localhost:1313/code/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</link>
       <pubDate>Thu, 01 Aug 2024 16:06:35 +0800</pubDate>
-      <guid>http://localhost:1313/codetravel/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</guid>
+      <guid>http://localhost:1313/code/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</guid>
       <description>集成数据库实现认证和授权 流程 提供数据库表：单表 创建项目 引入相关依赖，lombok web security mybatis plus 配置MySQL 实体类 Mapper Service Controller：提供登录接口 配置SpringSecurity 创建实体类 </description>
     </item>
     <item>
       <title>[SpringSecurity1]初识SpringSecurity</title>
-      <link>http://localhost:1313/codetravel/springsecurity1%E5%88%9D%E8%AF%86springsecurity/</link>
+      <link>http://localhost:1313/code/springsecurity1%E5%88%9D%E8%AF%86/</link>
       <pubDate>Tue, 30 Jul 2024 08:34:45 +0800</pubDate>
-      <guid>http://localhost:1313/codetravel/springsecurity1%E5%88%9D%E8%AF%86springsecurity/</guid>
+      <guid>http://localhost:1313/code/springsecurity1%E5%88%9D%E8%AF%86/</guid>
       <description>一、安全框架是什么 安全框架的本质就是一堆过滤器的组成，目的在于保护系统资源的访问是被允许的，所以在到达资源之前会做一系列的验证工作，这些验证工作通过一系列的过滤器完成。安全框架通常的功能有认证、授权、防止常见的网络攻击，以此为核心拓展其他功能。比如session管理，密码加密，权限管理等功能。&#xA;二、常见的安全框架 1. Apache Shiro 功能 Shiro 干净利落地 处理身份认证，授权，会话管理和加密。 Apache Shiro 的首要目标是易于使用和理解。框架应该尽可能掩盖复杂的地方，暴露一个干净而直观的 API，来简化开发人员在应用程序安全上所花费的时间。&#xA;四大核心功能——身份验证，授权，会话管理和加密 Authentication ：简称为“登录”，这是一个证明用户是谁的行为。 Authorization ：访问控制的过程，也就是决定“谁”可以去访问“什么”。 Session Management ： 管理用户特定的会话，即使在非 Web 或 EJB 应用程序。 Cryptography ：通过使用加密算法保持数据安全同时易于使用。 额外功能 Web Support： web 支持的 API 能够轻松地保护 Web 应用程序。 Caching ：缓存是用来确保操作的快速而又高效的。 Concurrency ：Apache Shiro 利用它的并发特性来支持多线程应用程序。 Testing ：测试功能来帮助编写单元测试和集成测试。 Run As ：一个允许用户 以 另一个用户身份(如果允许) 运行的功能，有时候在管理脚本时很有用 Remember Me ：在会话中记住用户的身份，这样用户只需要在强制登录时登录。 特点&#xA;Shiro 框架具有 直观、易用 等特性，同时也能提供了 健壮的安全性 ，在常规的企业级应用中，其实也够用了。&#xA;2. SpringSecurity Spring Security是一个 功能强大且高度可定制的，主要负责为 Java 程序提供声明式的身份验证和访问控制的安全框架。其前身是Acegi Security ，后来被收纳为 Spring 的一个子项目，并更名为了Spring Security。</description>
     </item>
   </channel>

@@ -22,10 +22,11 @@ ignoreErrors = ["error-disable-taxonomy"]
   blog = "/:slug/"
   tags = "/tag/:slug"
   myproject = "/myproject/"
-  dailyblog = "/dailyblog/:slug/"
-  codetravel = "/codetravel/:slug/"
+  dailyblog = "/blog/:slug/"
+  codetravel = "/code/:slug/"
   note = "/note/:slug/"
   rss = "/rss/:slug/"
+  ai = "/ai/:slug/"
 [params]
   # The "description" of your website. This is used in the meta data of your generated html.
   description = "Hugo + Bear = :heart:"

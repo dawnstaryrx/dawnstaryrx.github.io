@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="http://localhost:1313/images/favicon.png" />
+<title>[Wagtail02]第一个网站 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+<meta name="title" content="[Wagtail02]第一个网站" />
+<meta name="description" content="创建app
+python manage.py startapp blog 注册app到mysite/settings/base.py
+INSTALLED_APPS = [ &#34;blog&#34;, # &lt;- Our new blog app. &#34;home&#34;, &#34;search&#34;, &#34;wagtail.contrib.forms&#34;, &#34;wagtail.contrib.redirects&#34;, &#34;wagtail.embeds&#34;, &#34;wagtail.sites&#34;, &#34;wagtail.users&#34;, #... other packages ] 一、博客首页 编辑blog/models.py
+from django.db import models # Add these: from wagtail.models import Page from wagtail.fields import RichTextField from wagtail.admin.panels import FieldPanel class BlogIndexPage(Page): intro = RichTextField(blank=True) content_panels = Page.content_panels &#43; [ FieldPanel(&#39;intro&#39;) ] template = &#39;blog/blog_index_page.html&#39; 创建迁移文件并迁移
+python manage.py makemigrations python manage.py migrate 创建文件blog/templates/blog/blog_index_page." />
+<meta name="keywords" content="" />
+
+
+<meta property="og:url" content="http://localhost:1313/code/wagtail02%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
+  <meta property="og:title" content="[Wagtail02]第一个网站">
+  <meta property="og:description" content="创建app
+python manage.py startapp blog 注册app到mysite/settings/base.py
+INSTALLED_APPS = [ &#34;blog&#34;, # &lt;- Our new blog app. &#34;home&#34;, &#34;search&#34;, &#34;wagtail.contrib.forms&#34;, &#34;wagtail.contrib.redirects&#34;, &#34;wagtail.embeds&#34;, &#34;wagtail.sites&#34;, &#34;wagtail.users&#34;, #... other packages ] 一、博客首页 编辑blog/models.py
+from django.db import models # Add these: from wagtail.models import Page from wagtail.fields import RichTextField from wagtail.admin.panels import FieldPanel class BlogIndexPage(Page): intro = RichTextField(blank=True) content_panels = Page.content_panels &#43; [ FieldPanel(&#39;intro&#39;) ] template = &#39;blog/blog_index_page.html&#39; 创建迁移文件并迁移
+python manage.py makemigrations python manage.py migrate 创建文件blog/templates/blog/blog_index_page.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="code">
+    <meta property="article:published_time" content="2024-08-19T09:05:53+08:00">
+    <meta property="article:modified_time" content="2024-08-19T09:05:53+08:00">
+    <meta property="og:image" content="http://localhost:1313/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/share.png">
+  <meta name="twitter:title" content="[Wagtail02]第一个网站">
+  <meta name="twitter:description" content="创建app
+python manage.py startapp blog 注册app到mysite/settings/base.py
+INSTALLED_APPS = [ &#34;blog&#34;, # &lt;- Our new blog app. &#34;home&#34;, &#34;search&#34;, &#34;wagtail.contrib.forms&#34;, &#34;wagtail.contrib.redirects&#34;, &#34;wagtail.embeds&#34;, &#34;wagtail.sites&#34;, &#34;wagtail.users&#34;, #... other packages ] 一、博客首页 编辑blog/models.py
+from django.db import models # Add these: from wagtail.models import Page from wagtail.fields import RichTextField from wagtail.admin.panels import FieldPanel class BlogIndexPage(Page): intro = RichTextField(blank=True) content_panels = Page.content_panels &#43; [ FieldPanel(&#39;intro&#39;) ] template = &#39;blog/blog_index_page.html&#39; 创建迁移文件并迁移
+python manage.py makemigrations python manage.py migrate 创建文件blog/templates/blog/blog_index_page.">
+
+
+
+
+  <meta itemprop="name" content="[Wagtail02]第一个网站">
+  <meta itemprop="description" content="创建app
+python manage.py startapp blog 注册app到mysite/settings/base.py
+INSTALLED_APPS = [ &#34;blog&#34;, # &lt;- Our new blog app. &#34;home&#34;, &#34;search&#34;, &#34;wagtail.contrib.forms&#34;, &#34;wagtail.contrib.redirects&#34;, &#34;wagtail.embeds&#34;, &#34;wagtail.sites&#34;, &#34;wagtail.users&#34;, #... other packages ] 一、博客首页 编辑blog/models.py
+from django.db import models # Add these: from wagtail.models import Page from wagtail.fields import RichTextField from wagtail.admin.panels import FieldPanel class BlogIndexPage(Page): intro = RichTextField(blank=True) content_panels = Page.content_panels &#43; [ FieldPanel(&#39;intro&#39;) ] template = &#39;blog/blog_index_page.html&#39; 创建迁移文件并迁移
+python manage.py makemigrations python manage.py migrate 创建文件blog/templates/blog/blog_index_page.">
+  <meta itemprop="datePublished" content="2024-08-19T09:05:53+08:00">
+  <meta itemprop="dateModified" content="2024-08-19T09:05:53+08:00">
+  <meta itemprop="wordCount" content="248">
+  <meta itemprop="image" content="http://localhost:1313/images/share.png">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/myproject">我的项目</a>
+
+
+<a href="/dailyblog">随笔</a>
+
+
+<a href="/note">笔记</a>
+
+
+<a href="/codetravel">代码</a>
+
+
+<a href="/ai">AI</a>
+
+
+<a href="/rss">RSS</a>
+
+</nav>
+</header>
+  <main>
+
+<content>
+  <p>创建app</p>
+<pre tabindex="0"><code>python manage.py startapp blog
+</code></pre><p>注册app到mysite/settings/base.py</p>
+<pre tabindex="0"><code>INSTALLED_APPS = [
+    &#34;blog&#34;, # &lt;- Our new blog app.
+    &#34;home&#34;,
+    &#34;search&#34;,
+    &#34;wagtail.contrib.forms&#34;,
+    &#34;wagtail.contrib.redirects&#34;,
+    &#34;wagtail.embeds&#34;,
+    &#34;wagtail.sites&#34;,
+    &#34;wagtail.users&#34;,
+    #... other packages
+]
+</code></pre><h1 id="一博客首页">一、博客首页</h1>
+<p>编辑blog/models.py</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add these:</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> wagtail.models <span style="color:#f92672">import</span> Page
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> wagtail.fields <span style="color:#f92672">import</span> RichTextField
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> wagtail.admin.panels <span style="color:#f92672">import</span> FieldPanel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BlogIndexPage</span>(Page):
+</span></span><span style="display:flex;"><span>    intro <span style="color:#f92672">=</span> RichTextField(blank<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    content_panels <span style="color:#f92672">=</span> Page<span style="color:#f92672">.</span>content_panels <span style="color:#f92672">+</span> [
+</span></span><span style="display:flex;"><span>        FieldPanel(<span style="color:#e6db74">&#39;intro&#39;</span>)
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>    template <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;blog/blog_index_page.html&#39;</span>
+</span></span></code></pre></div><p>创建迁移文件并迁移</p>
+<pre tabindex="0"><code>python manage.py makemigrations
+python manage.py migrate
+</code></pre><p>创建文件<code>blog/templates/blog/blog_index_page.html</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-django" data-lang="django"><span style="display:flex;"><span><span style="color:#75715e">{%</span> <span style="color:#66d9ef">extends</span> <span style="color:#e6db74">&#34;base.html&#34;</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{%</span> <span style="color:#66d9ef">load</span> wagtailcore_tags <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{%</span> <span style="color:#66d9ef">block</span> body_class <span style="color:#75715e">%}</span>template-blogindexpage<span style="color:#75715e">{%</span> <span style="color:#66d9ef">endblock</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{%</span> <span style="color:#66d9ef">block</span> content <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>    &lt;h1&gt;<span style="color:#75715e">{{</span> page.title <span style="color:#75715e">}}</span>&lt;/h1&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;div class=&#34;intro&#34;&gt;<span style="color:#75715e">{{</span> page.intro<span style="color:#f92672">|</span><span style="color:#a6e22e">richtext</span> <span style="color:#75715e">}}</span>&lt;/div&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">{%</span> <span style="color:#66d9ef">for</span> post <span style="color:#66d9ef">in</span> page.get_children <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>        &lt;h2&gt;&lt;a href=&#34;<span style="color:#75715e">{%</span> <span style="color:#66d9ef">pageurl</span> post <span style="color:#75715e">%}</span>&#34;&gt;<span style="color:#75715e">{{</span> post.title <span style="color:#75715e">}}</span>&lt;/a&gt;&lt;/h2&gt;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">{{</span> post.specific.intro <span style="color:#75715e">}}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">{{</span> post.specific.body<span style="color:#f92672">|</span><span style="color:#a6e22e">richtext</span> <span style="color:#75715e">}}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">{%</span> <span style="color:#66d9ef">endfor</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{%</span> <span style="color:#66d9ef">endblock</span> <span style="color:#75715e">%}</span>
+</span></span></code></pre></div><p>从Wagtail Admin创建页面</p>
+<ol>
+<li>前往https://127.0.0.1/admin，并登录</li>
+<li>前往Pages页面，点击Home</li>
+<li>点击&hellip;，添加子页面</li>
+<li>选择BlogIndexPage</li>
+<li>使用Our Blog作为标题，并修改slug，点击发布</li>
+<li>在https://127.0.0.1/blog查看页面</li>
+</ol>
+<h1 id="二博文页面">二、博文页面</h1>
+<p>编辑<code>blog/models.py</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#f92672">from</span> django.db <span style="color:#f92672">import</span> models
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> wagtail.models <span style="color:#f92672">import</span> Page
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> wagtail.fields <span style="color:#f92672">import</span> RichTextField
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> wagtail.admin.panels <span style="color:#f92672">import</span> FieldPanel
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># add this:</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> wagtail.search <span style="color:#f92672">import</span> index
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># keep the definition of BlogIndexPage model, and add the BlogPage model:</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BlogPage</span>(Page):
+</span></span><span style="display:flex;"><span>    date <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>DateField(<span style="color:#e6db74">&#34;Post date&#34;</span>)
+</span></span><span style="display:flex;"><span>    intro <span style="color:#f92672">=</span> models<span style="color:#f92672">.</span>CharField(max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">250</span>)
+</span></span><span style="display:flex;"><span>    body <span style="color:#f92672">=</span> RichTextField(blank<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    search_fields <span style="color:#f92672">=</span> Page<span style="color:#f92672">.</span>search_fields <span style="color:#f92672">+</span> [
+</span></span><span style="display:flex;"><span>        index<span style="color:#f92672">.</span>SearchField(<span style="color:#e6db74">&#39;intro&#39;</span>),
+</span></span><span style="display:flex;"><span>        index<span style="color:#f92672">.</span>SearchField(<span style="color:#e6db74">&#39;body&#39;</span>),
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    content_panels <span style="color:#f92672">=</span> Page<span style="color:#f92672">.</span>content_panels <span style="color:#f92672">+</span> [
+</span></span><span style="display:flex;"><span>        FieldPanel(<span style="color:#e6db74">&#39;date&#39;</span>),
+</span></span><span style="display:flex;"><span>        FieldPanel(<span style="color:#e6db74">&#39;intro&#39;</span>),
+</span></span><span style="display:flex;"><span>        FieldPanel(<span style="color:#e6db74">&#39;body&#39;</span>),
+</span></span><span style="display:flex;"><span>    ]
+</span></span></code></pre></div><p>迁移数据库</p>
+<h1 id="三创建页面">三、创建页面</h1>
+<p><code>blog/templates/blog/blog_page.html</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-django" data-lang="django"><span style="display:flex;"><span><span style="color:#75715e">{%</span> <span style="color:#66d9ef">extends</span> <span style="color:#e6db74">&#34;base.html&#34;</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{%</span> <span style="color:#66d9ef">load</span> wagtailcore_tags <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{%</span> <span style="color:#66d9ef">block</span> body_class <span style="color:#75715e">%}</span>template-blogpage<span style="color:#75715e">{%</span> <span style="color:#66d9ef">endblock</span> <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{%</span> <span style="color:#66d9ef">block</span> content <span style="color:#75715e">%}</span>
+</span></span><span style="display:flex;"><span>    &lt;h1&gt;<span style="color:#75715e">{{</span> page.title <span style="color:#75715e">}}</span>&lt;/h1&gt;
+</span></span><span style="display:flex;"><span>    &lt;p class=&#34;meta&#34;&gt;<span style="color:#75715e">{{</span> page.date <span style="color:#75715e">}}</span>&lt;/p&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;div class=&#34;intro&#34;&gt;<span style="color:#75715e">{{</span> page.intro <span style="color:#75715e">}}</span>&lt;/div&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">{{</span> page.body<span style="color:#f92672">|</span><span style="color:#a6e22e">richtext</span> <span style="color:#75715e">}}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    &lt;p&gt;&lt;a href=&#34;<span style="color:#75715e">{{</span> page.get_parent.url <span style="color:#75715e">}}</span>&#34;&gt;Return to blog&lt;/a&gt;&lt;/p&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">{%</span> <span style="color:#66d9ef">endblock</span> <span style="color:#75715e">%}</span>
+</span></span></code></pre></div><ol>
+<li>进入Wagtail Admin页面，点击Pages，点击Home</li>
+<li>在Our Blog，点击&hellip;，选择Add child page</li>
+<li>选择Blog page</li>
+</ol>
+
+</content>
+<p>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

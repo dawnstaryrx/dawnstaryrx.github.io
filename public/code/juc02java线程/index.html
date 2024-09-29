@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="http://localhost:1313/images/favicon.png" />
+<title>[JUC02]Java线程 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+<meta name="title" content="[JUC02]Java线程" />
+<meta name="description" content="一、创建和运行线程 Java程序在启动时，都已经创建了一个主线程。
+1. 方法一：直接使用Thread // 创建线程对象，指定名字t1 Thread t = new Thread(&#34;t1&#34;){ public void run(){ // 要执行的任务 log.debug(&#34;hello&#34;); } }; // 启动线程 t.start(); log.debug(&#34;hello main&#34;); 结果
+2. 方法二：使用Runnable配合Thread 把【线程】和【任务】（要执行的代码）分开
+Thread代表线程 Runnable代表可运行的任务 Runnable runnable = new Runnable() { @Override public void run() { // 要执行的任务 log.debug(&#34;running&#34;); } }; // 创建线程对象 Thread t1 = new Thread(runnable, &#34;t1&#34;); // 启动线程 t1.start(); 3. lambda简化 Java8以后使用lambda精简代码
+Runnable task2 = () -&gt; log.debug(&#34;task2&#34;); Thread t2 = new Thread(task2, &#34;t2&#34;); t2." />
+<meta name="keywords" content="Java," />
+
+
+<meta property="og:url" content="http://localhost:1313/code/juc02java%E7%BA%BF%E7%A8%8B/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
+  <meta property="og:title" content="[JUC02]Java线程">
+  <meta property="og:description" content="一、创建和运行线程 Java程序在启动时，都已经创建了一个主线程。
+1. 方法一：直接使用Thread // 创建线程对象，指定名字t1 Thread t = new Thread(&#34;t1&#34;){ public void run(){ // 要执行的任务 log.debug(&#34;hello&#34;); } }; // 启动线程 t.start(); log.debug(&#34;hello main&#34;); 结果
+2. 方法二：使用Runnable配合Thread 把【线程】和【任务】（要执行的代码）分开
+Thread代表线程 Runnable代表可运行的任务 Runnable runnable = new Runnable() { @Override public void run() { // 要执行的任务 log.debug(&#34;running&#34;); } }; // 创建线程对象 Thread t1 = new Thread(runnable, &#34;t1&#34;); // 启动线程 t1.start(); 3. lambda简化 Java8以后使用lambda精简代码
+Runnable task2 = () -&gt; log.debug(&#34;task2&#34;); Thread t2 = new Thread(task2, &#34;t2&#34;); t2.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="code">
+    <meta property="article:published_time" content="2024-07-24T09:31:04+08:00">
+    <meta property="article:modified_time" content="2024-07-24T09:31:04+08:00">
+    <meta property="article:tag" content="Java">
+    <meta property="og:image" content="http://localhost:1313/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/share.png">
+  <meta name="twitter:title" content="[JUC02]Java线程">
+  <meta name="twitter:description" content="一、创建和运行线程 Java程序在启动时，都已经创建了一个主线程。
+1. 方法一：直接使用Thread // 创建线程对象，指定名字t1 Thread t = new Thread(&#34;t1&#34;){ public void run(){ // 要执行的任务 log.debug(&#34;hello&#34;); } }; // 启动线程 t.start(); log.debug(&#34;hello main&#34;); 结果
+2. 方法二：使用Runnable配合Thread 把【线程】和【任务】（要执行的代码）分开
+Thread代表线程 Runnable代表可运行的任务 Runnable runnable = new Runnable() { @Override public void run() { // 要执行的任务 log.debug(&#34;running&#34;); } }; // 创建线程对象 Thread t1 = new Thread(runnable, &#34;t1&#34;); // 启动线程 t1.start(); 3. lambda简化 Java8以后使用lambda精简代码
+Runnable task2 = () -&gt; log.debug(&#34;task2&#34;); Thread t2 = new Thread(task2, &#34;t2&#34;); t2.">
+
+
+
+
+  <meta itemprop="name" content="[JUC02]Java线程">
+  <meta itemprop="description" content="一、创建和运行线程 Java程序在启动时，都已经创建了一个主线程。
+1. 方法一：直接使用Thread // 创建线程对象，指定名字t1 Thread t = new Thread(&#34;t1&#34;){ public void run(){ // 要执行的任务 log.debug(&#34;hello&#34;); } }; // 启动线程 t.start(); log.debug(&#34;hello main&#34;); 结果
+2. 方法二：使用Runnable配合Thread 把【线程】和【任务】（要执行的代码）分开
+Thread代表线程 Runnable代表可运行的任务 Runnable runnable = new Runnable() { @Override public void run() { // 要执行的任务 log.debug(&#34;running&#34;); } }; // 创建线程对象 Thread t1 = new Thread(runnable, &#34;t1&#34;); // 启动线程 t1.start(); 3. lambda简化 Java8以后使用lambda精简代码
+Runnable task2 = () -&gt; log.debug(&#34;task2&#34;); Thread t2 = new Thread(task2, &#34;t2&#34;); t2.">
+  <meta itemprop="datePublished" content="2024-07-24T09:31:04+08:00">
+  <meta itemprop="dateModified" content="2024-07-24T09:31:04+08:00">
+  <meta itemprop="wordCount" content="450">
+  <meta itemprop="image" content="http://localhost:1313/images/share.png">
+  <meta itemprop="keywords" content="Java">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/myproject">我的项目</a>
+
+
+<a href="/dailyblog">随笔</a>
+
+
+<a href="/note">笔记</a>
+
+
+<a href="/codetravel">代码</a>
+
+
+<a href="/ai">AI</a>
+
+
+<a href="/rss">RSS</a>
+
+</nav>
+</header>
+  <main>
+
+<content>
+  <h1 id="一创建和运行线程">一、创建和运行线程</h1>
+<p>Java程序在启动时，都已经创建了一个主线程。</p>
+<h2 id="1-方法一直接使用thread">1. 方法一：直接使用Thread</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 创建线程对象，指定名字t1</span>
+</span></span><span style="display:flex;"><span>Thread t <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread(<span style="color:#e6db74">&#34;t1&#34;</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span>(){
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 要执行的任务</span>
+</span></span><span style="display:flex;"><span>        log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;hello&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 启动线程</span>
+</span></span><span style="display:flex;"><span>t.<span style="color:#a6e22e">start</span>();
+</span></span><span style="display:flex;"><span>log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;hello main&#34;</span>);
+</span></span></code></pre></div><p>结果</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F25%2F81ee6e030a10ea2c442aa50dfbc0f8c7-image-20240725075318286-801398.png" alt="image-20240725075318286"></p>
+<h2 id="2-方法二使用runnable配合thread">2. 方法二：使用Runnable配合Thread</h2>
+<p>把【线程】和【任务】（要执行的代码）分开</p>
+<ul>
+<li>Thread代表线程</li>
+<li>Runnable代表可运行的任务</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Runnable runnable <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Runnable() {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 要执行的任务</span>
+</span></span><span style="display:flex;"><span>        log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;running&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 创建线程对象</span>
+</span></span><span style="display:flex;"><span>Thread t1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread(runnable, <span style="color:#e6db74">&#34;t1&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 启动线程</span>
+</span></span><span style="display:flex;"><span>t1.<span style="color:#a6e22e">start</span>();
+</span></span></code></pre></div><h2 id="3-lambda简化">3. lambda简化</h2>
+<p>Java8以后使用lambda精简代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Runnable task2 <span style="color:#f92672">=</span> () <span style="color:#f92672">-&gt;</span> log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;task2&#34;</span>);
+</span></span><span style="display:flex;"><span>Thread t2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread(task2, <span style="color:#e6db74">&#34;t2&#34;</span>);
+</span></span><span style="display:flex;"><span>t2.<span style="color:#a6e22e">start</span>();
+</span></span></code></pre></div><h2 id="4-thread与runnable的关系">4. Thread与Runnable的关系</h2>
+<ul>
+<li>方法一是把线程和任务合并在了一起，方法二是把线程和任务分开了</li>
+<li>用Runnable更容易与线程池等高级API配合</li>
+<li>用Runnable让任务类脱离了Thread继承体系，更灵活</li>
+</ul>
+<h2 id="5-方法三futuretask配合thread">5. 方法三：FutureTask配合Thread</h2>
+<p>FutureTask能够接收Callable类型的参数，用来处理有返回结果的情况</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 创建任务对象</span>
+</span></span><span style="display:flex;"><span>FutureTask<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> task3 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> FutureTask<span style="color:#f92672">&lt;&gt;</span>(() <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;task3&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> 100;
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">new</span> Thread(task3, <span style="color:#e6db74">&#34;t3&#34;</span>).<span style="color:#a6e22e">start</span>();
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 主线程阻塞，同步等待task执行完毕的结果</span>
+</span></span><span style="display:flex;"><span>Integer result <span style="color:#f92672">=</span> task3.<span style="color:#a6e22e">get</span>();
+</span></span><span style="display:flex;"><span>log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;result: {}&#34;</span>, result);
+</span></span></code></pre></div><h1 id="二观察多个线程同时运行">二、观察多个线程同时运行</h1>
+<ul>
+<li>交替执行</li>
+<li>谁先谁后，不由我们控制</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">new</span> Thread(() <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">true</span>){
+</span></span><span style="display:flex;"><span>        log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;running&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}, <span style="color:#e6db74">&#34;t1&#34;</span>).<span style="color:#a6e22e">start</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">new</span> Thread(() <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#66d9ef">true</span>){
+</span></span><span style="display:flex;"><span>        log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;running&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}, <span style="color:#e6db74">&#34;t2&#34;</span>).<span style="color:#a6e22e">start</span>();
+</span></span></code></pre></div><h1 id="三查看进程线程的方法">三、查看进程线程的方法</h1>
+<h2 id="1-windows">1. Windows</h2>
+<ul>
+<li>Windows管理器</li>
+<li>tasklist 查看进程</li>
+<li>taskkill 杀死进程</li>
+</ul>
+<h2 id="2-linux">2. Linux</h2>
+<ul>
+<li>ps -fe 查看所有进程</li>
+<li>ps -fT -p &lt;PID&gt; 查看某个进程PID的所有线程</li>
+<li>kill 杀死进程</li>
+<li>top 按大写H切换是否显示线程</li>
+<li>top -H -p &lt;PID&gt;  查看某个进程PID的所有线程</li>
+</ul>
+<h2 id="3-java">3. Java</h2>
+<ul>
+<li>jps命令 查看所有Java进程</li>
+<li>jstack &lt;PID&gt; 查看某个Java进程的所有线程状态</li>
+<li>jconsole 查看某个Java进程中线程的运行情况 图形界面</li>
+</ul>
+<h1 id="四线程运行的原理">四、线程运行的原理</h1>
+<h2 id="1-栈与栈帧">1. 栈与栈帧</h2>
+<p>Java Virtual Machine Stacks (Java 虚拟机栈)</p>
+<p>JVM中由堆、栈、方法去所组成。栈内存是给线程用的，每个线程启动后，虚拟机就会为其分配一块栈内存。</p>
+<ul>
+<li>每个栈由多个栈帧Frame组成，对应着每次方法调用时所占用的内存</li>
+<li>每个线程只能有一个活动栈帧，对应着当前正在执行的那个方法</li>
+</ul>
+<h2 id="2-线程上下文切换-thread-context-switch">2. 线程上下文切换 Thread Context Switch</h2>
+<p>因为以下一些原因导致CPU不再执行当前的线程，转而执行另一个线程的代码</p>
+<ul>
+<li>线程的CPU时间片用完</li>
+<li>垃圾回收</li>
+<li>有更高优先级的线程需要运行</li>
+<li>线程自己调用了sleep/yield/wait/join/park/synchronized/lock等方法程序</li>
+</ul>
+<p>当Context Switch发生时，需要由操作系统保存当前线程的状态，并恢复另一个线程的状态，Java中对应的概念就是程序计数器，它的作用是记住下一条JVM指令的执行地址，是线程私有的</p>
+<ul>
+<li>状态包括程序计数器、虚拟机栈中每个栈帧的信息，如局部变量、操作数栈、返回地址等</li>
+<li>Context Switch频繁发生会影响性能</li>
+</ul>
+<h1 id="五常见方法">五、常见方法</h1>
+<h2 id="1-常见方法">1. 常见方法</h2>
+<table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>static</th>
+<th>功能说明</th>
+<th style="text-align:center">注意</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start()</td>
+<td></td>
+<td>启动一个新线程，在新的线程运行 run 方法中的代码</td>
+<td style="text-align:center">start 方法只是让线程进入就绪，里面代码不一定立刻 运行（CPU 的时间片还没分给它）。每个线程对象的 start方法只能调用一次，如果调用了多次会出现 IllegalThreadStateException</td>
+</tr>
+<tr>
+<td>run()</td>
+<td></td>
+<td>新线程启动后会调用的方法</td>
+<td style="text-align:center">如果在构造 Thread 对象时传递了 Runnable 参数，则线程启动后会调用 Runnable 中的 run 方法，否则默认不执行任何操作。但可以创建 Thread 的子类对象， 来覆盖默认行为</td>
+</tr>
+<tr>
+<td>join()</td>
+<td></td>
+<td>等待线程运行结束</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>join(long n)</td>
+<td></td>
+<td>等待线程运行结 束,最多等待 n  毫秒</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>getId()</td>
+<td></td>
+<td>获取线程长整型的 id</td>
+<td style="text-align:center">id 唯一</td>
+</tr>
+<tr>
+<td>getName()</td>
+<td></td>
+<td>获取线程名</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>setName(String)</td>
+<td></td>
+<td>修改线程名</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>getPriority()</td>
+<td></td>
+<td>获取线程优先级</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>setPriority(int)</td>
+<td></td>
+<td>修改线程优先级</td>
+<td style="text-align:center">java中规定线程优先级是1~10 的整数，较大的优先级 能提高该线程被 CPU 调度的机率</td>
+</tr>
+<tr>
+<td>getState()</td>
+<td></td>
+<td>获取线程状态</td>
+<td style="text-align:center">Java 中线程状态是用 6 个 enum 表示，分别为： NEW, RUNNABLE, BLOCKED, WAITING,  TIMED_WAITING, TERMINATED</td>
+</tr>
+<tr>
+<td>isInterrupted()</td>
+<td></td>
+<td>判断是否被打 断， 不会清除打断标记</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>isAlive()</td>
+<td></td>
+<td>线程是否存活（还没有运行完毕）</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>interrupt()</td>
+<td></td>
+<td>打断线程</td>
+<td style="text-align:center">如果被打断线程正在 sleep，wait，join 会导致被打断 的线程抛出 InterruptedException，并清除打断标记 ；如果打断的正在运行的线程，则会设置打断标记 ；park 的线程被打断，也会设置打断标记</td>
+</tr>
+<tr>
+<td>interrupted()</td>
+<td>static</td>
+<td>判断当前线程是否被打断</td>
+<td style="text-align:center">会清除打断标记</td>
+</tr>
+<tr>
+<td>currentThread()</td>
+<td>static</td>
+<td>获取当前正在执</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>sleep(long n)</td>
+<td>static</td>
+<td>让当前执行的线 程休眠n毫秒， 休眠时让出 cpu  的时间片给其它 线程</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>yield()</td>
+<td>static</td>
+<td>提示线程调度器 让出当前线程对CPU的使用 主要是为了测试和调试</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-sleep-与-yield">2. sleep 与 yield</h2>
+<p>sleep</p>
+<ul>
+<li>调用sleep会让当前线程从Running进入Timed Waiting状态</li>
+<li>其它线程可以使用interrupt方法打断正在睡眠的线程，这时sleep方法会抛出InterruptedException</li>
+<li>睡眠结束后的线程未必会立刻得到执行</li>
+<li>建议用TimeUnit的sleep代替Thread的sleep来获得更好的可读性</li>
+</ul>
+<p>yield</p>
+<ul>
+<li>调用yield会让当前线程从Running进入Runnable状态，然后调度执行其它同优先级的线程。如果这时没有同优先级的线程，那么不能保证让当前线程暂停的效果</li>
+<li>具体的实现依赖于操作系统的任务调度器</li>
+</ul>
+<h2 id="3-线程优先级">3. 线程优先级</h2>
+<ul>
+<li>线程优先级会提示调度器优先调度该线程，但它仅仅是一个提示，调度器可以忽略它。</li>
+<li>如果CPU比较忙，那么优先级高的线程会获得更多的时间片，但CPU闲时，优先级没有作用</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Runnable task1 <span style="color:#f92672">=</span> () <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> count <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (;;){
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;-----&gt;1     &#34;</span><span style="color:#f92672">+</span>count<span style="color:#f92672">++</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>Runnable task2 <span style="color:#f92672">=</span> () <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> count <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (;;){
+</span></span><span style="display:flex;"><span>        Thread.<span style="color:#a6e22e">yield</span>();
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;     -----&gt;2    &#34;</span><span style="color:#f92672">+</span>count<span style="color:#f92672">++</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>Thread t1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread(task1, <span style="color:#e6db74">&#34;t1&#34;</span>);
+</span></span><span style="display:flex;"><span>Thread t2 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread(task2, <span style="color:#e6db74">&#34;t2&#34;</span>);
+</span></span><span style="display:flex;"><span>t1.<span style="color:#a6e22e">setPriority</span>(Thread.<span style="color:#a6e22e">MAX_PRIORITY</span>);
+</span></span><span style="display:flex;"><span>t2.<span style="color:#a6e22e">setPriority</span>(Thread.<span style="color:#a6e22e">MIN_PRIORITY</span>);
+</span></span><span style="display:flex;"><span>t1.<span style="color:#a6e22e">start</span>();
+</span></span><span style="display:flex;"><span>t2.<span style="color:#a6e22e">start</span>();
+</span></span></code></pre></div><h2 id="4-sleep应用-防止cpu占用100">4. sleep应用-防止CPU占用100%</h2>
+<h3 id="sleep实现">sleep实现</h3>
+<p>在没有利用CPU来计算时，不要让while(true)空转浪费CPU，这时可以使用yeild或者sleep来让出CPU的使用权给其他程序。</p>
+<pre tabindex="0"><code>while (true){
+    try{
+        Thread.sleep(50);
+    }catch (InterruptedException e){
+        e.printStackTrace();
+    }
+}
+</code></pre><ul>
+<li>可以用wait或者条件变量达到类似的效果</li>
+<li>不同的是，后两种都需要加锁，并且需要相应的唤醒操作，一般适用于需要同步的场景</li>
+<li>sleep适用于无需锁同步的场景</li>
+</ul>
+<h2 id="5-join">5. join</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> InterruptedException {
+</span></span><span style="display:flex;"><span>    test1();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test1</span>() <span style="color:#66d9ef">throws</span> InterruptedException {
+</span></span><span style="display:flex;"><span>    log.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">&#34;开始&#34;</span>);
+</span></span><span style="display:flex;"><span>    Thread t1 <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread(() <span style="color:#f92672">-&gt;</span> {
+</span></span><span style="display:flex;"><span>        log.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">&#34;t1 开始&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            sleep(1);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (InterruptedException e) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException(e);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        log.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">&#34;t1 结束&#34;</span>);
+</span></span><span style="display:flex;"><span>        r <span style="color:#f92672">=</span> 10;
+</span></span><span style="display:flex;"><span>    } , <span style="color:#e6db74">&#34;t1&#34;</span>);
+</span></span><span style="display:flex;"><span>    t1.<span style="color:#a6e22e">start</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// t1.join(); // 让线程对象加入到主线程中</span>
+</span></span><span style="display:flex;"><span>    log.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">&#34;r = {}&#34;</span>, r);
+</span></span><span style="display:flex;"><span>    log.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">&#34;结束&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+</content>
+<p>
+  
+  <a href="http://localhost:1313/tag/java/">#Java</a>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

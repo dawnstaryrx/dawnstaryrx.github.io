@@ -5,15 +5,18 @@
 {{ with .Site.GetPage "/myproject" }}
 <a href="{{ "myproject" | relURL }}">我的项目</a>
 {{ end }}
-{{ with .Site.GetPage "/dailyblog" }}
-<a href="{{ "dailyblog" | relURL }}">随笔</a>
+{{ with .Site.GetPage "/blog" }}
+<a href="{{ "blog" | relURL }}">随笔</a>
 {{ end }}
 {{ with .Site.GetPage "/note" }}
 <a href="{{ "note" | relURL }}">笔记</a>
 {{ end }}
-{{ with .Site.GetPage "/codetravel" }}
-<a href="{{ "codetravel" | relURL }}">代码旅程</a>
+{{ with .Site.GetPage "/code" }}
+<a href="{{ "codetravel" | relURL }}">代码</a>
 {{ end }}
 {{ with .Site.GetPage "/rss" }}
-<a href="{{ "rss" | relURL }}">RSS分享</a>
+<a href="{{ "ai" | relURL }}">AI</a>
+{{ end }}
+{{ with .Site.GetPage "/rss" }}
+<a href="{{ "rss" | relURL }}">RSS</a>
 {{ end }}
