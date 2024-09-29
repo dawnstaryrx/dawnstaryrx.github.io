@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="http://localhost:1313/images/favicon.png" />
+<title>【Java NIO5】NIO与BIO | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+<meta name="title" content="【Java NIO5】NIO与BIO" />
+<meta name="description" content="5. NIO vs BIO 5.1 stream vs channel stream 不会自动缓冲数据，channel 会利用系统提供的发送缓冲区、接收缓冲区（更为底层） stream 仅支持阻塞 API，channel 同时支持阻塞、非阻塞 API，网络 channel 可配合 selector 实现多路复用 二者均为全双工，即读写可以同时进行 5.2 IO 模型 同步阻塞、同步非阻塞、同步多路复用、异步阻塞（没有此情况）、异步非阻塞
+同步：线程自己去获取结果（一个线程） 异步：线程自己不去获取结果，而是由其它线程送结果（至少两个线程） 当调用一次 channel.read 或 stream.read 后，会切换至操作系统内核态来完成真正数据读取，而读取又分为两个阶段，分别为：
+等待数据阶段 复制数据阶段 阻塞 IO
+非阻塞 IO
+多路复用
+信号驱动
+异步 IO
+阻塞 IO vs 多路复用
+🔖 参考 UNIX 网络编程 - 卷 I
+5.3 零拷贝 传统 IO 问题 传统的 IO 将一个文件通过 socket 写出
+File f = new File(&#34;helloword/data.txt&#34;); RandomAccessFile file = new RandomAccessFile(file, &#34;r&#34;); byte[] buf = new byte[(int)f." />
+<meta name="keywords" content="Java,Netty," />
+
+
+<meta property="og:url" content="http://localhost:1313/java/javanio5nio%E4%B8%8Ebio/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
+  <meta property="og:title" content="【Java NIO5】NIO与BIO">
+  <meta property="og:description" content="5. NIO vs BIO 5.1 stream vs channel stream 不会自动缓冲数据，channel 会利用系统提供的发送缓冲区、接收缓冲区（更为底层） stream 仅支持阻塞 API，channel 同时支持阻塞、非阻塞 API，网络 channel 可配合 selector 实现多路复用 二者均为全双工，即读写可以同时进行 5.2 IO 模型 同步阻塞、同步非阻塞、同步多路复用、异步阻塞（没有此情况）、异步非阻塞
+同步：线程自己去获取结果（一个线程） 异步：线程自己不去获取结果，而是由其它线程送结果（至少两个线程） 当调用一次 channel.read 或 stream.read 后，会切换至操作系统内核态来完成真正数据读取，而读取又分为两个阶段，分别为：
+等待数据阶段 复制数据阶段 阻塞 IO
+非阻塞 IO
+多路复用
+信号驱动
+异步 IO
+阻塞 IO vs 多路复用
+🔖 参考 UNIX 网络编程 - 卷 I
+5.3 零拷贝 传统 IO 问题 传统的 IO 将一个文件通过 socket 写出
+File f = new File(&#34;helloword/data.txt&#34;); RandomAccessFile file = new RandomAccessFile(file, &#34;r&#34;); byte[] buf = new byte[(int)f.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="java">
+    <meta property="article:published_time" content="2024-07-12T09:53:24+08:00">
+    <meta property="article:modified_time" content="2024-07-12T09:53:24+08:00">
+    <meta property="article:tag" content="Java">
+    <meta property="article:tag" content="Netty">
+    <meta property="og:image" content="http://localhost:1313/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/share.png">
+  <meta name="twitter:title" content="【Java NIO5】NIO与BIO">
+  <meta name="twitter:description" content="5. NIO vs BIO 5.1 stream vs channel stream 不会自动缓冲数据，channel 会利用系统提供的发送缓冲区、接收缓冲区（更为底层） stream 仅支持阻塞 API，channel 同时支持阻塞、非阻塞 API，网络 channel 可配合 selector 实现多路复用 二者均为全双工，即读写可以同时进行 5.2 IO 模型 同步阻塞、同步非阻塞、同步多路复用、异步阻塞（没有此情况）、异步非阻塞
+同步：线程自己去获取结果（一个线程） 异步：线程自己不去获取结果，而是由其它线程送结果（至少两个线程） 当调用一次 channel.read 或 stream.read 后，会切换至操作系统内核态来完成真正数据读取，而读取又分为两个阶段，分别为：
+等待数据阶段 复制数据阶段 阻塞 IO
+非阻塞 IO
+多路复用
+信号驱动
+异步 IO
+阻塞 IO vs 多路复用
+🔖 参考 UNIX 网络编程 - 卷 I
+5.3 零拷贝 传统 IO 问题 传统的 IO 将一个文件通过 socket 写出
+File f = new File(&#34;helloword/data.txt&#34;); RandomAccessFile file = new RandomAccessFile(file, &#34;r&#34;); byte[] buf = new byte[(int)f.">
+
+
+
+
+  <meta itemprop="name" content="【Java NIO5】NIO与BIO">
+  <meta itemprop="description" content="5. NIO vs BIO 5.1 stream vs channel stream 不会自动缓冲数据，channel 会利用系统提供的发送缓冲区、接收缓冲区（更为底层） stream 仅支持阻塞 API，channel 同时支持阻塞、非阻塞 API，网络 channel 可配合 selector 实现多路复用 二者均为全双工，即读写可以同时进行 5.2 IO 模型 同步阻塞、同步非阻塞、同步多路复用、异步阻塞（没有此情况）、异步非阻塞
+同步：线程自己去获取结果（一个线程） 异步：线程自己不去获取结果，而是由其它线程送结果（至少两个线程） 当调用一次 channel.read 或 stream.read 后，会切换至操作系统内核态来完成真正数据读取，而读取又分为两个阶段，分别为：
+等待数据阶段 复制数据阶段 阻塞 IO
+非阻塞 IO
+多路复用
+信号驱动
+异步 IO
+阻塞 IO vs 多路复用
+🔖 参考 UNIX 网络编程 - 卷 I
+5.3 零拷贝 传统 IO 问题 传统的 IO 将一个文件通过 socket 写出
+File f = new File(&#34;helloword/data.txt&#34;); RandomAccessFile file = new RandomAccessFile(file, &#34;r&#34;); byte[] buf = new byte[(int)f.">
+  <meta itemprop="datePublished" content="2024-07-12T09:53:24+08:00">
+  <meta itemprop="dateModified" content="2024-07-12T09:53:24+08:00">
+  <meta itemprop="wordCount" content="650">
+  <meta itemprop="image" content="http://localhost:1313/images/share.png">
+  <meta itemprop="keywords" content="Java,Netty">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/myproject">我的项目</a>
+
+
+<a href="/dailyblog">生活随笔</a>
+
+
+<a href="/codetravel">代码旅程</a>
+
+
+<a href="/interviewnote">面试笔记</a>
+
+</nav>
+</header>
+  <main>
+
+<content>
+  <h2 id="5-nio-vs-bio">5. NIO vs BIO</h2>
+<h3 id="51-stream-vs-channel">5.1 stream vs channel</h3>
+<ul>
+<li>stream 不会自动缓冲数据，channel 会利用系统提供的发送缓冲区、接收缓冲区（更为底层）</li>
+<li>stream 仅支持阻塞 API，channel 同时支持阻塞、非阻塞 API，网络 channel 可配合 selector 实现多路复用</li>
+<li>二者均为全双工，即读写可以同时进行</li>
+</ul>
+<h3 id="52-io-模型">5.2 IO 模型</h3>
+<p>同步阻塞、同步非阻塞、同步多路复用、异步阻塞（没有此情况）、异步非阻塞</p>
+<ul>
+<li>同步：线程自己去获取结果（一个线程）</li>
+<li>异步：线程自己不去获取结果，而是由其它线程送结果（至少两个线程）</li>
+</ul>
+<p>当调用一次 channel.read 或 stream.read 后，会切换至操作系统内核态来完成真正数据读取，而读取又分为两个阶段，分别为：</p>
+<ul>
+<li>等待数据阶段</li>
+<li>复制数据阶段</li>
+</ul>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2F9beda40e996875e42ae18f1a4010cb0e-0033-384633.png" alt=""></p>
+<ul>
+<li>
+<p>阻塞 IO</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2Fd6140fbe21ad3029c901c39fc656c80f-0039-19eff4.png" alt=""></p>
+</li>
+<li>
+<p>非阻塞  IO</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2Fbee47ff0353597736841cb77f39de290-0035-dad4c9.png" alt=""></p>
+</li>
+<li>
+<p>多路复用</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2F92295a6cadbef7f318b447c195cfdaaf-0038-bea04f.png" alt=""></p>
+</li>
+<li>
+<p>信号驱动</p>
+</li>
+<li>
+<p>异步 IO</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2Fd24fd0f79f08ba57c427e8105d1b723b-0037-7f4cdb.png" alt=""></p>
+</li>
+<li>
+<p>阻塞 IO vs 多路复用</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2Fb14515879b743602954685e6403970ad-0034-a50a71.png" alt=""></p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2Ffe68785fc885d9bbfa4e9fa6a973dbe3-0036-1d0bcd.png" alt=""></p>
+</li>
+</ul>
+<h4 id="-参考">🔖 参考</h4>
+<p>UNIX 网络编程 - 卷 I</p>
+<h3 id="53-零拷贝">5.3 零拷贝</h3>
+<h4 id="传统-io-问题">传统 IO 问题</h4>
+<p>传统的 IO 将一个文件通过 socket 写出</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>File f <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File(<span style="color:#e6db74">&#34;helloword/data.txt&#34;</span>);
+</span></span><span style="display:flex;"><span>RandomAccessFile file <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RandomAccessFile(file, <span style="color:#e6db74">&#34;r&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> buf <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>(<span style="color:#66d9ef">int</span>)f.<span style="color:#a6e22e">length</span>()<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>file.<span style="color:#a6e22e">read</span>(buf);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Socket socket <span style="color:#f92672">=</span> ...;
+</span></span><span style="display:flex;"><span>socket.<span style="color:#a6e22e">getOutputStream</span>().<span style="color:#a6e22e">write</span>(buf);
+</span></span></code></pre></div><p>内部工作流程是这样的：</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2Ff89991c08c85fc0760ce56280440b6b6-0024-ca205a.png" alt=""></p>
+<ol>
+<li>
+<p>java 本身并不具备 IO 读写能力，因此 read 方法调用后，要从 java 程序的<strong>用户态</strong>切换至<strong>内核态</strong>，去调用操作系统（Kernel）的读能力，将数据读入<strong>内核缓冲区</strong>。这期间用户线程阻塞，操作系统使用 DMA（Direct Memory Access）来实现文件读，其间也不会使用 cpu</p>
+<blockquote>
+<p>DMA 也可以理解为硬件单元，用来解放 cpu 完成文件 IO</p>
+</blockquote>
+</li>
+<li>
+<p>从<strong>内核态</strong>切换回<strong>用户态</strong>，将数据从<strong>内核缓冲区</strong>读入<strong>用户缓冲区</strong>（即 byte[] buf），这期间 cpu 会参与拷贝，无法利用 DMA</p>
+</li>
+<li>
+<p>调用 write 方法，这时将数据从<strong>用户缓冲区</strong>（byte[] buf）写入 <strong>socket 缓冲区</strong>，cpu 会参与拷贝</p>
+</li>
+<li>
+<p>接下来要向网卡写数据，这项能力 java 又不具备，因此又得从<strong>用户态</strong>切换至<strong>内核态</strong>，调用操作系统的写能力，使用 DMA 将 <strong>socket 缓冲区</strong>的数据写入网卡，不会使用 cpu</p>
+</li>
+</ol>
+<p>可以看到中间环节较多，java 的 IO 实际不是物理设备级别的读写，而是缓存的复制，底层的真正读写是操作系统来完成的</p>
+<ul>
+<li>用户态与内核态的切换发生了 3 次，这个操作比较重量级</li>
+<li>数据拷贝了共 4 次</li>
+</ul>
+<h4 id="nio-优化">NIO 优化</h4>
+<p>通过 DirectByteBuf</p>
+<ul>
+<li>ByteBuffer.allocate(10)  HeapByteBuffer 使用的还是 java 内存</li>
+<li>ByteBuffer.allocateDirect(10)  DirectByteBuffer 使用的是操作系统内存</li>
+</ul>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2Fc3dd38c405a8e36fc37c50dde0478ed8-0025-f05fe8.png" alt=""></p>
+<p>大部分步骤与优化前相同，不再赘述。唯有一点：java 可以使用 DirectByteBuf 将堆外内存映射到 jvm 内存中来直接访问使用</p>
+<ul>
+<li>这块内存不受 jvm 垃圾回收的影响，因此内存地址固定，有助于 IO 读写</li>
+<li>java 中的 DirectByteBuf 对象仅维护了此内存的虚引用，内存回收分成两步
+<ul>
+<li>DirectByteBuf 对象被垃圾回收，将虚引用加入引用队列</li>
+<li>通过专门线程访问引用队列，根据虚引用释放堆外内存</li>
+</ul>
+</li>
+<li>减少了一次数据拷贝，用户态与内核态的切换次数没有减少</li>
+</ul>
+<p>进一步优化（底层采用了 linux 2.1 后提供的 sendFile 方法），java 中对应着两个 channel 调用 transferTo/transferFrom 方法拷贝数据</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2Fded2b7613a6a8c4981724457f2157b22-0026-a6afba.png" alt=""></p>
+<ol>
+<li>java 调用 transferTo 方法后，要从 java 程序的<strong>用户态</strong>切换至<strong>内核态</strong>，使用 DMA将数据读入<strong>内核缓冲区</strong>，不会使用 cpu</li>
+<li>数据从<strong>内核缓冲区</strong>传输到 <strong>socket 缓冲区</strong>，cpu 会参与拷贝</li>
+<li>最后使用 DMA 将 <strong>socket 缓冲区</strong>的数据写入网卡，不会使用 cpu</li>
+</ol>
+<p>可以看到</p>
+<ul>
+<li>只发生了一次用户态与内核态的切换</li>
+<li>数据拷贝了 3 次</li>
+</ul>
+<p>进一步优化（linux 2.4）</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F11%2Ff6c24eee6470e9511e439a78cbf37a99-0027-35c21f.png" alt=""></p>
+<ol>
+<li>java 调用 transferTo 方法后，要从 java 程序的<strong>用户态</strong>切换至<strong>内核态</strong>，使用 DMA将数据读入<strong>内核缓冲区</strong>，不会使用 cpu</li>
+<li>只会将一些 offset 和 length 信息拷入 <strong>socket 缓冲区</strong>，几乎无消耗</li>
+<li>使用 DMA 将 <strong>内核缓冲区</strong>的数据写入网卡，不会使用 cpu</li>
+</ol>
+<p>整个过程仅只发生了一次用户态与内核态的切换，数据拷贝了 2 次。所谓的【零拷贝】，并不是真正无拷贝，而是在不会拷贝重复数据到 jvm 内存中，零拷贝的优点有</p>
+<ul>
+<li>更少的用户态与内核态的切换</li>
+<li>不利用 cpu 计算，减少 cpu 缓存伪共享</li>
+<li>零拷贝适合小文件传输</li>
+</ul>
+<h3 id="53-aio">5.3 AIO</h3>
+<p>AIO 用来解决数据复制阶段的阻塞问题</p>
+<ul>
+<li>同步意味着，在进行读写操作时，线程需要等待结果，还是相当于闲置</li>
+<li>异步意味着，在进行读写操作时，线程不必等待结果，而是将来由操作系统来通过回调方式由另外的线程来获得结果</li>
+</ul>
+<blockquote>
+<p>异步模型需要底层操作系统（Kernel）提供支持</p>
+<ul>
+<li>Windows 系统通过 IOCP 实现了真正的异步 IO</li>
+<li>Linux 系统异步 IO 在 2.6 版本引入，但其底层实现还是用多路复用模拟了异步 IO，性能没有优势</li>
+</ul>
+</blockquote>
+<h4 id="文件-aio">文件 AIO</h4>
+<p>先来看看 AsynchronousFileChannel</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Slf4j</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AioDemo1</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>{
+</span></span><span style="display:flex;"><span>            AsynchronousFileChannel s <span style="color:#f92672">=</span> 
+</span></span><span style="display:flex;"><span>                AsynchronousFileChannel.<span style="color:#a6e22e">open</span>(
+</span></span><span style="display:flex;"><span>                	Paths.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#34;1.txt&#34;</span>), StandardOpenOption.<span style="color:#a6e22e">READ</span>);
+</span></span><span style="display:flex;"><span>            ByteBuffer buffer <span style="color:#f92672">=</span> ByteBuffer.<span style="color:#a6e22e">allocate</span>(2);
+</span></span><span style="display:flex;"><span>            log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;begin...&#34;</span>);
+</span></span><span style="display:flex;"><span>            s.<span style="color:#a6e22e">read</span>(buffer, 0, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">new</span> CompletionHandler<span style="color:#f92672">&lt;</span>Integer, ByteBuffer<span style="color:#f92672">&gt;</span>() {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span>(Integer result, ByteBuffer attachment) {
+</span></span><span style="display:flex;"><span>                    log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;read completed...{}&#34;</span>, result);
+</span></span><span style="display:flex;"><span>                    buffer.<span style="color:#a6e22e">flip</span>();
+</span></span><span style="display:flex;"><span>                    debug(buffer);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span>(Throwable exc, ByteBuffer attachment) {
+</span></span><span style="display:flex;"><span>                    log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;read failed...&#34;</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (IOException e) {
+</span></span><span style="display:flex;"><span>            e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        log.<span style="color:#a6e22e">debug</span>(<span style="color:#e6db74">&#34;do other things...&#34;</span>);
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">in</span>.<span style="color:#a6e22e">read</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>输出</p>
+<pre tabindex="0"><code>13:44:56 [DEBUG] [main] c.i.aio.AioDemo1 - begin...
+13:44:56 [DEBUG] [main] c.i.aio.AioDemo1 - do other things...
+13:44:56 [DEBUG] [Thread-5] c.i.aio.AioDemo1 - read completed...2
+         +-------------------------------------------------+
+         |  0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f |
++--------+-------------------------------------------------+----------------+
+|00000000| 61 0d                                           |a.              |
++--------+-------------------------------------------------+----------------+
+</code></pre><p>可以看到</p>
+<ul>
+<li>响应文件读取成功的是另一个线程 Thread-5</li>
+<li>主线程并没有 IO 操作阻塞</li>
+</ul>
+<h4 id="-守护线程">💡 守护线程</h4>
+<p>默认文件 AIO 使用的线程都是守护线程，所以最后要执行 <code>System.in.read()</code> 以避免守护线程意外结束</p>
+<h4 id="网络-aio">网络 AIO</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AioServer</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> IOException {
+</span></span><span style="display:flex;"><span>        AsynchronousServerSocketChannel ssc <span style="color:#f92672">=</span> AsynchronousServerSocketChannel.<span style="color:#a6e22e">open</span>();
+</span></span><span style="display:flex;"><span>        ssc.<span style="color:#a6e22e">bind</span>(<span style="color:#66d9ef">new</span> InetSocketAddress(8080));
+</span></span><span style="display:flex;"><span>        ssc.<span style="color:#a6e22e">accept</span>(<span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">new</span> AcceptHandler(ssc));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">in</span>.<span style="color:#a6e22e">read</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">closeChannel</span>(AsynchronousSocketChannel sc) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;[%s] %s close\n&#34;</span>, Thread.<span style="color:#a6e22e">currentThread</span>().<span style="color:#a6e22e">getName</span>(), sc.<span style="color:#a6e22e">getRemoteAddress</span>());
+</span></span><span style="display:flex;"><span>            sc.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (IOException e) {
+</span></span><span style="display:flex;"><span>            e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ReadHandler</span> <span style="color:#66d9ef">implements</span> CompletionHandler<span style="color:#f92672">&lt;</span>Integer, ByteBuffer<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> AsynchronousSocketChannel sc;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ReadHandler</span>(AsynchronousSocketChannel sc) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">sc</span> <span style="color:#f92672">=</span> sc;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span>(Integer result, ByteBuffer attachment) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (result <span style="color:#f92672">==</span> <span style="color:#f92672">-</span>1) {
+</span></span><span style="display:flex;"><span>                    closeChannel(sc);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;[%s] %s read\n&#34;</span>, Thread.<span style="color:#a6e22e">currentThread</span>().<span style="color:#a6e22e">getName</span>(), sc.<span style="color:#a6e22e">getRemoteAddress</span>());
+</span></span><span style="display:flex;"><span>                attachment.<span style="color:#a6e22e">flip</span>();
+</span></span><span style="display:flex;"><span>                System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(Charset.<span style="color:#a6e22e">defaultCharset</span>().<span style="color:#a6e22e">decode</span>(attachment));
+</span></span><span style="display:flex;"><span>                attachment.<span style="color:#a6e22e">clear</span>();
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 处理完第一个 read 时，需要再次调用 read 方法来处理下一个 read 事件</span>
+</span></span><span style="display:flex;"><span>                sc.<span style="color:#a6e22e">read</span>(attachment, attachment, <span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">catch</span> (IOException e) {
+</span></span><span style="display:flex;"><span>                e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span>(Throwable exc, ByteBuffer attachment) {
+</span></span><span style="display:flex;"><span>            closeChannel(sc);
+</span></span><span style="display:flex;"><span>            exc.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WriteHandler</span> <span style="color:#66d9ef">implements</span> CompletionHandler<span style="color:#f92672">&lt;</span>Integer, ByteBuffer<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> AsynchronousSocketChannel sc;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">WriteHandler</span>(AsynchronousSocketChannel sc) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">sc</span> <span style="color:#f92672">=</span> sc;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span>(Integer result, ByteBuffer attachment) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果作为附件的 buffer 还有内容，需要再次 write 写出剩余内容</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (attachment.<span style="color:#a6e22e">hasRemaining</span>()) {
+</span></span><span style="display:flex;"><span>                sc.<span style="color:#a6e22e">write</span>(attachment);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span>(Throwable exc, ByteBuffer attachment) {
+</span></span><span style="display:flex;"><span>            exc.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>            closeChannel(sc);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AcceptHandler</span> <span style="color:#66d9ef">implements</span> CompletionHandler<span style="color:#f92672">&lt;</span>AsynchronousSocketChannel, Object<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> AsynchronousServerSocketChannel ssc;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">AcceptHandler</span>(AsynchronousServerSocketChannel ssc) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ssc</span> <span style="color:#f92672">=</span> ssc;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">completed</span>(AsynchronousSocketChannel sc, Object attachment) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>                System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;[%s] %s connected\n&#34;</span>, Thread.<span style="color:#a6e22e">currentThread</span>().<span style="color:#a6e22e">getName</span>(), sc.<span style="color:#a6e22e">getRemoteAddress</span>());
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">catch</span> (IOException e) {
+</span></span><span style="display:flex;"><span>                e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            ByteBuffer buffer <span style="color:#f92672">=</span> ByteBuffer.<span style="color:#a6e22e">allocate</span>(16);
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 读事件由 ReadHandler 处理</span>
+</span></span><span style="display:flex;"><span>            sc.<span style="color:#a6e22e">read</span>(buffer, buffer, <span style="color:#66d9ef">new</span> ReadHandler(sc));
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 写事件由 WriteHandler 处理</span>
+</span></span><span style="display:flex;"><span>            sc.<span style="color:#a6e22e">write</span>(Charset.<span style="color:#a6e22e">defaultCharset</span>().<span style="color:#a6e22e">encode</span>(<span style="color:#e6db74">&#34;server hello!&#34;</span>), ByteBuffer.<span style="color:#a6e22e">allocate</span>(16), <span style="color:#66d9ef">new</span> WriteHandler(sc));
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 处理完第一个 accpet 时，需要再次调用 accept 方法来处理下一个 accept 事件</span>
+</span></span><span style="display:flex;"><span>            ssc.<span style="color:#a6e22e">accept</span>(<span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">failed</span>(Throwable exc, Object attachment) {
+</span></span><span style="display:flex;"><span>            exc.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+</content>
+<p>
+  
+  <a href="http://localhost:1313/blog/java/">#Java</a>
+  
+  <a href="http://localhost:1313/blog/netty/">#Netty</a>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

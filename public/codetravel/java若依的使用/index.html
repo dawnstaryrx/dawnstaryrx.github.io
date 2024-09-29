@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="http://localhost:1313/images/favicon.png" />
+<title>[Java]若依的使用 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+<meta name="title" content="[Java]若依的使用" />
+<meta name="description" content="一、若依搭建 前后端分离版本，前端使用Vue3，后端使用Springboot。
+软件环境：JDK11，MySQL8，Redis，Maven，Node
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3
+后端运行 Git克隆并初始化项目，git clone xxx； MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本；密码在ruoyi/admin/src/main/resources/application-druid.yml配置文件中修改； 启动Redis； 运行后端项目。 前端运行 Git克隆并初始化项目； 安装依赖，npm install； 运行前端项目，npm run dev。 二、功能详解 1. 系统管理 1.1 权限控制 RBAC(基于角色的访问控制)是一种广泛使用的访问控制模型，通过角色来分配和管理用户的菜单权限。
+1.2 数据字典 用于维护系统中常见的静态数据，如：性别，状态。 功能包括：字典类型管理，字典数据管理。 1.3 其他功能 参数设置：对系统中的参数进行动态维护；（login.vue 97行 注册开关） 通知公告：促进组织内部进行信息传递；（自己编写页面，如发送邮件） 日志管理：轻松追踪用户行为和系统运行状况。 2. 系统监控 2.1 监控相关 帮助开发者和运维快速了解应用程序的性能状态。
+在线用户：数据来自于Redis缓存 缓存列表 缓存监控 服务监控 数据监控：durid账号 密码（ruoyi 123456） 2.2 定时任务 提供方便友好的Web界面，实现动态管理任务。
+quartz模块task包下创建任务类； 添加任务规则； 启动任务。 3. 系统工具 3.1 表单构建 https://jakhuang.github.io/form-generator/#/
+3.2 代码生成 自动生成前后端CRUD代码； 提供三种生成模板：单表，树表（层级关系，能展开折叠，呈现父子关系，如部门表），主子表（一对多，如菜品表与口味表）。 四、项目结构 1. 后端部分 后端结构 ruoyi-admin：后台服务，包含通用功能的controller和启动类； ruoyi-common：通用工具。 annotation自定义注解，config全局配置，constant通用常量，core核心控制，enums通用枚举，exception通用异常，filter过滤器处理，utils通用工具类，xss自定义xss校验。 ruoyi-framework：框架核心。 aspectj自定义AOP，config系统配置，datasource多数据源，interceptor拦截器处理，manager异步处理，security权限控制，web前端控制。 ruoyi-generator：代码生成（可移除）。 ruoyi-quartz：定时任务（可移除）。 ruoyi-system：系统模块。domain，mapper，service。 ruoyi-ui。 项目中的配置 位于ruoyi-admin的resources目录下； i18n：国际化支持； META-INF：项目的元信息（描述数据的数据），无需修改。 mybatis：mabatis相关的配置； application." />
+<meta name="keywords" content="Java," />
+
+
+<meta property="og:url" content="http://localhost:1313/codetravel/java%E8%8B%A5%E4%BE%9D%E7%9A%84%E4%BD%BF%E7%94%A8/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
+  <meta property="og:title" content="[Java]若依的使用">
+  <meta property="og:description" content="一、若依搭建 前后端分离版本，前端使用Vue3，后端使用Springboot。
+软件环境：JDK11，MySQL8，Redis，Maven，Node
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3
+后端运行 Git克隆并初始化项目，git clone xxx； MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本；密码在ruoyi/admin/src/main/resources/application-druid.yml配置文件中修改； 启动Redis； 运行后端项目。 前端运行 Git克隆并初始化项目； 安装依赖，npm install； 运行前端项目，npm run dev。 二、功能详解 1. 系统管理 1.1 权限控制 RBAC(基于角色的访问控制)是一种广泛使用的访问控制模型，通过角色来分配和管理用户的菜单权限。
+1.2 数据字典 用于维护系统中常见的静态数据，如：性别，状态。 功能包括：字典类型管理，字典数据管理。 1.3 其他功能 参数设置：对系统中的参数进行动态维护；（login.vue 97行 注册开关） 通知公告：促进组织内部进行信息传递；（自己编写页面，如发送邮件） 日志管理：轻松追踪用户行为和系统运行状况。 2. 系统监控 2.1 监控相关 帮助开发者和运维快速了解应用程序的性能状态。
+在线用户：数据来自于Redis缓存 缓存列表 缓存监控 服务监控 数据监控：durid账号 密码（ruoyi 123456） 2.2 定时任务 提供方便友好的Web界面，实现动态管理任务。
+quartz模块task包下创建任务类； 添加任务规则； 启动任务。 3. 系统工具 3.1 表单构建 https://jakhuang.github.io/form-generator/#/
+3.2 代码生成 自动生成前后端CRUD代码； 提供三种生成模板：单表，树表（层级关系，能展开折叠，呈现父子关系，如部门表），主子表（一对多，如菜品表与口味表）。 四、项目结构 1. 后端部分 后端结构 ruoyi-admin：后台服务，包含通用功能的controller和启动类； ruoyi-common：通用工具。 annotation自定义注解，config全局配置，constant通用常量，core核心控制，enums通用枚举，exception通用异常，filter过滤器处理，utils通用工具类，xss自定义xss校验。 ruoyi-framework：框架核心。 aspectj自定义AOP，config系统配置，datasource多数据源，interceptor拦截器处理，manager异步处理，security权限控制，web前端控制。 ruoyi-generator：代码生成（可移除）。 ruoyi-quartz：定时任务（可移除）。 ruoyi-system：系统模块。domain，mapper，service。 ruoyi-ui。 项目中的配置 位于ruoyi-admin的resources目录下； i18n：国际化支持； META-INF：项目的元信息（描述数据的数据），无需修改。 mybatis：mabatis相关的配置； application.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="codetravel">
+    <meta property="article:published_time" content="2024-06-27T20:09:05+08:00">
+    <meta property="article:modified_time" content="2024-06-27T20:09:05+08:00">
+    <meta property="article:tag" content="Java">
+    <meta property="og:image" content="http://localhost:1313/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://localhost:1313/images/share.png">
+  <meta name="twitter:title" content="[Java]若依的使用">
+  <meta name="twitter:description" content="一、若依搭建 前后端分离版本，前端使用Vue3，后端使用Springboot。
+软件环境：JDK11，MySQL8，Redis，Maven，Node
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3
+后端运行 Git克隆并初始化项目，git clone xxx； MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本；密码在ruoyi/admin/src/main/resources/application-druid.yml配置文件中修改； 启动Redis； 运行后端项目。 前端运行 Git克隆并初始化项目； 安装依赖，npm install； 运行前端项目，npm run dev。 二、功能详解 1. 系统管理 1.1 权限控制 RBAC(基于角色的访问控制)是一种广泛使用的访问控制模型，通过角色来分配和管理用户的菜单权限。
+1.2 数据字典 用于维护系统中常见的静态数据，如：性别，状态。 功能包括：字典类型管理，字典数据管理。 1.3 其他功能 参数设置：对系统中的参数进行动态维护；（login.vue 97行 注册开关） 通知公告：促进组织内部进行信息传递；（自己编写页面，如发送邮件） 日志管理：轻松追踪用户行为和系统运行状况。 2. 系统监控 2.1 监控相关 帮助开发者和运维快速了解应用程序的性能状态。
+在线用户：数据来自于Redis缓存 缓存列表 缓存监控 服务监控 数据监控：durid账号 密码（ruoyi 123456） 2.2 定时任务 提供方便友好的Web界面，实现动态管理任务。
+quartz模块task包下创建任务类； 添加任务规则； 启动任务。 3. 系统工具 3.1 表单构建 https://jakhuang.github.io/form-generator/#/
+3.2 代码生成 自动生成前后端CRUD代码； 提供三种生成模板：单表，树表（层级关系，能展开折叠，呈现父子关系，如部门表），主子表（一对多，如菜品表与口味表）。 四、项目结构 1. 后端部分 后端结构 ruoyi-admin：后台服务，包含通用功能的controller和启动类； ruoyi-common：通用工具。 annotation自定义注解，config全局配置，constant通用常量，core核心控制，enums通用枚举，exception通用异常，filter过滤器处理，utils通用工具类，xss自定义xss校验。 ruoyi-framework：框架核心。 aspectj自定义AOP，config系统配置，datasource多数据源，interceptor拦截器处理，manager异步处理，security权限控制，web前端控制。 ruoyi-generator：代码生成（可移除）。 ruoyi-quartz：定时任务（可移除）。 ruoyi-system：系统模块。domain，mapper，service。 ruoyi-ui。 项目中的配置 位于ruoyi-admin的resources目录下； i18n：国际化支持； META-INF：项目的元信息（描述数据的数据），无需修改。 mybatis：mabatis相关的配置； application.">
+
+
+
+
+  <meta itemprop="name" content="[Java]若依的使用">
+  <meta itemprop="description" content="一、若依搭建 前后端分离版本，前端使用Vue3，后端使用Springboot。
+软件环境：JDK11，MySQL8，Redis，Maven，Node
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3
+后端运行 Git克隆并初始化项目，git clone xxx； MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本；密码在ruoyi/admin/src/main/resources/application-druid.yml配置文件中修改； 启动Redis； 运行后端项目。 前端运行 Git克隆并初始化项目； 安装依赖，npm install； 运行前端项目，npm run dev。 二、功能详解 1. 系统管理 1.1 权限控制 RBAC(基于角色的访问控制)是一种广泛使用的访问控制模型，通过角色来分配和管理用户的菜单权限。
+1.2 数据字典 用于维护系统中常见的静态数据，如：性别，状态。 功能包括：字典类型管理，字典数据管理。 1.3 其他功能 参数设置：对系统中的参数进行动态维护；（login.vue 97行 注册开关） 通知公告：促进组织内部进行信息传递；（自己编写页面，如发送邮件） 日志管理：轻松追踪用户行为和系统运行状况。 2. 系统监控 2.1 监控相关 帮助开发者和运维快速了解应用程序的性能状态。
+在线用户：数据来自于Redis缓存 缓存列表 缓存监控 服务监控 数据监控：durid账号 密码（ruoyi 123456） 2.2 定时任务 提供方便友好的Web界面，实现动态管理任务。
+quartz模块task包下创建任务类； 添加任务规则； 启动任务。 3. 系统工具 3.1 表单构建 https://jakhuang.github.io/form-generator/#/
+3.2 代码生成 自动生成前后端CRUD代码； 提供三种生成模板：单表，树表（层级关系，能展开折叠，呈现父子关系，如部门表），主子表（一对多，如菜品表与口味表）。 四、项目结构 1. 后端部分 后端结构 ruoyi-admin：后台服务，包含通用功能的controller和启动类； ruoyi-common：通用工具。 annotation自定义注解，config全局配置，constant通用常量，core核心控制，enums通用枚举，exception通用异常，filter过滤器处理，utils通用工具类，xss自定义xss校验。 ruoyi-framework：框架核心。 aspectj自定义AOP，config系统配置，datasource多数据源，interceptor拦截器处理，manager异步处理，security权限控制，web前端控制。 ruoyi-generator：代码生成（可移除）。 ruoyi-quartz：定时任务（可移除）。 ruoyi-system：系统模块。domain，mapper，service。 ruoyi-ui。 项目中的配置 位于ruoyi-admin的resources目录下； i18n：国际化支持； META-INF：项目的元信息（描述数据的数据），无需修改。 mybatis：mabatis相关的配置； application.">
+  <meta itemprop="datePublished" content="2024-06-27T20:09:05+08:00">
+  <meta itemprop="dateModified" content="2024-06-27T20:09:05+08:00">
+  <meta itemprop="wordCount" content="104">
+  <meta itemprop="image" content="http://localhost:1313/images/share.png">
+  <meta itemprop="keywords" content="Java">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/myproject">我的项目</a>
+
+
+<a href="/dailyblog">生活随笔</a>
+
+
+<a href="/codetravel">代码旅程</a>
+
+
+<a href="/interviewnote">面试笔记</a>
+
+</nav>
+</header>
+  <main>
+
+<content>
+  <h1 id="一若依搭建">一、若依搭建</h1>
+<p>前后端分离版本，前端使用Vue3，后端使用Springboot。<br>
+软件环境：JDK11，MySQL8，Redis，Maven，Node<br>
+后端地址：https://github.com/yangzongzhuan/RuoYi-Vue<br>
+前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3</p>
+<h2 id="后端运行">后端运行</h2>
+<ol>
+<li>Git克隆并初始化项目，<code>git clone xxx</code>；</li>
+<li>MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本；密码在<code>ruoyi/admin/src/main/resources/application-druid.yml</code>配置文件中修改；</li>
+<li>启动Redis；</li>
+<li>运行后端项目。</li>
+</ol>
+<h2 id="前端运行">前端运行</h2>
+<ol>
+<li>Git克隆并初始化项目；</li>
+<li>安装依赖，<code>npm install</code>；</li>
+<li>运行前端项目，<code>npm run dev</code>。</li>
+</ol>
+<h1 id="二功能详解">二、功能详解</h1>
+<h2 id="1-系统管理">1. 系统管理</h2>
+<h3 id="11-权限控制">1.1 权限控制</h3>
+<p>RBAC(基于角色的访问控制)是一种广泛使用的访问控制模型，通过<strong>角色</strong>来分配和管理<strong>用户</strong>的菜单权限。</p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F06%2F30%2F1198480ed4f7113505e402d124a0d9e7-image-20240630090954916-02ae2b.png" alt="image-20240630090954916"></p>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F06%2F30%2Fbaf2166ef449e66e4a49b94c13243be2-image-20240630091124215-71d88d.png" alt="image-20240630091124215"></p>
+<h3 id="12-数据字典">1.2 数据字典</h3>
+<ul>
+<li>用于维护系统中常见的静态数据，如：性别，状态。</li>
+<li>功能包括：字典类型管理，字典数据管理。</li>
+</ul>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F06%2F30%2F7f6c75c6554d88ab01d2c46ccea6f465-image-20240630151653586-eed53e.png" alt="image-20240630151653586"></p>
+<h3 id="13-其他功能">1.3 其他功能</h3>
+<ul>
+<li>参数设置：对系统中的参数进行动态维护；（login.vue 97行 注册开关）</li>
+<li>通知公告：促进组织内部进行信息传递；（自己编写页面，如发送邮件）</li>
+<li>日志管理：轻松追踪用户行为和系统运行状况。</li>
+</ul>
+<h2 id="2-系统监控">2. 系统监控</h2>
+<h3 id="21-监控相关">2.1 监控相关</h3>
+<p>帮助开发者和运维快速了解应用程序的性能状态。</p>
+<ul>
+<li>在线用户：数据来自于Redis缓存</li>
+<li>缓存列表</li>
+<li>缓存监控</li>
+<li>服务监控</li>
+<li>数据监控：durid账号 密码（ruoyi 123456）</li>
+</ul>
+<h3 id="22-定时任务">2.2 定时任务</h3>
+<p>提供方便友好的Web界面，实现动态管理任务。</p>
+<ol>
+<li>quartz模块task包下创建任务类；</li>
+<li>添加任务规则；</li>
+<li>启动任务。</li>
+</ol>
+<h2 id="3-系统工具">3. 系统工具</h2>
+<h3 id="31-表单构建">3.1 表单构建</h3>
+<p><a href="https://jakhuang.github.io/form-generator/#/">https://jakhuang.github.io/form-generator/#/</a></p>
+<h3 id="32-代码生成">3.2 代码生成</h3>
+<ul>
+<li>自动生成前后端CRUD代码；</li>
+<li>提供三种生成模板：单表，树表（层级关系，能展开折叠，呈现父子关系，如部门表），主子表（一对多，如菜品表与口味表）。</li>
+</ul>
+<h1 id="四项目结构">四、项目结构</h1>
+<h2 id="1-后端部分">1. 后端部分</h2>
+<h3 id="后端结构">后端结构</h3>
+<ul>
+<li>ruoyi-admin：后台服务，包含通用功能的controller和启动类；</li>
+<li>ruoyi-common：通用工具。
+<ul>
+<li>annotation自定义注解，config全局配置，constant通用常量，<strong>core核心控制</strong>，enums通用枚举，<strong>exception通用异常</strong>，filter过滤器处理，<strong>utils通用工具类</strong>，xss自定义xss校验。</li>
+</ul>
+</li>
+<li>ruoyi-framework：框架核心。
+<ul>
+<li>aspectj自定义AOP，<strong>config系统配置</strong>，datasource多数据源，interceptor拦截器处理，manager异步处理，<strong>security权限控制，web前端控制</strong>。</li>
+</ul>
+</li>
+<li>ruoyi-generator：代码生成（可移除）。</li>
+<li>ruoyi-quartz：定时任务（可移除）。</li>
+<li>ruoyi-system：系统模块。domain，mapper，service。</li>
+<li>ruoyi-ui。</li>
+</ul>
+<h3 id="项目中的配置">项目中的配置</h3>
+<ul>
+<li>位于ruoyi-admin的resources目录下；</li>
+<li>i18n：国际化支持；</li>
+<li>META-INF：项目的元信息（描述数据的数据），无需修改。</li>
+<li>mybatis：mabatis相关的配置；</li>
+<li>application.yml：项目中的核心配置；</li>
+<li>application-druid.yml：数据库连接配置。</li>
+<li>banner.txt：项目启动，打印信息配置。</li>
+<li>logback.xml：日志相关配置。</li>
+</ul>
+<h3 id="模块依赖关系">模块依赖关系</h3>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F04%2F598933c142267f43916484e966d2060d-image-20240704150410364-38d879.png" alt="image-20240704150410364"></p>
+<h2 id="2-前端部分">2. 前端部分</h2>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F04%2F8215e1eadb677f16a0d863aaef177091-image-20240704151112938-d69dbd.png" alt="image-20240704151112938"></p>
+<h2 id="3-表结构">3. 表结构</h2>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F04%2Ff50b0c635383c4b7c5c3e4b21d24fec7-image-20240704151153558-294909.png" alt="image-20240704151153558"></p>
+<h1 id="五二次开发">五、二次开发</h1>
+<h2 id="1-新建业务模块">1. 新建业务模块</h2>
+<ul>
+<li>若依框架修改器：一键修改RuoYi框架包名、项目名的工具。</li>
+<li>地址：https://gitee.com/lpf_project/RuoYi-MT/releases</li>
+</ul>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F06%2Fcf70b312722b362c23ba721886752a4e-image-20240706095459079-8f239f.png" alt="image-20240706095459079"></p>
+<p>新建sky-merchant业务模块</p>
+<ol>
+<li>新建子模块，需引入核心模块（复制粘贴入口模块中的即可）</li>
+<li>父工程版本锁定</li>
+<li>服务入口模块sky-admin添加依赖sky-merchant</li>
+</ol>
+<h2 id="2-菜品管理">2. 菜品管理</h2>
+<ul>
+<li>利用若依代码生成器（主子表模板），生成菜品管理的前后端代码。</li>
+</ul>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F07%2F06%2F48a5b231340e3738bcde2d12ffd69dd9-image-20240706102111958-dfc7bc.png" alt="image-20240706102111958"></p>
+<ul>
+<li>配置代码生成信息。</li>
+<li>下载代码，导入项目。</li>
+</ul>
+
+</content>
+<p>
+  
+  <a href="http://localhost:1313/blog/java/">#Java</a>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

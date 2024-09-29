@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="shortcut icon" href="https://dawnstar.top/images/favicon.png" />
+<link rel="shortcut icon" href="http://localhost:1313/images/favicon.png" />
 <title>【SpringSecurity2】基于数据库实现认证和授权 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
 <meta name="title" content="【SpringSecurity2】基于数据库实现认证和授权" />
-<meta name="description" content="" />
+<meta name="description" content="集成数据库实现认证和授权 流程 提供数据库表：单表 创建项目 引入相关依赖，lombok web security mybatis plus 配置MySQL 实体类 Mapper Service Controller：提供登录接口 配置SpringSecurity 创建实体类 " />
 <meta name="keywords" content="Java,SpringSecurity," />
 
 
-<meta property="og:url" content="https://dawnstar.top/java/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/">
+<meta property="og:url" content="http://localhost:1313/java/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/">
   <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
   <meta property="og:title" content="【SpringSecurity2】基于数据库实现认证和授权">
-  <meta property="og:description" content="Hugo &#43; Bear = :heart:">
+  <meta property="og:description" content="集成数据库实现认证和授权 流程 提供数据库表：单表 创建项目 引入相关依赖，lombok web security mybatis plus 配置MySQL 实体类 Mapper Service Controller：提供登录接口 配置SpringSecurity 创建实体类 ">
   <meta property="og:locale" content="en_US">
   <meta property="og:type" content="article">
     <meta property="article:section" content="java">
@@ -23,24 +23,25 @@
     <meta property="article:modified_time" content="2024-08-01T16:06:35+08:00">
     <meta property="article:tag" content="Java">
     <meta property="article:tag" content="SpringSecurity">
-    <meta property="og:image" content="https://dawnstar.top/images/share.png">
+    <meta property="og:image" content="http://localhost:1313/images/share.png">
 
 
 
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://dawnstar.top/images/share.png">
+  <meta name="twitter:image" content="http://localhost:1313/images/share.png">
   <meta name="twitter:title" content="【SpringSecurity2】基于数据库实现认证和授权">
-  <meta name="twitter:description" content="Hugo &#43; Bear = :heart:">
+  <meta name="twitter:description" content="集成数据库实现认证和授权 流程 提供数据库表：单表 创建项目 引入相关依赖，lombok web security mybatis plus 配置MySQL 实体类 Mapper Service Controller：提供登录接口 配置SpringSecurity 创建实体类 ">
 
 
 
 
   <meta itemprop="name" content="【SpringSecurity2】基于数据库实现认证和授权">
-  <meta itemprop="description" content="Hugo &#43; Bear = :heart:">
+  <meta itemprop="description" content="集成数据库实现认证和授权 流程 提供数据库表：单表 创建项目 引入相关依赖，lombok web security mybatis plus 配置MySQL 实体类 Mapper Service Controller：提供登录接口 配置SpringSecurity 创建实体类 ">
   <meta itemprop="datePublished" content="2024-08-01T16:06:35+08:00">
   <meta itemprop="dateModified" content="2024-08-01T16:06:35+08:00">
-  <meta itemprop="image" content="https://dawnstar.top/images/share.png">
+  <meta itemprop="wordCount" content="16">
+  <meta itemprop="image" content="http://localhost:1313/images/share.png">
   <meta itemprop="keywords" content="Java,SpringSecurity">
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -242,35 +243,45 @@
 <nav><a href="/">主页</a>
 
 
-<a href="/java">Java</a>
+<a href="/myproject">我的项目</a>
 
 
-<a href="/python">Python</a>
+<a href="/dailyblog">生活随笔</a>
 
 
-<a href="/algorithm">算法</a>
+<a href="/codetravel">代码旅程</a>
 
 
-<a href="/database">数据库</a>
-
-
-<a href="/computerbase">计算机基础</a>
-
-
-<a href="/blog">其它</a>
+<a href="/interviewnote">面试笔记</a>
 
 </nav>
 </header>
   <main>
 
 <content>
-  
+  <h1 id="集成数据库实现认证和授权">集成数据库实现认证和授权</h1>
+<h2 id="流程">流程</h2>
+<ul>
+<li>提供数据库表：单表</li>
+<li>创建项目
+<ul>
+<li>引入相关依赖，lombok web security mybatis plus</li>
+<li>配置MySQL</li>
+</ul>
+</li>
+<li>实体类</li>
+<li>Mapper Service</li>
+<li>Controller：提供登录接口</li>
+<li>配置SpringSecurity</li>
+</ul>
+<h2 id="创建实体类">创建实体类</h2>
+
 </content>
 <p>
   
-  <a href="https://dawnstar.top/blog/java/">#Java</a>
+  <a href="http://localhost:1313/blog/java/">#Java</a>
   
-  <a href="https://dawnstar.top/blog/springsecurity/">#SpringSecurity</a>
+  <a href="http://localhost:1313/blog/springsecurity/">#SpringSecurity</a>
   
 </p>
 

@@ -2,19 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>computerBase on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
-    <link>https://dawnstar.top/computerbase/</link>
+    <link>http://localhost:1313/computerbase/</link>
     <description>Recent content in computerBase on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Sat, 10 Aug 2024 14:38:56 +0800</lastBuildDate>
-    <atom:link href="https://dawnstar.top/computerbase/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>计算机网络01 概述</title>
-      <link>https://dawnstar.top/computerbase/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C01-%E6%A6%82%E8%BF%B0/</link>
-      <pubDate>Sat, 10 Aug 2024 14:38:56 +0800</pubDate>
-      <guid>https://dawnstar.top/computerbase/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C01-%E6%A6%82%E8%BF%B0/</guid>
-      <description>总括 协议是保证各设备之间可以互操作的统一标准 应用层协议：直接提供给应用进程使用的协议，DNS，HTTP 传输层协议：进程到进程之间使用，TCP面向可靠连接服务，UDP面向不可靠连接服务 网络层协议：主机到主机E2E，分为传统协议和SDN，传统协议（IP和路由协议，路由器将IP报文分组，然后查路由表转发），SDN（数据定义网络，分为数据平面和控制平面） 数据链路层协议：点到点P2P 物理层协议：数字信号转化为物理信号 1 Internet 从具体构成来说，Internet是网络的网络。网络由节点和边组成，节点包括主机节点和数据交换节点（交换机、路由器、负载均衡设备），边包括接入网、骨干链路网，依靠协议来完成数据的交换。&#xA;2 网络边缘 网络由边缘、核心和接入三部分组成 客户/服务器模式CS、p2p模式（节点既请求服务，也提供服务） TCP：面向连接、可靠，HTTP、Web、Telnet、SMTP UDP：无连接、不可靠，流媒体、远程会议、DNS 3 网络核心 路由器的网状网络 数据传输方式：电路交换和分组交换 3.1 电路交换 建立连接——数据传输——释放连接 如打电话，需要找到一条A到B的路径，并独占该路径 速度快、实时、资源利用率低、建立连接时间长 3.2 分组交换 分组交换分为虚电路和数据报两种方式 虚电路方式：虚电路服务模拟了传统的电路交换，但在数据传输前并不需要建立实际的物理连接，而是建立一条逻辑连接，保证数据的顺序传输。 数据报方式：将数据包分组成更小的数据包进行传输，采用存储转发的机制，不用建立专用通信线路。如A将数据包P转发给E，拆分为p1,p2,p3，按照路由选择算法，A将p1丢给B路由器，最终汇总到E 存在延时，可能造成通信阻塞，存在重复无用数据，可能丢包，但资源利用率高 网络核心的关键功能：路由和转发 4 接入网和物理介质 住宅接入：modem调制解调，利用电话线传播数据，不能同时上网和打电话（DSL方式通过区分电信号和上网信号的频率可以同时传播） 企业接入网：局域网，Ethernet，以太网 无线接入网络：WLANs和广域无线接入 物理介质：双绞线、同轴电缆、光纤 5 Internet结构和ISP 互联网另一种划分方式：由多个ISPs网络组成（ISP是子网络，比如学校教育网） ISP运营商提供网络，ICP运营商提供服务，为了提高服务质量，IPC会选择部署数据中心，通过专网连接 IXP是不同ISP的对等接入点 6 分组、时延 节点处理延时： 检查 bit级差错、 检查分组首部和决定将分组导向何处 排队延时：在输出链路上等待传输的时间、 依赖于路由器的拥塞程度 传输延时: R=链路带宽(bps) 、L=分组长度(bits) ，将分组发送到链路上的时间= L/R ，存储转发延时 传播延时: d = 物理链路的长度 、s = 在媒体上的传播速度 (~2x10^8 m/sec) ，传播延时 = d/s 7 协议层次和服务模型 7.</description>
-    </item>
+    <atom:link href="http://localhost:1313/computerbase/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
