@@ -20,7 +20,7 @@ disableKinds = ["taxonomy"]
 ignoreErrors = ["error-disable-taxonomy"]
 [permalinks]
   blog = "/:slug/"
-  tags = "/note/:slug"
+  tags = "/tag/:slug"
   myproject = "/myproject/"
   dailyblog = "/dailyblog/:slug/"
   codetravel = "/codetravel/:slug/"

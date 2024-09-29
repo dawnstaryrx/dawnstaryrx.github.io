@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Netty on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+    <link>http://localhost:1313/tag/netty/</link>
+    <description>Recent content in Netty on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2020, Jane Doe.</copyright>
+    <lastBuildDate>Fri, 12 Jul 2024 09:53:24 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tag/netty/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Java NIO5]NIO与BIO</title>
+      <link>http://localhost:1313/codetravel/java-nio5nio%E4%B8%8Ebio/</link>
+      <pubDate>Fri, 12 Jul 2024 09:53:24 +0800</pubDate>
+      <guid>http://localhost:1313/codetravel/java-nio5nio%E4%B8%8Ebio/</guid>
+      <description>5. NIO vs BIO 5.1 stream vs channel stream 不会自动缓冲数据，channel 会利用系统提供的发送缓冲区、接收缓冲区（更为底层） stream 仅支持阻塞 API，channel 同时支持阻塞、非阻塞 API，网络 channel 可配合 selector 实现多路复用 二者均为全双工，即读写可以同时进行 5.2 IO 模型 同步阻塞、同步非阻塞、同步多路复用、异步阻塞（没有此情况）、异步非阻塞&#xA;同步：线程自己去获取结果（一个线程） 异步：线程自己不去获取结果，而是由其它线程送结果（至少两个线程） 当调用一次 channel.read 或 stream.read 后，会切换至操作系统内核态来完成真正数据读取，而读取又分为两个阶段，分别为：&#xA;等待数据阶段 复制数据阶段 阻塞 IO&#xA;非阻塞 IO&#xA;多路复用&#xA;信号驱动&#xA;异步 IO&#xA;阻塞 IO vs 多路复用&#xA;🔖 参考 UNIX 网络编程 - 卷 I&#xA;5.3 零拷贝 传统 IO 问题 传统的 IO 将一个文件通过 socket 写出&#xA;File f = new File(&amp;#34;helloword/data.txt&amp;#34;); RandomAccessFile file = new RandomAccessFile(file, &amp;#34;r&amp;#34;); byte[] buf = new byte[(int)f.</description>
+    </item>
+    <item>
+      <title>[Java NIO4]网络编程</title>
+      <link>http://localhost:1313/codetravel/java-nio4%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</link>
+      <pubDate>Fri, 12 Jul 2024 09:52:40 +0800</pubDate>
+      <guid>http://localhost:1313/codetravel/java-nio4%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</guid>
+      <description>4. 网络编程 4.1 非阻塞 vs 阻塞 阻塞 阻塞模式下，相关方法都会导致线程暂停 ServerSocketChannel.accept 会在没有连接建立时让线程暂停 SocketChannel.read 会在没有数据可读时让线程暂停 阻塞的表现其实就是线程暂停了，暂停期间不会占用 cpu，但线程相当于闲置 单线程下，阻塞方法之间相互影响，几乎不能正常工作，需要多线程支持 但多线程下，有新的问题，体现在以下方面 32 位 jvm 一个线程 320k，64 位 jvm 一个线程 1024k，如果连接数过多，必然导致 OOM，并且线程太多，反而会因为频繁上下文切换导致性能降低 可以采用线程池技术来减少线程数和线程上下文切换，但治标不治本，如果有很多连接建立，但长时间 inactive，会阻塞线程池中所有线程，因此不适合长连接，只适合短连接 服务器端&#xA;// 使用 nio 来理解阻塞模式, 单线程 // 0. ByteBuffer ByteBuffer buffer = ByteBuffer.allocate(16); // 1. 创建了服务器 ServerSocketChannel ssc = ServerSocketChannel.open(); // 2. 绑定监听端口 ssc.bind(new InetSocketAddress(8080)); // 3. 连接集合 List&amp;lt;SocketChannel&amp;gt; channels = new ArrayList&amp;lt;&amp;gt;(); while (true) { // 4. accept 建立与客户端连接， SocketChannel 用来与客户端之间通信 log.</description>
+    </item>
+    <item>
+      <title>[Java NIO3]文件编程</title>
+      <link>http://localhost:1313/codetravel/java-nio3%E6%96%87%E4%BB%B6%E7%BC%96%E7%A8%8B/</link>
+      <pubDate>Fri, 12 Jul 2024 09:52:23 +0800</pubDate>
+      <guid>http://localhost:1313/codetravel/java-nio3%E6%96%87%E4%BB%B6%E7%BC%96%E7%A8%8B/</guid>
+      <description>3. 文件编程 3.1 FileChannel ⚠️ FileChannel 工作模式 FileChannel 只能工作在阻塞模式下&#xA;获取 不能直接打开 FileChannel，必须通过 FileInputStream、FileOutputStream 或者 RandomAccessFile 来获取 FileChannel，它们都有 getChannel 方法&#xA;通过 FileInputStream 获取的 channel 只能读 通过 FileOutputStream 获取的 channel 只能写 通过 RandomAccessFile 是否能读写根据构造 RandomAccessFile 时的读写模式决定 rw 读取 会从 channel 读取数据填充 ByteBuffer，返回值表示读到了多少字节，-1 表示到达了文件的末尾&#xA;int readBytes = channel.read(buffer); 写入 写入的正确姿势如下， SocketChannel&#xA;ByteBuffer buffer = ...; buffer.put(...); // 存入数据 buffer.flip(); // 切换读模式 while(buffer.hasRemaining()) { channel.write(buffer); } 在 while 中调用 channel.write 是因为 write 方法并不能保证一次将 buffer 中的内容全部写入 channel</description>
+    </item>
+    <item>
+      <title>[Java NIO2]ByteBuffer</title>
+      <link>http://localhost:1313/codetravel/java-nio2bytebuffer/</link>
+      <pubDate>Fri, 12 Jul 2024 09:52:00 +0800</pubDate>
+      <guid>http://localhost:1313/codetravel/java-nio2bytebuffer/</guid>
+      <description>2. ByteBuffer 2.1 ByteBuffer的基本使用 向buffer写入数据，例如调用channel.read(buffer) 调用flip()切换至读模式 从buffer读取数据，例如调用buffer.get() 调用clear()或compact()切换至写模式 重复1~4步骤 // FileChannel 数据的读写通道 // 1. 输入输出流 2. RandomAccessFile .twr try (FileChannel channel = new FileInputStream(&amp;#34;./data.txt&amp;#34;).getChannel()) { // 准备缓冲区 ByteBuffer buffer = ByteBuffer.allocate(10); // 从 channel 读取数据，向 buffer 写入。 alt+enter while (true){ int len = channel.read(buffer); log.debug(&amp;#34;读取到的字节数 {}&amp;#34;, len); if (len == -1){ // 没有内容可读 break; } // 打印 buffer 的内容 buffer.flip(); // 切换到读模式 while (buffer.hasRemaining()){ // 是否还有剩余未读数据 byte b = buffer.get(); log.</description>
+    </item>
+    <item>
+      <title>[Java NIO1]三大组件</title>
+      <link>http://localhost:1313/codetravel/java-nio1%E4%B8%89%E5%A4%A7%E7%BB%84%E4%BB%B6/</link>
+      <pubDate>Fri, 12 Jul 2024 09:51:47 +0800</pubDate>
+      <guid>http://localhost:1313/codetravel/java-nio1%E4%B8%89%E5%A4%A7%E7%BB%84%E4%BB%B6/</guid>
+      <description>NIO non-blocking io 非阻塞 IO&#xA;BIO blocking io 阻塞IO&#xA;0.流与块 Standard IO是对字节流的读写，在进行IO之前，首先创建一个流对象，流对象进行读写操作都是按字节 ，一个字节一个字节的来读或写。而NIO把IO抽象成块，类似磁盘的读写，每次IO操作的单位都是一个块，块被读入内存之后就是一个byte[]，NIO一次可以读或写多个字节。&#xA;I/O 与 NIO 最重要的区别是数据打包和传输的方式，I/O 以流的方式处理数据，而 NIO 以块的方式处理数据。&#xA;面向流的 I/O 一次处理一个字节数据：一个输入流产生一个字节数据，一个输出流消费一个字节数据。为流式数据创建过滤器非常容易，链接几个过滤器，以便每个过滤器只负责复杂处理机制的一部分。不利的一面是，面向流的 I/O 通常相当慢。&#xA;面向块的 I/O 一次处理一个数据块：按块处理数据比按流处理数据要快得多。但是面向块的 I/O 缺少一些面向流的 I/O 所具有的优雅性和简单性。&#xA;1. 三大组件 1.1 Channel &amp;amp; Buffer channel （通道）有一点类似于 stream，它就是读写数据的双向通道，可以从 channel 将数据读入 buffer（缓冲区，用于存储数据的内存块，是NIO中的数据容器），也可以将 buffer 的数据写入 channel，而之前的 stream 要么是输入，要么是输出，channel 比 stream 更为底层。&#xA;graph LR&#xD;channel --&amp;gt; buffer&#xD;buffer --&amp;gt; channel 常见的 Channel 有&#xA;FileChannel：文件传输通道 DatagramChannel：UDP时传输通道 SocketChannel：TCP时传输通道，客户端服务器端都能用 ServerSocketChannel：TCP时传输通道，服务器端 buffer 则用来缓冲读写数据，常见的 buffer 有</description>
+    </item>
+  </channel>
+</rss>

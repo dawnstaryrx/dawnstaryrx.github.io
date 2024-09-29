@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>算法 on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
+    <link>http://localhost:1313/tag/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 算法 on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>en-US</language>
+    <copyright>Copyright © 2020, Jane Doe.</copyright>
+    <lastBuildDate>Wed, 18 Sep 2024 17:11:02 +0800</lastBuildDate>
+    <atom:link href="http://localhost:1313/tag/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Leetcode2]链表</title>
+      <link>http://localhost:1313/codetravel/leetcode2%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Wed, 18 Sep 2024 17:11:02 +0800</pubDate>
+      <guid>http://localhost:1313/codetravel/leetcode2%E9%93%BE%E8%A1%A8/</guid>
+      <description>1. 相交链表 https://leetcode.cn/problems/intersection-of-two-linked-lists/description/&#xA;l1=s1+s2&#xA;l2=s3+s2&#xA;s1+s2+s3长度固定&#xA;/** * Definition for singly-linked list. * public class ListNode { * int val; * ListNode next; * ListNode(int x) { * val = x; * next = null; * } * } */ public class Solution { public ListNode getIntersectionNode(ListNode headA, ListNode headB) { ListNode l1 = headA, l2 = headB; while(l1 != l2){ l1 = (l1 == null) ? headB : l1.next; l2 = (l2 == null) ?</description>
+    </item>
+    <item>
+      <title>[Leetcode1]双指针</title>
+      <link>http://localhost:1313/codetravel/leetcode1%E5%8F%8C%E6%8C%87%E9%92%88/</link>
+      <pubDate>Fri, 26 Jul 2024 20:54:56 +0800</pubDate>
+      <guid>http://localhost:1313/codetravel/leetcode1%E5%8F%8C%E6%8C%87%E9%92%88/</guid>
+      <description>1. 两数之和 II - 输入有序数组 两数之和 II - 输入有序数组&#xA;题目描述：在有序数组中找出两个数，使它们的和为 target。&#xA;使用双指针，一个指针指向值较小的元素，一个指针指向值较大的元素。指向较小元素的指针从头向尾遍历，指向较大元素的指针从尾向头遍历。&#xA;如果两个指针指向元素的和 sum == target，那么得到要求的结果； 如果 sum &amp;gt; target，移动较大的元素，使 sum 变小一些； 如果 sum &amp;lt; target，移动较小的元素，使 sum 变大一些。 数组中的元素最多遍历一次，时间复杂度为 O(N)。只使用了两个额外变量，空间复杂度为 O(1)。&#xA;public static int[] twoSum(int[] numbers, int target) { int left = 1; int right = numbers.length; while (left &amp;lt; right) { int sum = numbers[left - 1] + numbers[right - 1]; if (sum == target) { return new int[]{left, right}; } else if (sum &amp;gt; target) { right--; } else { left++; } } return null; } 2.</description>
+    </item>
+  </channel>
+</rss>
