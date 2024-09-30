@@ -2,32 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Docker on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
-    <link>http://localhost:1313/tag/docker/</link>
+    <link>https://dawnstar.top/tag/docker/</link>
     <description>Recent content in Docker on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
     <lastBuildDate>Thu, 29 Aug 2024 08:48:30 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tag/docker/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://dawnstar.top/tag/docker/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[Docker2]快速入门</title>
-      <link>http://localhost:1313/code/docker2%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</link>
+      <link>https://dawnstar.top/code/docker2%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</link>
       <pubDate>Thu, 29 Aug 2024 08:48:30 +0800</pubDate>
-      <guid>http://localhost:1313/code/docker2%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</guid>
+      <guid>https://dawnstar.top/code/docker2%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</guid>
       <description>docker镜像https://dockerhub.icu/&#xA;centos ip: 192.168.80.129&#xA;部署MySQL 拉取MySQL镜像&#xA;docker pull dockerhub.icu/library/mysql 创建MySQL容器&#xA;docker run -d \&#xD;--name mysql \&#xD;-p 3306:3306 \&#xD;-e TZ=Asia/Shanghai \&#xD;-e MYSQL_ROOT_PASSWORD=dfjb \&#xD;mysql 启动MySQL&#xA;docker start mysql 命令解读 docker run -d \&#xD;创建并运行一个容器，-d是让容器在后台运行&#xD;--name mysql \&#xD;给容器起名，必须唯一&#xD;-p 3306:3306 \&#xD;端口映射，&#xD;-e TZ=Asia/Shanghai \&#xD;设置环境变量，时区&#xD;-e MYSQL_ROOT_PASSWORD=dfjb \&#xD;设置环境变量&#xD;mysql&#xD;指定运行镜像的名字，完整写法[repository]:[tag]，如mysql:5.7，默认latest </description>
     </item>
     <item>
       <title>[Docker3]基础</title>
-      <link>http://localhost:1313/code/docker3%E5%9F%BA%E7%A1%80/</link>
+      <link>https://dawnstar.top/code/docker3%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Thu, 29 Aug 2024 08:48:30 +0800</pubDate>
-      <guid>http://localhost:1313/code/docker3%E5%9F%BA%E7%A1%80/</guid>
+      <guid>https://dawnstar.top/code/docker3%E5%9F%BA%E7%A1%80/</guid>
       <description>一、常见命令 1. 镜像命令 docker pull：从镜像仓库拉取到本地 docker push：docker镜像推送到镜像仓库 docker images ：查看本地镜像 docker rmi：删除镜像 docker build：dockerfile自定义镜像 docker save ：保存镜像到本地变成一个压缩文件 docker load：压缩文件加载 2. 容器命令 docker run：创建并运行容器 docker stop：停止容器 docker start：运行容器 docker ps：查看当前容器的运行状态 docker rm：删除容器 docker logs：查看容器日志 docker exec：进入到容器内部 3. 案例 拉取nginx镜像，创建并运行nginx容器&#xA;// 拉取镜像&#xD;docker pull nginx&#xD;// 查看镜像列表&#xD;docker images&#xD;// 保存镜像到本地&#xD;docker save -o nginx.tar nginx:latest&#xD;// 删除&#xD;docker rmi nginx:latest&#xD;// 加载&#xD;docker load -i nginx.tar&#xD;// 创建并运行容器&#xD;docker run -d --name nginx -p 80:80 nginx&#xD;// 查看容器&#xD;docker ps&#xD;// 停止&#xD;docker stop&#xD;// 查看&#xD;docker ps -a&#xD;// 启动&#xD;docker start nginx&#xD;// 查看日志&#xD;docker logs&#xD;// 进入内部&#xD;docker exec -it nginx bash&#xD;// 退出&#xD;exit 二、数据卷 数据卷volume是一个虚拟目录，是容器内目录与宿主机目录之间映射的桥梁。</description>
     </item>
     <item>
       <title>[Docker1]安装</title>
-      <link>http://localhost:1313/code/docker1docker%E5%AE%89%E8%A3%85/</link>
+      <link>https://dawnstar.top/code/docker1docker%E5%AE%89%E8%A3%85/</link>
       <pubDate>Sun, 14 Jul 2024 08:48:30 +0800</pubDate>
-      <guid>http://localhost:1313/code/docker1docker%E5%AE%89%E8%A3%85/</guid>
+      <guid>https://dawnstar.top/code/docker1docker%E5%AE%89%E8%A3%85/</guid>
       <description>一、什么是Docker 0. 形象化理解：Docker-预制菜 传统的应用程序开发和部署方式可以理解为在家里做一道菜（运行一个应用程序），但你需要提前准备好所有的食材和工具（安装所有的依赖软件和配置环境），而且每次做菜前都要确保这些东西都是新鲜和合适的。缺点很明显，耗时费力，而且每次环境可能都不一样，可能会导致做出来的菜（应用程序）效果不一致。&#xA;Docker方式：在你想要吃一道菜时，你不用自己准备食材和工具，而是可以从餐厅里直接购买一个预制菜盒（Docker 容器）。其中包含了所有需要的食材和工具（应用程序及其依赖），你只需要加热一下就可以享用（运行容器）。每次打开享用时，里面的东西都是一样的（环境一致性）。&#xA;1. 什么是Docker？ Docker 是一个用于开发、发布和运行应用程序的开放平台。Docker 可让您将应用程序与基础架构分离，以便快速交付软件。借助 Docker，您可以像管理应用程序一样管理基础架构。通过利用 Docker 的发布、测试和部署代码方法，您可以显著减少编写代码和在生产中运行代码之间的延迟。&#xA;Docker是一个开源的容器项目，使用Go语言开发实现。官网：https://www.docker.com/&#xA;作为运行和管理容器的容器引擎，Docker让开发人员可以将应用程序及其依赖打包到一个可移植的镜像中，然后发布到任何流行的操作系统(Linux/win/mac os)的计算机上。&#xA;举个例子，假设你有一个需要运行在某种特定配置（特定版本的操作系统、依赖库等）上的 Web 应用程序。传统方式下，你可能需要在每一台服务器上手动配置环境，确保它们的一致性。而使用 Docker，你只需在开发环境中配置好应用程序，然后将其打包成一个容器镜像，并可以在任何支持 Docker 的环境中直接运行该镜像。这样，就不再需要担心环境不一致的问题了。&#xA;2. 可以用Docker来做什么？ 开发环境的标准化：如上介绍，使用 Docker，开发团队可以在每个人的电脑上创建相同的开发环境，避免因为环境差异导致的问题；开发者可以快速搭建并切换不同的开发环境，而不需要在本地安装大量依赖。 应用程序快速、一致地交付 微服务架构：每个微服务可以打包到一个独立的容器中，方便管理和扩展。容器之间的通信可以通过 Docker 提供的网络功能来实现，简化了微服务之间的互操作。 负载均衡：Docker 本身并不提供负载均衡的功能，但可以与其他工具和技术(Docker Swarm)结合使用来实现负载均衡。 &amp;hellip;&amp;hellip; 3. 容器与虚拟机 Docker是传统虚拟机的替代解决方案，越来越多的应用程序以容器的方式在开发、测试和生产环境中运行。&#xA;传统运维方式：部署慢、成本高、资源浪费、难以扩展和迁移； 虚拟机运维方式： 采用资源池化技术，一台物理机的资源可分配到不同的虚拟机上； 便于弹性扩展，增加物理机或虚拟机都很方便； 容易云化，如将应用程序部署到云主机； 但也存在一些局限，如每个虚拟机都运行一个完整的操作系统，当虚拟机数量增多时，操作系统本身消耗的资源势必增多。 何为容器？&#xA;容器是一种轻量级虚拟化技术，旨在为现有的虚拟机提供切实可行且经济高效的替代解决方案。&#xA;各个容器共享主机的操作系统，容器引擎将容器作为进程运行在主机上。&#xA;容器使用的是主机操作系统的内核，因此容器依赖主机操作系统的内核版本；虚拟机有自己的操作系统，且独立于主机操作系统，其操作系统内核可以与主机不同。&#xA;容器在主机操作系统的用户空间运行，并且与操作系统的其他进程相互隔离，启动时也不需要启动操作系统的内核空间。因此，与虚拟机相比，容器启动快、开销少、迁移便捷。&#xA;就隔离特性而言，容器是应用层面的隔离，虚拟机是物理资源层面的隔离。&#xA;4. Docker引擎 Docker引擎是目前主流的容器引擎。“引擎”（Engine）通常指的是一种软件组件或程序，负责处理特定类型的任务或实现特定的功能。例如：&#xA;数据库引擎：负责数据存储、检索和管理的核心部分，如 MySQL 引擎。 游戏引擎：提供创建和运行视频游戏所需的核心功能，如 Unity 或 Unreal 引擎。 Docker 引擎：是 Docker 平台的核心组件，负责构建、运行和管理 Docker 容器。 Docker 引擎由以下几个主要部分组成：&#xA;Docker CLI(command line interface)：表示Docker命令行接口，开发者可以在命令行中使用Docker相关指令与Docker守护进程进行交互，从而管理诸如image(镜像)、container(容器)、network(网络)和data volumes(数据卷)等实体。 REST API：表示应用程序API接口，开发者通过该API接口可以与Docker的守护进程进行交互，从而指示后台进行相关操作。 Docker daemon：表示Docker的服务端组件，他是Docker架构中运行在后台的一个守护进程，可以接收并处理来自命令行接口及API接口的指令，然后进行相应的后台操作。 可以将 Docker 引擎比喻成一台自动化厨房设备：</description>
     </item>
   </channel>

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="shortcut icon" href="http://localhost:1313/images/favicon.png" />
+<link rel="shortcut icon" href="https://dawnstar.top/images/favicon.png" />
 <title>[Java NIO2]ByteBuffer | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
 <meta name="title" content="[Java NIO2]ByteBuffer" />
 <meta name="description" content="2. ByteBuffer 2.1 ByteBuffer的基本使用 向buffer写入数据，例如调用channel.read(buffer) 调用flip()切换至读模式 从buffer读取数据，例如调用buffer.get() 调用clear()或compact()切换至写模式 重复1~4步骤 // FileChannel 数据的读写通道 // 1. 输入输出流 2. RandomAccessFile .twr try (FileChannel channel = new FileInputStream(&#34;./data.txt&#34;).getChannel()) { // 准备缓冲区 ByteBuffer buffer = ByteBuffer.allocate(10); // 从 channel 读取数据，向 buffer 写入。 alt&#43;enter while (true){ int len = channel.read(buffer); log.debug(&#34;读取到的字节数 {}&#34;, len); if (len == -1){ // 没有内容可读 break; } // 打印 buffer 的内容 buffer.flip(); // 切换到读模式 while (buffer.hasRemaining()){ // 是否还有剩余未读数据 byte b = buffer.get(); log." />
 <meta name="keywords" content="Java,Netty," />
 
 
-<meta property="og:url" content="http://localhost:1313/code/javanio2bytebuffer/">
+<meta property="og:url" content="https://dawnstar.top/code/javanio2bytebuffer/">
   <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
   <meta property="og:title" content="[Java NIO2]ByteBuffer">
   <meta property="og:description" content="2. ByteBuffer 2.1 ByteBuffer的基本使用 向buffer写入数据，例如调用channel.read(buffer) 调用flip()切换至读模式 从buffer读取数据，例如调用buffer.get() 调用clear()或compact()切换至写模式 重复1~4步骤 // FileChannel 数据的读写通道 // 1. 输入输出流 2. RandomAccessFile .twr try (FileChannel channel = new FileInputStream(&#34;./data.txt&#34;).getChannel()) { // 准备缓冲区 ByteBuffer buffer = ByteBuffer.allocate(10); // 从 channel 读取数据，向 buffer 写入。 alt&#43;enter while (true){ int len = channel.read(buffer); log.debug(&#34;读取到的字节数 {}&#34;, len); if (len == -1){ // 没有内容可读 break; } // 打印 buffer 的内容 buffer.flip(); // 切换到读模式 while (buffer.hasRemaining()){ // 是否还有剩余未读数据 byte b = buffer.get(); log.">
@@ -23,13 +23,13 @@
     <meta property="article:modified_time" content="2024-07-12T09:52:00+08:00">
     <meta property="article:tag" content="Java">
     <meta property="article:tag" content="Netty">
-    <meta property="og:image" content="http://localhost:1313/images/share.png">
+    <meta property="og:image" content="https://dawnstar.top/images/share.png">
 
 
 
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="http://localhost:1313/images/share.png">
+  <meta name="twitter:image" content="https://dawnstar.top/images/share.png">
   <meta name="twitter:title" content="[Java NIO2]ByteBuffer">
   <meta name="twitter:description" content="2. ByteBuffer 2.1 ByteBuffer的基本使用 向buffer写入数据，例如调用channel.read(buffer) 调用flip()切换至读模式 从buffer读取数据，例如调用buffer.get() 调用clear()或compact()切换至写模式 重复1~4步骤 // FileChannel 数据的读写通道 // 1. 输入输出流 2. RandomAccessFile .twr try (FileChannel channel = new FileInputStream(&#34;./data.txt&#34;).getChannel()) { // 准备缓冲区 ByteBuffer buffer = ByteBuffer.allocate(10); // 从 channel 读取数据，向 buffer 写入。 alt&#43;enter while (true){ int len = channel.read(buffer); log.debug(&#34;读取到的字节数 {}&#34;, len); if (len == -1){ // 没有内容可读 break; } // 打印 buffer 的内容 buffer.flip(); // 切换到读模式 while (buffer.hasRemaining()){ // 是否还有剩余未读数据 byte b = buffer.get(); log.">
 
@@ -41,7 +41,7 @@
   <meta itemprop="datePublished" content="2024-07-12T09:52:00+08:00">
   <meta itemprop="dateModified" content="2024-07-12T09:52:00+08:00">
   <meta itemprop="wordCount" content="1297">
-  <meta itemprop="image" content="http://localhost:1313/images/share.png">
+  <meta itemprop="image" content="https://dawnstar.top/images/share.png">
   <meta itemprop="keywords" content="Java,Netty">
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -252,7 +252,7 @@
 <a href="/note">笔记</a>
 
 
-<a href="/codetravel">代码</a>
+<a href="/code">代码</a>
 
 
 <a href="/ai">AI</a>
@@ -668,9 +668,9 @@
 </content>
 <p>
   
-  <a href="http://localhost:1313/tag/java/">#Java</a>
+  <a href="https://dawnstar.top/tag/java/">#Java</a>
   
-  <a href="http://localhost:1313/tag/netty/">#Netty</a>
+  <a href="https://dawnstar.top/tag/netty/">#Netty</a>
   
 </p>
 
