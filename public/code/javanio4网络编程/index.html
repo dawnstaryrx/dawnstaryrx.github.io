@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="shortcut icon" href="https://dawnstar.top/images/favicon.png" />
+<link rel="shortcut icon" href="http://localhost:1313/images/favicon.png" />
 <title>[Java NIO4]网络编程 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
 <meta name="title" content="[Java NIO4]网络编程" />
 <meta name="description" content="4. 网络编程 4.1 非阻塞 vs 阻塞 阻塞 阻塞模式下，相关方法都会导致线程暂停 ServerSocketChannel.accept 会在没有连接建立时让线程暂停 SocketChannel.read 会在没有数据可读时让线程暂停 阻塞的表现其实就是线程暂停了，暂停期间不会占用 cpu，但线程相当于闲置 单线程下，阻塞方法之间相互影响，几乎不能正常工作，需要多线程支持 但多线程下，有新的问题，体现在以下方面 32 位 jvm 一个线程 320k，64 位 jvm 一个线程 1024k，如果连接数过多，必然导致 OOM，并且线程太多，反而会因为频繁上下文切换导致性能降低 可以采用线程池技术来减少线程数和线程上下文切换，但治标不治本，如果有很多连接建立，但长时间 inactive，会阻塞线程池中所有线程，因此不适合长连接，只适合短连接 服务器端
@@ -13,7 +13,7 @@
 <meta name="keywords" content="Java,Netty," />
 
 
-<meta property="og:url" content="https://dawnstar.top/code/javanio4%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+<meta property="og:url" content="http://localhost:1313/code/javanio4%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
   <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
   <meta property="og:title" content="[Java NIO4]网络编程">
   <meta property="og:description" content="4. 网络编程 4.1 非阻塞 vs 阻塞 阻塞 阻塞模式下，相关方法都会导致线程暂停 ServerSocketChannel.accept 会在没有连接建立时让线程暂停 SocketChannel.read 会在没有数据可读时让线程暂停 阻塞的表现其实就是线程暂停了，暂停期间不会占用 cpu，但线程相当于闲置 单线程下，阻塞方法之间相互影响，几乎不能正常工作，需要多线程支持 但多线程下，有新的问题，体现在以下方面 32 位 jvm 一个线程 320k，64 位 jvm 一个线程 1024k，如果连接数过多，必然导致 OOM，并且线程太多，反而会因为频繁上下文切换导致性能降低 可以采用线程池技术来减少线程数和线程上下文切换，但治标不治本，如果有很多连接建立，但长时间 inactive，会阻塞线程池中所有线程，因此不适合长连接，只适合短连接 服务器端
@@ -25,13 +25,13 @@
     <meta property="article:modified_time" content="2024-07-12T09:52:40+08:00">
     <meta property="article:tag" content="Java">
     <meta property="article:tag" content="Netty">
-    <meta property="og:image" content="https://dawnstar.top/images/share.png">
+    <meta property="og:image" content="http://localhost:1313/images/share.png">
 
 
 
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://dawnstar.top/images/share.png">
+  <meta name="twitter:image" content="http://localhost:1313/images/share.png">
   <meta name="twitter:title" content="[Java NIO4]网络编程">
   <meta name="twitter:description" content="4. 网络编程 4.1 非阻塞 vs 阻塞 阻塞 阻塞模式下，相关方法都会导致线程暂停 ServerSocketChannel.accept 会在没有连接建立时让线程暂停 SocketChannel.read 会在没有数据可读时让线程暂停 阻塞的表现其实就是线程暂停了，暂停期间不会占用 cpu，但线程相当于闲置 单线程下，阻塞方法之间相互影响，几乎不能正常工作，需要多线程支持 但多线程下，有新的问题，体现在以下方面 32 位 jvm 一个线程 320k，64 位 jvm 一个线程 1024k，如果连接数过多，必然导致 OOM，并且线程太多，反而会因为频繁上下文切换导致性能降低 可以采用线程池技术来减少线程数和线程上下文切换，但治标不治本，如果有很多连接建立，但长时间 inactive，会阻塞线程池中所有线程，因此不适合长连接，只适合短连接 服务器端
 // 使用 nio 来理解阻塞模式, 单线程 // 0. ByteBuffer ByteBuffer buffer = ByteBuffer.allocate(16); // 1. 创建了服务器 ServerSocketChannel ssc = ServerSocketChannel.open(); // 2. 绑定监听端口 ssc.bind(new InetSocketAddress(8080)); // 3. 连接集合 List&lt;SocketChannel&gt; channels = new ArrayList&lt;&gt;(); while (true) { // 4. accept 建立与客户端连接， SocketChannel 用来与客户端之间通信 log.">
@@ -45,7 +45,7 @@
   <meta itemprop="datePublished" content="2024-07-12T09:52:40+08:00">
   <meta itemprop="dateModified" content="2024-07-12T09:52:40+08:00">
   <meta itemprop="wordCount" content="2080">
-  <meta itemprop="image" content="https://dawnstar.top/images/share.png">
+  <meta itemprop="image" content="http://localhost:1313/images/share.png">
   <meta itemprop="keywords" content="Java,Netty">
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -256,7 +256,7 @@
 <a href="/note">笔记</a>
 
 
-<a href="/code">代码</a>
+<a href="/codetravel">代码</a>
 
 
 <a href="/ai">AI</a>
@@ -1025,9 +1025,9 @@ b2 -&gt;&gt; b2: 01234567890abcdef3333\r
 </content>
 <p>
   
-  <a href="https://dawnstar.top/tag/java/">#Java</a>
+  <a href="http://localhost:1313/tag/java/">#Java</a>
   
-  <a href="https://dawnstar.top/tag/netty/">#Netty</a>
+  <a href="http://localhost:1313/tag/netty/">#Netty</a>
   
 </p>
 

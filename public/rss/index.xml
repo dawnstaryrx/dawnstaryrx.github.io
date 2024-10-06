@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>RSS分享 on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
-    <link>https://dawnstar.top/rss/</link>
+    <link>http://localhost:1313/rss/</link>
     <description>Recent content in RSS分享 on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
     <lastBuildDate>Wed, 25 Sep 2024 09:43:11 +0800</lastBuildDate>
-    <atom:link href="https://dawnstar.top/rss/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/rss/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>RSS</title>
-      <link>https://dawnstar.top/rss/rss/</link>
+      <link>http://localhost:1313/rss/rss/</link>
       <pubDate>Wed, 25 Sep 2024 09:43:11 +0800</pubDate>
-      <guid>https://dawnstar.top/rss/rss/</guid>
+      <guid>http://localhost:1313/rss/rss/</guid>
       <description>This message is used to verify that this feed (feedId:61579761738216448) belongs to me (userId:60956133279090688). Join me in enjoying the next generation information browser https://follow.is.</description>
     </item>
   </channel>

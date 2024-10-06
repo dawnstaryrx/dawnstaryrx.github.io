@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-US">
 
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="shortcut icon" href="https://dawnstar.top/images/favicon.png" />
+<link rel="shortcut icon" href="http://localhost:1313/images/favicon.png" />
 <title>[Docker3]基础 | ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
 <meta name="title" content="[Docker3]基础" />
 <meta name="description" content="一、常见命令 1. 镜像命令 docker pull：从镜像仓库拉取到本地 docker push：docker镜像推送到镜像仓库 docker images ：查看本地镜像 docker rmi：删除镜像 docker build：dockerfile自定义镜像 docker save ：保存镜像到本地变成一个压缩文件 docker load：压缩文件加载 2. 容器命令 docker run：创建并运行容器 docker stop：停止容器 docker start：运行容器 docker ps：查看当前容器的运行状态 docker rm：删除容器 docker logs：查看容器日志 docker exec：进入到容器内部 3. 案例 拉取nginx镜像，创建并运行nginx容器
@@ -13,7 +13,7 @@
 <meta name="keywords" content="Docker," />
 
 
-<meta property="og:url" content="https://dawnstar.top/code/docker3%E5%9F%BA%E7%A1%80/">
+<meta property="og:url" content="http://localhost:1313/code/docker3%E5%9F%BA%E7%A1%80/">
   <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog">
   <meta property="og:title" content="[Docker3]基础">
   <meta property="og:description" content="一、常见命令 1. 镜像命令 docker pull：从镜像仓库拉取到本地 docker push：docker镜像推送到镜像仓库 docker images ：查看本地镜像 docker rmi：删除镜像 docker build：dockerfile自定义镜像 docker save ：保存镜像到本地变成一个压缩文件 docker load：压缩文件加载 2. 容器命令 docker run：创建并运行容器 docker stop：停止容器 docker start：运行容器 docker ps：查看当前容器的运行状态 docker rm：删除容器 docker logs：查看容器日志 docker exec：进入到容器内部 3. 案例 拉取nginx镜像，创建并运行nginx容器
@@ -24,13 +24,13 @@
     <meta property="article:published_time" content="2024-08-29T08:48:30+08:00">
     <meta property="article:modified_time" content="2024-08-29T08:48:30+08:00">
     <meta property="article:tag" content="Docker">
-    <meta property="og:image" content="https://dawnstar.top/images/share.png">
+    <meta property="og:image" content="http://localhost:1313/images/share.png">
 
 
 
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://dawnstar.top/images/share.png">
+  <meta name="twitter:image" content="http://localhost:1313/images/share.png">
   <meta name="twitter:title" content="[Docker3]基础">
   <meta name="twitter:description" content="一、常见命令 1. 镜像命令 docker pull：从镜像仓库拉取到本地 docker push：docker镜像推送到镜像仓库 docker images ：查看本地镜像 docker rmi：删除镜像 docker build：dockerfile自定义镜像 docker save ：保存镜像到本地变成一个压缩文件 docker load：压缩文件加载 2. 容器命令 docker run：创建并运行容器 docker stop：停止容器 docker start：运行容器 docker ps：查看当前容器的运行状态 docker rm：删除容器 docker logs：查看容器日志 docker exec：进入到容器内部 3. 案例 拉取nginx镜像，创建并运行nginx容器
 // 拉取镜像docker pull nginx// 查看镜像列表docker images// 保存镜像到本地docker save -o nginx.tar nginx:latest// 删除docker rmi nginx:latest// 加载docker load -i nginx.tar// 创建并运行容器docker run -d --name nginx -p 80:80 nginx// 查看容器docker ps// 停止docker stop// 查看docker ps -a// 启动docker start nginx// 查看日志docker logs// 进入内部docker exec -it nginx bash// 退出exit 二、数据卷 数据卷volume是一个虚拟目录，是容器内目录与宿主机目录之间映射的桥梁。">
@@ -44,7 +44,7 @@
   <meta itemprop="datePublished" content="2024-08-29T08:48:30+08:00">
   <meta itemprop="dateModified" content="2024-08-29T08:48:30+08:00">
   <meta itemprop="wordCount" content="317">
-  <meta itemprop="image" content="https://dawnstar.top/images/share.png">
+  <meta itemprop="image" content="http://localhost:1313/images/share.png">
   <meta itemprop="keywords" content="Docker">
 <meta name="referrer" content="no-referrer-when-downgrade" />
 
@@ -255,7 +255,7 @@
 <a href="/note">笔记</a>
 
 
-<a href="/code">代码</a>
+<a href="/codetravel">代码</a>
 
 
 <a href="/ai">AI</a>
@@ -419,7 +419,7 @@ docker run -d --name dd -p 8080:8080 --network dawn docker
 </content>
 <p>
   
-  <a href="https://dawnstar.top/tag/docker/">#Docker</a>
+  <a href="http://localhost:1313/tag/docker/">#Docker</a>
   
 </p>
 
