@@ -196,6 +196,22 @@ npm init -y
 npm install puppeteer-core
 ```
 
+## 4. 在root下运行
+
+ `puppeteer` 在 `root` 用户权限下运行时，需要 `--no-sandbox` 选项，否则无法正常启动浏览器。可以通过添加此选项来解决问题。请按照以下步骤更新您的代码：
+
+### 解决方法：添加 `--no-sandbox` 选项
+
+在 `HTML2IMG.js` 文件的 `puppeteer.launch` 配置中，添加 `args: ['--no-sandbox']`：
+
+```
+const browser = await puppeteer.launch({
+    headless: true,
+    executablePath: '/snap/bin/chromium',  // 根据您的安装路径
+    args: ['--no-sandbox']                  // 添加此选项
+});
+```
+
 # 四、服务器运行脚本
 
 ## 1. 脚本
@@ -291,6 +307,58 @@ node server.js
 5. **发送请求**： 单击 `Send` 按钮，发送请求到服务器。
 
 ![image-20241113112353796](https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F11%2F13%2F9be1da2f93ee0221db448fb313a2138d-image-20241113112353796-deef70.png)
+
+## 4 .安装中文字体
+
+### 步骤 1: 安装中文字体（Linux 环境）
+
+如果你在 Ubuntu 或其他 Linux 系统上运行，可能需要安装字体支持：
+
+```
+sudo apt-get update
+sudo apt-get install -y ttf-mscorefonts-installer fonts-noto-cjk
+```
+
+这会安装 `Microsoft Core Fonts` 和 `Noto CJK` 字体，这些字体可以帮助 Chromium 显示中文。
+
+### 步骤 2: 通过 `args` 配置 Puppeteer
+
+可以在 `puppeteer.launch()` 中加入 `args` 配置，确保正确的语言环境和字体支持。
+
+```
+const puppeteer = require('puppeteer-core');  // 引入 puppeteer-core
+
+async function htmlToImage(htmlContent, outputFilePath) {
+    // 启动浏览器
+    const browser = await puppeteer.launch({
+        headless: true,  // 无头模式，表示不打开浏览器窗口
+        executablePath: '/usr/bin/chromium-browser',  // 在 Ubuntu 上的 Chromium 路径
+        args: [
+            '--no-sandbox', 
+            '--disable-setuid-sandbox',
+            '--lang=zh-CN'  // 强制使用中文环境
+        ]
+    });
+
+    // 创建新的页面
+    const page = await browser.newPage();
+
+    // 设置页面内容为传入的 HTML
+    await page.setContent(htmlContent);
+
+    // 截图并保存为 PNG 文件
+    await page.screenshot({
+        path: outputFilePath,  // 输出路径
+        fullPage: true,  // 截图整个页面（包括滚动区域）
+    });
+
+    // 关闭浏览器
+    await browser.close();
+}
+
+// 导出方法，方便调用
+module.exports = htmlToImage;
+```
 
 # 五、在Java中调用脚本
 
