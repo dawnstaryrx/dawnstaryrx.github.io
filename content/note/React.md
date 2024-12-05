@@ -55,7 +55,7 @@ export default {
 }
 ```
 
-修改index.js
+修改index.css
 
 ```
 @tailwind base;
@@ -79,6 +79,76 @@ const App = () => {
 }
 
 export default App
+```
+
+### 1.4 修改端口、反向代理
+
+vite.config.js
+
+```js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, "")
+      }
+    }
+  }
+})
+
+```
+
+### 1.5 使用nextUI
+
+```
+npm i @nextui-org/react framer-motion
+```
+
+tailwind css设置
+
+```js
+// tailwind.config.js
+const { nextui } = require("@nextui-org/react");
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    // ...
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
+  ],
+  theme: {
+    extend: {},
+  },
+  darkMode: "class",
+  plugins: [nextui()]
+}
+```
+
+provider设置
+
+```jsx
+// main.tsx or main.jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import {NextUIProvider} from '@nextui-org/react'
+import App from './App'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <NextUIProvider>
+      <App />
+    </NextUIProvider>
+  </React.StrictMode>,
+)
 ```
 
 
@@ -620,6 +690,76 @@ npm run server
 
 ### 8.2 Proxying
 
+vite.config.js
+
+```
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
+    proxy: {
+      "/api": {
+        target: "http://localhost:8080",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, "")
+      }
+    }
+  }
+})
+```
+
+JobListing.jsx
+
+```jsx
+import JobListing from './JobListing'
+import { useState, useEffect } from 'react'
+import Spinner from './Spinner'
+const JobListings = ( { isHome = false } ) => {
+  // const jobListings = isHome ? jobs.slice(0, 3) : jobs
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      const apiUrl = isHome ? '/api/jobs?_limit=3' : '/api/jobs';
+      try{
+        const res = await fetch(apiUrl)
+        const data = await res.json()
+        setJobs(data)
+      } catch(error){
+        console.log(error)
+      } finally{
+        setLoading(false)
+      }
+    }
+    fetchJobs()
+  }, []);
+
+  return (
+    <section className="bg-blue-50 px-4 py-10">
+      <div className="container-xl lg:container m-auto">
+        <h2 className="text-3xl font-bold text-indigo-500 mb-6 text-center">
+          { isHome ? 'Recent Jobs' : 'All Jobs' }
+        </h2>
+          { loading ? ( <Spinner loading={loading} />) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              { jobs.map((job) => (
+                <JobListing key={job.id} job={job} />
+              )) }
+            </div>
+          ) }
+      </div>
+    </section>
+  )
+}
+
+export default JobListings
+```
+
 
 
 
@@ -679,6 +819,651 @@ const JobListings = ( { isHome = false } ) => {
 
 export default JobListings
 ```
+
+
+
+## 10. 路由参数 & Data Loader
+
+JobPage.jsx
+
+```jsx
+import { useParams, useLoaderData } from 'react-router-dom';
+import { FaArrowLeft, FaMapMarker } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+
+const JobPage = () => {
+  const { id } = useParams();
+  const job = useLoaderData();
+
+  return (
+    <>
+      {/* <!-- Go Back --> */}
+      <section>
+        <div className="container m-auto py-6 px-6">
+          <Link
+            to="/jobs"
+            className="text-indigo-500 hover:text-indigo-600 flex items-center"
+          >
+            <FaArrowLeft className='mr-2' /> Back to Job Listings
+          </Link>
+        </div>
+      </section>
+
+      <section className="bg-indigo-50">
+        <div className="container m-auto py-10 px-6">
+          <div className="grid grid-cols-1 md:grid-cols-70/30 w-full gap-6">
+            <main>
+              <div
+                className="bg-white p-6 rounded-lg shadow-md text-center md:text-left"
+              >
+                <div className="text-gray-500 mb-4">{ job.type }</div>
+                <h1 className="text-3xl font-bold mb-4">
+                  { job.title }
+                </h1>
+                <div
+                  className="text-gray-500 mb-4 flex align-middle justify-center md:justify-start"
+                >
+                  <FaMapMarker className='mr-1 text-orange-700' />
+                  <p className="text-orange-700">{ job.location }</p>
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+                <h3 className="text-indigo-800 text-lg font-bold mb-6">
+                  Job Description
+                </h3>
+
+                <p className="mb-4">
+                { job.description }
+                </p>
+
+                <h3 className="text-indigo-800 text-lg font-bold mb-2">Salary</h3>
+
+                <p className="mb-4">{ job.salary } / Year</p>
+              </div>
+            </main>
+
+            {/* <!-- Sidebar --> */}
+            <aside>
+              {/* <!-- Company Info --> */}
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-bold mb-6">Company Info</h3>
+
+                <h2 className="text-2xl">{ job.company.name }</h2>
+
+                <p className="my-2">
+                  { job.company.description }
+                </p>
+
+                <hr className="my-4" />
+
+                <h3 className="text-xl">Contact Email:</h3>
+
+                <p className="my-2 bg-indigo-100 p-2 font-bold">
+                  { job.company.contactEmail }
+                </p>
+
+                <h3 className="text-xl">Contact Phone:</h3>
+
+                <p className="my-2 bg-indigo-100 p-2 font-bold">{ job.company.contactPhone }</p>
+              </div>
+
+              {/* <!-- Manage --> */}
+              <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+                <h3 className="text-xl font-bold mb-6">Manage Job</h3>
+                <Link
+                  to={`/jobs/edit/`}
+                  className="bg-indigo-500 hover:bg-indigo-600 text-white text-center font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
+                  >Edit Job</Link
+                >
+                <button
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
+                >
+                  Delete Job
+                </button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
+
+const jobLoader = async ( {params} ) => {
+  const res = await fetch(`/api/jobs/${params.id}`)
+  const job = await res.json()
+  return job
+}
+
+export { JobPage as default, jobLoader }
+```
+
+App.jsx
+
+```jsx
+import { 
+  Route, 
+  createBrowserRouter, 
+  createRoutesFromElements, 
+  RouterProvider
+} from "react-router-dom"
+import MainLayout from "./layouts/MainLayout"
+import HomePage from "./pages/HomePage"
+import JobsPage from "./pages/JobsPage"
+import JobPage, { jobLoader } from "./pages/JobPage"
+import AddJobPage from "./pages/AddJobPage"
+import NotFoundPage from "./pages/NotFoundPage"
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<MainLayout/>}>
+      <Route index element={<HomePage/>} />
+      <Route path="/jobs" element={<JobsPage/>} />
+      <Route path="/jobs/:id" element={<JobPage/>} loader={jobLoader} />
+      <Route path="/add-job" element={<AddJobPage/>} />
+      <Route path="*" element={<NotFoundPage/>} />
+    </Route>
+  )
+)
+
+const App = () => {
+  return (
+    <RouterProvider router={router} />
+  )
+}
+
+export default App
+```
+
+
+
+## 11. Add Job
+
+for -> htmlFor
+
+class -> className
+
+
+
+App.jsx
+
+```jsx
+import { 
+  Route, 
+  createBrowserRouter, 
+  createRoutesFromElements, 
+  RouterProvider
+} from "react-router-dom"
+import MainLayout from "./layouts/MainLayout"
+import HomePage from "./pages/HomePage"
+import JobsPage from "./pages/JobsPage"
+import JobPage, { jobLoader } from "./pages/JobPage"
+import AddJobPage from "./pages/AddJobPage"
+import NotFoundPage from "./pages/NotFoundPage"
+
+const App = () => {
+  // Add New Job
+  const addJob = async (newJob) => {
+    const res = await fetch('/api/jobs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newJob)
+    })
+    return ;
+  }
+
+  // Delete Job
+  const deleteJob = async (id) => {
+    await fetch(`/api/jobs/${id}`, {
+      method: 'DELETE'
+    })
+    return ;
+  }
+  
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<MainLayout/>}>
+        <Route index element={<HomePage/>} />
+        <Route path="/jobs" element={<JobsPage/>} />
+        <Route path="/jobs/:id" element={<JobPage deleteJob={deleteJob} />} loader={jobLoader} />
+        <Route path="/add-job" element={<AddJobPage addJobSubmit={addJob} />} />
+        <Route path="*" element={<NotFoundPage/>} />
+      </Route>
+    )
+  )
+
+  return (
+    <RouterProvider router={router} />
+  )
+}
+
+export default App
+```
+
+JobPage.jsx
+
+```jsx
+// import { useParams, useLoaderData } from 'react-router-dom';
+import {  useLoaderData, useNavigate } from 'react-router-dom';
+import { FaArrowLeft, FaMapMarker } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+
+const JobPage = ({ deleteJob }) => {
+  // const { id } = useParams();
+  const job = useLoaderData();
+  const navigate = useNavigate();
+
+  const onDeleteClick = (id) => {
+    const confirm = window.confirm('Are you sure you want to delete this job?');
+    if ( !confirm ){
+      return;
+    }
+    deleteJob(id);
+    navigate('/jobs');
+  }
+
+  return (
+    <>
+      {/* <!-- Go Back --> */}
+      <section>
+        <div className="container m-auto py-6 px-6">
+          <Link
+            to="/jobs"
+            className="text-indigo-500 hover:text-indigo-600 flex items-center"
+          >
+            <FaArrowLeft className='mr-2' /> Back to Job Listings
+          </Link>
+        </div>
+      </section>
+
+      <section className="bg-indigo-50">
+        <div className="container m-auto py-10 px-6">
+          <div className="grid grid-cols-1 md:grid-cols-70/30 w-full gap-6">
+            <main>
+              <div
+                className="bg-white p-6 rounded-lg shadow-md text-center md:text-left"
+              >
+                <div className="text-gray-500 mb-4">{ job.type }</div>
+                <h1 className="text-3xl font-bold mb-4">
+                  { job.title }
+                </h1>
+                <div
+                  className="text-gray-500 mb-4 flex align-middle justify-center md:justify-start"
+                >
+                  <FaMapMarker className='mr-1 text-orange-700' />
+                  <p className="text-orange-700">{ job.location }</p>
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+                <h3 className="text-indigo-800 text-lg font-bold mb-6">
+                  Job Description
+                </h3>
+
+                <p className="mb-4">
+                { job.description }
+                </p>
+
+                <h3 className="text-indigo-800 text-lg font-bold mb-2">Salary</h3>
+
+                <p className="mb-4">{ job.salary } / Year</p>
+              </div>
+            </main>
+
+            {/* <!-- Sidebar --> */}
+            <aside>
+              {/* <!-- Company Info --> */}
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-bold mb-6">Company Info</h3>
+
+                <h2 className="text-2xl">{ job.company.name }</h2>
+
+                <p className="my-2">
+                  { job.company.description }
+                </p>
+
+                <hr className="my-4" />
+
+                <h3 className="text-xl">Contact Email:</h3>
+
+                <p className="my-2 bg-indigo-100 p-2 font-bold">
+                  { job.company.contactEmail }
+                </p>
+
+                <h3 className="text-xl">Contact Phone:</h3>
+
+                <p className="my-2 bg-indigo-100 p-2 font-bold">{ job.company.contactPhone }</p>
+              </div>
+
+              {/* <!-- Manage --> */}
+              <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+                <h3 className="text-xl font-bold mb-6">Manage Job</h3>
+                <Link
+                  to={`/jobs/edit/`}
+                  className="bg-indigo-500 hover:bg-indigo-600 text-white text-center font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
+                  >
+                  Edit Job
+                </Link>
+                <button onClick={() => onDeleteClick(job.id)}
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline mt-4 block"
+                >
+                  Delete Job
+                </button>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
+
+const jobLoader = async ( {params} ) => {
+  const res = await fetch(`/api/jobs/${params.id}`)
+  const job = await res.json()
+  return job
+}
+
+export { JobPage as default, jobLoader }
+```
+
+AddJobPage.jsx
+
+```jsx
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const AddJobPage = ({ addJobSubmit }) => {
+  const [title, setTitle] = useState("");
+  const [type, setType] = useState("Full-Time");
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
+  const [salary, setSalary] = useState("Under $50K");
+  const [companyName, setCompanyName] = useState("");
+  const [companyDescription, setCompanyDescription] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+
+  const navigate = useNavigate();
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+
+    const newJob = {
+      title,
+      type,
+      location, 
+      description,
+      salary,
+      company: {
+        name: companyName,
+        description: companyDescription,
+        contactEmail,
+        contactPhone,
+      }
+    }
+
+    addJobSubmit(newJob);
+
+    return navigate("/jobs");
+  };
+
+  return (
+    <section className="bg-indigo-50">
+      <div className="container m-auto max-w-2xl py-24">
+        <div
+          className="bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0"
+        >
+          <form onSubmit={submitForm}>
+            <h2 className="text-3xl text-center font-semibold mb-6">Add Job</h2>
+
+            <div className="mb-4">
+              <label htmlFor="type" className="block text-gray-700 font-bold mb-2"
+                >Job Type</label
+              >
+              <select
+                id="type"
+                name="type"
+                className="border rounded w-full py-2 px-3"
+                required
+                value={type}
+                onChange={(e) => setType(e.target.value)}
+              >
+                <option value="Full-Time">Full-Time</option>
+                <option value="Part-Time">Part-Time</option>
+                <option value="Remote">Remote</option>
+                <option value="Internship">Internship</option>
+              </select>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-gray-700 font-bold mb-2"
+                >Job Listing Name</label
+              >
+              <input
+                type="text"
+                id="title"
+                name="title"
+                className="border rounded w-full py-2 px-3 mb-2"
+                placeholder="eg. Beautiful Apartment In Miami"
+                required
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="description"
+                className="block text-gray-700 font-bold mb-2"
+                >Description</label
+              >
+              <textarea
+                id="description"
+                name="description"
+                className="border rounded w-full py-2 px-3"
+                rows="4"
+                placeholder="Add any job duties, expectations, requirements, etc"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="type" className="block text-gray-700 font-bold mb-2"
+                >Salary</label
+              >
+              <select
+                id="salary"
+                name="salary"
+                className="border rounded w-full py-2 px-3"
+                required
+                value={salary}
+                onChange={(e) => setSalary(e.target.value)}
+              >
+                <option value="Under $50K">Under $50K</option>
+                <option value="$50K - 60K">$50K - $60K</option>
+                <option value="$60K - 70K">$60K - $70K</option>
+                <option value="$70K - 80K">$70K - $80K</option>
+                <option value="$80K - 90K">$80K - $90K</option>
+                <option value="$90K - 100K">$90K - $100K</option>
+                <option value="$100K - 125K">$100K - $125K</option>
+                <option value="$125K - 150K">$125K - $150K</option>
+                <option value="$150K - 175K">$150K - $175K</option>
+                <option value="$175K - 200K">$175K - $200K</option>
+                <option value="Over $200K">Over $200K</option>
+              </select>
+            </div>
+
+            <div className='mb-4'>
+              <label className='block text-gray-700 font-bold mb-2'>
+                Location
+              </label>
+              <input
+                type='text'
+                id='location'
+                name='location'
+                className='border rounded w-full py-2 px-3 mb-2'
+                placeholder='Company Location'
+                required   
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}        
+              />
+            </div>
+
+            <h3 className="text-2xl mb-5">Company Info</h3>
+
+            <div className="mb-4">
+              <label htmlFor="company" className="block text-gray-700 font-bold mb-2"
+                >Company Name</label
+              >
+              <input
+                type="text"
+                id="company"
+                name="company"
+                className="border rounded w-full py-2 px-3"
+                placeholder="Company Name"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="company_description"
+                className="block text-gray-700 font-bold mb-2"
+                >Company Description</label
+              >
+              <textarea
+                id="company_description"
+                name="company_description"
+                className="border rounded w-full py-2 px-3"
+                rows="4"
+                placeholder="What does your company do?"
+                value={companyDescription}
+                onChange={(e) => setCompanyDescription(e.target.value)}
+              ></textarea>
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="contact_email"
+                className="block text-gray-700 font-bold mb-2"
+                >Contact Email</label
+              >
+              <input
+                type="email"
+                id="contact_email"
+                name="contact_email"
+                className="border rounded w-full py-2 px-3"
+                placeholder="Email address for applicants"
+                required
+                value={contactEmail}
+                onChange={(e) => setContactEmail(e.target.value)}
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="contact_phone"
+                className="block text-gray-700 font-bold mb-2"
+                >Contact Phone</label
+              >
+              <input
+                type="tel"
+                id="contact_phone"
+                name="contact_phone"
+                className="border rounded w-full py-2 px-3"
+                placeholder="Optional phone for applicants"
+                value={contactPhone}
+                onChange={(e) => setContactPhone(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <button
+                className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Add Job
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default AddJobPage
+```
+
+
+
+## 12. React Toastify Package
+
+```
+npm i react-toastify
+```
+
+MainLayout.jsx
+
+```jsx
+import { Outlet } from "react-router-dom"
+import Navbar from "../components/Navbar"
+// import NavBarTest from "../components/NavBarTest"
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
+
+const MainLayout = () => {
+  return (
+    <>
+      <Navbar />
+      {/* <NavBarTest /> */}
+      <Outlet />
+      <ToastContainer />
+    </>
+  )
+}
+
+export default MainLayout
+```
+
+JobPage.jsx
+
+```jsx
+// import { useParams, useLoaderData } from 'react-router-dom';
+import {  useLoaderData, useNavigate } from 'react-router-dom';
+import { FaArrowLeft, FaMapMarker } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+const JobPage = ({ deleteJob }) => {
+  // const { id } = useParams();
+  const job = useLoaderData();
+  const navigate = useNavigate();
+
+  const onDeleteClick = (id) => {
+    const confirm = window.confirm('Are you sure you want to delete this job?');
+    if ( !confirm ){
+      return;
+    }
+    deleteJob(id);
+
+    toast.success('Job deleted successfully');
+
+    navigate('/jobs');
+  }
+```
+
+
+
+## 13. Edit Job
+
+
+
+
 
 
 
