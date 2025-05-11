@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Nginx on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
-    <link>http://localhost:1313/tag/nginx/</link>
-    <description>Recent content in Nginx on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</description>
+    <title>Nginx on ᕕ( ᐛ )ᕗ yrx&#39;s Blog</title>
+    <link>https://blog.gooodh.com/tag/nginx/</link>
+    <description>Recent content in Nginx on ᕕ( ᐛ )ᕗ yrx&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
     <lastBuildDate>Sat, 03 Aug 2024 06:45:03 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/tag/nginx/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://blog.gooodh.com/tag/nginx/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在Ubuntu22.04上配置NginxSSL证书</title>
-      <link>http://localhost:1313/code/%E5%9C%A8ubuntu22.04%E4%B8%8A%E9%85%8D%E7%BD%AEnginxssl%E8%AF%81%E4%B9%A6/</link>
+      <link>https://blog.gooodh.com/%E5%9C%A8ubuntu22.04%E4%B8%8A%E9%85%8D%E7%BD%AEnginxssl%E8%AF%81%E4%B9%A6/</link>
       <pubDate>Sat, 03 Aug 2024 06:45:03 +0800</pubDate>
-      <guid>http://localhost:1313/code/%E5%9C%A8ubuntu22.04%E4%B8%8A%E9%85%8D%E7%BD%AEnginxssl%E8%AF%81%E4%B9%A6/</guid>
+      <guid>https://blog.gooodh.com/%E5%9C%A8ubuntu22.04%E4%B8%8A%E9%85%8D%E7%BD%AEnginxssl%E8%AF%81%E4%B9%A6/</guid>
       <description>https://blog.csdn.net/re_xue/article/details/138003534</description>
     </item>
   </channel>

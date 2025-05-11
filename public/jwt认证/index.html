@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.gooodh.com/images/favicon.png" />
+<title>[JWT]认证 | ᕕ( ᐛ )ᕗ yrx&#39;s Blog</title>
+<meta name="title" content="[JWT]认证" />
+<meta name="description" content="一、公钥和私钥 1.1 公钥和私钥的基本概念 公钥（Public Key）和私钥（Private Key）是一对密钥，属于非对称加密（Asymmetric Encryption）的范畴。非对称加密使用一对相关但不同的密钥来进行加密和解密操作，与对称加密（使用同一个密钥进行加密和解密）不同。
+私钥（Private Key） 定义：私钥是需要严格保密的密钥，仅由持有者掌握。 用途：用于解密数据或生成数字签名。 公钥（Public Key） 定义：公钥可以公开共享，任何人都可以获取。 用途：用于加密数据或验证数字签名。 1.2 公钥和私钥的用途 加密与解密 加密：使用公钥加密数据。 解密：使用对应的私钥解密数据。 签名与验证 签名：使用私钥对数据或消息生成数字签名。 验证：使用公钥验证数字签名的真实性和完整性。 1.3 非对称加密的优势 安全性高：私钥不需要在网络中传输，减少泄露风险。 密钥分发简便：公钥可以自由分发，任何人都可以使用公钥进行加密或验证签名 1.4 生成公钥和私钥 使用RSA算法生成公钥和私钥，并以PEM格式保存到文件中。 password在这里用于生成一个自定义的随机数生成器（SecureRandom）的种子。这意味着相同的密码将生成相同的密钥对。 初始化KeyPairGenerator，指定密钥长度为1024位，并使用之前创建的SecureRandom实例。使用2048位更安全。 public class GenSecretKeyTest { @Test public void genSecretKey() throws Exception{ //自定义 随机密码, 请修改这里 String password = &#34;dawnstar&#34;; KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(&#34;RSA&#34;); SecureRandom secureRandom = new SecureRandom(password.getBytes()); keyPairGenerator.initialize(1024, secureRandom); KeyPair keyPair = keyPairGenerator.genKeyPair(); // 获取公钥和私钥的字节数组 byte[] publicKeyBytes = keyPair.getPublic().getEncoded(); byte[] privateKeyBytes = keyPair." />
+<meta name="keywords" content="" />
+
+
+<meta property="og:url" content="https://blog.gooodh.com/jwt%E8%AE%A4%E8%AF%81/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ yrx&#39;s Blog">
+  <meta property="og:title" content="[JWT]认证">
+  <meta property="og:description" content="一、公钥和私钥 1.1 公钥和私钥的基本概念 公钥（Public Key）和私钥（Private Key）是一对密钥，属于非对称加密（Asymmetric Encryption）的范畴。非对称加密使用一对相关但不同的密钥来进行加密和解密操作，与对称加密（使用同一个密钥进行加密和解密）不同。
+私钥（Private Key） 定义：私钥是需要严格保密的密钥，仅由持有者掌握。 用途：用于解密数据或生成数字签名。 公钥（Public Key） 定义：公钥可以公开共享，任何人都可以获取。 用途：用于加密数据或验证数字签名。 1.2 公钥和私钥的用途 加密与解密 加密：使用公钥加密数据。 解密：使用对应的私钥解密数据。 签名与验证 签名：使用私钥对数据或消息生成数字签名。 验证：使用公钥验证数字签名的真实性和完整性。 1.3 非对称加密的优势 安全性高：私钥不需要在网络中传输，减少泄露风险。 密钥分发简便：公钥可以自由分发，任何人都可以使用公钥进行加密或验证签名 1.4 生成公钥和私钥 使用RSA算法生成公钥和私钥，并以PEM格式保存到文件中。 password在这里用于生成一个自定义的随机数生成器（SecureRandom）的种子。这意味着相同的密码将生成相同的密钥对。 初始化KeyPairGenerator，指定密钥长度为1024位，并使用之前创建的SecureRandom实例。使用2048位更安全。 public class GenSecretKeyTest { @Test public void genSecretKey() throws Exception{ //自定义 随机密码, 请修改这里 String password = &#34;dawnstar&#34;; KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(&#34;RSA&#34;); SecureRandom secureRandom = new SecureRandom(password.getBytes()); keyPairGenerator.initialize(1024, secureRandom); KeyPair keyPair = keyPairGenerator.genKeyPair(); // 获取公钥和私钥的字节数组 byte[] publicKeyBytes = keyPair.getPublic().getEncoded(); byte[] privateKeyBytes = keyPair.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2024-10-10T21:31:49+08:00">
+    <meta property="article:modified_time" content="2024-10-10T21:31:49+08:00">
+    <meta property="og:image" content="https://blog.gooodh.com/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.gooodh.com/images/share.png">
+  <meta name="twitter:title" content="[JWT]认证">
+  <meta name="twitter:description" content="一、公钥和私钥 1.1 公钥和私钥的基本概念 公钥（Public Key）和私钥（Private Key）是一对密钥，属于非对称加密（Asymmetric Encryption）的范畴。非对称加密使用一对相关但不同的密钥来进行加密和解密操作，与对称加密（使用同一个密钥进行加密和解密）不同。
+私钥（Private Key） 定义：私钥是需要严格保密的密钥，仅由持有者掌握。 用途：用于解密数据或生成数字签名。 公钥（Public Key） 定义：公钥可以公开共享，任何人都可以获取。 用途：用于加密数据或验证数字签名。 1.2 公钥和私钥的用途 加密与解密 加密：使用公钥加密数据。 解密：使用对应的私钥解密数据。 签名与验证 签名：使用私钥对数据或消息生成数字签名。 验证：使用公钥验证数字签名的真实性和完整性。 1.3 非对称加密的优势 安全性高：私钥不需要在网络中传输，减少泄露风险。 密钥分发简便：公钥可以自由分发，任何人都可以使用公钥进行加密或验证签名 1.4 生成公钥和私钥 使用RSA算法生成公钥和私钥，并以PEM格式保存到文件中。 password在这里用于生成一个自定义的随机数生成器（SecureRandom）的种子。这意味着相同的密码将生成相同的密钥对。 初始化KeyPairGenerator，指定密钥长度为1024位，并使用之前创建的SecureRandom实例。使用2048位更安全。 public class GenSecretKeyTest { @Test public void genSecretKey() throws Exception{ //自定义 随机密码, 请修改这里 String password = &#34;dawnstar&#34;; KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(&#34;RSA&#34;); SecureRandom secureRandom = new SecureRandom(password.getBytes()); keyPairGenerator.initialize(1024, secureRandom); KeyPair keyPair = keyPairGenerator.genKeyPair(); // 获取公钥和私钥的字节数组 byte[] publicKeyBytes = keyPair.getPublic().getEncoded(); byte[] privateKeyBytes = keyPair.">
+
+
+
+
+  <meta itemprop="name" content="[JWT]认证">
+  <meta itemprop="description" content="一、公钥和私钥 1.1 公钥和私钥的基本概念 公钥（Public Key）和私钥（Private Key）是一对密钥，属于非对称加密（Asymmetric Encryption）的范畴。非对称加密使用一对相关但不同的密钥来进行加密和解密操作，与对称加密（使用同一个密钥进行加密和解密）不同。
+私钥（Private Key） 定义：私钥是需要严格保密的密钥，仅由持有者掌握。 用途：用于解密数据或生成数字签名。 公钥（Public Key） 定义：公钥可以公开共享，任何人都可以获取。 用途：用于加密数据或验证数字签名。 1.2 公钥和私钥的用途 加密与解密 加密：使用公钥加密数据。 解密：使用对应的私钥解密数据。 签名与验证 签名：使用私钥对数据或消息生成数字签名。 验证：使用公钥验证数字签名的真实性和完整性。 1.3 非对称加密的优势 安全性高：私钥不需要在网络中传输，减少泄露风险。 密钥分发简便：公钥可以自由分发，任何人都可以使用公钥进行加密或验证签名 1.4 生成公钥和私钥 使用RSA算法生成公钥和私钥，并以PEM格式保存到文件中。 password在这里用于生成一个自定义的随机数生成器（SecureRandom）的种子。这意味着相同的密码将生成相同的密钥对。 初始化KeyPairGenerator，指定密钥长度为1024位，并使用之前创建的SecureRandom实例。使用2048位更安全。 public class GenSecretKeyTest { @Test public void genSecretKey() throws Exception{ //自定义 随机密码, 请修改这里 String password = &#34;dawnstar&#34;; KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(&#34;RSA&#34;); SecureRandom secureRandom = new SecureRandom(password.getBytes()); keyPairGenerator.initialize(1024, secureRandom); KeyPair keyPair = keyPairGenerator.genKeyPair(); // 获取公钥和私钥的字节数组 byte[] publicKeyBytes = keyPair.getPublic().getEncoded(); byte[] privateKeyBytes = keyPair.">
+  <meta itemprop="datePublished" content="2024-10-10T21:31:49+08:00">
+  <meta itemprop="dateModified" content="2024-10-10T21:31:49+08:00">
+  <meta itemprop="wordCount" content="664">
+  <meta itemprop="image" content="https://blog.gooodh.com/images/share.png">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ yrx&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/blog">博客</a>
+
+
+</nav>
+</header>
+  <main>
+ 
+<h1>[JWT]认证</h1>
+<p>
+  <i>
+    <time datetime='2024-10-10' pubdate>
+      10 Oct, 2024
+    </time>
+  </i>
+</p>
+ 
+<content>
+  <h1 id="一公钥和私钥">一、公钥和私钥</h1>
+<h2 id="11-公钥和私钥的基本概念">1.1 公钥和私钥的基本概念</h2>
+<p><strong>公钥（Public Key）<strong>和</strong>私钥（Private Key）<strong>是一对密钥，属于</strong>非对称加密（Asymmetric Encryption）<strong>的范畴。非对称加密使用一对相关但不同的密钥来进行加密和解密操作，与</strong>对称加密</strong>（使用同一个密钥进行加密和解密）不同。</p>
+<ul>
+<li>私钥（Private Key）
+<ul>
+<li><strong>定义</strong>：私钥是需要严格保密的密钥，仅由持有者掌握。</li>
+<li><strong>用途</strong>：用于解密数据或生成数字签名。</li>
+</ul>
+</li>
+<li>公钥（Public Key）
+<ul>
+<li><strong>定义</strong>：公钥可以公开共享，任何人都可以获取。</li>
+<li><strong>用途</strong>：用于加密数据或验证数字签名。</li>
+</ul>
+</li>
+</ul>
+<h2 id="12-公钥和私钥的用途">1.2 公钥和私钥的用途</h2>
+<ul>
+<li>加密与解密
+<ul>
+<li><strong>加密</strong>：使用公钥加密数据。</li>
+<li><strong>解密</strong>：使用对应的私钥解密数据。</li>
+</ul>
+</li>
+<li>签名与验证
+<ul>
+<li><strong>签名</strong>：使用私钥对数据或消息生成数字签名。</li>
+<li><strong>验证</strong>：使用公钥验证数字签名的真实性和完整性。</li>
+</ul>
+</li>
+</ul>
+<h2 id="13-非对称加密的优势">1.3 非对称加密的优势</h2>
+<ul>
+<li><strong>安全性高</strong>：私钥不需要在网络中传输，减少泄露风险。</li>
+<li><strong>密钥分发简便</strong>：公钥可以自由分发，任何人都可以使用公钥进行加密或验证签名</li>
+</ul>
+<h2 id="14-生成公钥和私钥">1.4 生成公钥和私钥</h2>
+<ul>
+<li>使用RSA算法生成公钥和私钥，并以PEM格式保存到文件中。</li>
+<li><code>password</code>在这里用于生成一个自定义的随机数生成器（<code>SecureRandom</code>）的种子。这意味着相同的密码将生成相同的密钥对。</li>
+<li>初始化<code>KeyPairGenerator</code>，指定密钥长度为1024位，并使用之前创建的<code>SecureRandom</code>实例。使用2048位更安全。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GenSecretKeyTest</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Test</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">genSecretKey</span>() <span style="color:#66d9ef">throws</span> Exception{
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//自定义 随机密码,  请修改这里</span>
+</span></span><span style="display:flex;"><span>        String password <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dawnstar&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        KeyPairGenerator keyPairGenerator <span style="color:#f92672">=</span> KeyPairGenerator.<span style="color:#a6e22e">getInstance</span>(<span style="color:#e6db74">&#34;RSA&#34;</span>);
+</span></span><span style="display:flex;"><span>        SecureRandom secureRandom <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> SecureRandom(password.<span style="color:#a6e22e">getBytes</span>());
+</span></span><span style="display:flex;"><span>        keyPairGenerator.<span style="color:#a6e22e">initialize</span>(1024, secureRandom);
+</span></span><span style="display:flex;"><span>        KeyPair keyPair <span style="color:#f92672">=</span> keyPairGenerator.<span style="color:#a6e22e">genKeyPair</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 获取公钥和私钥的字节数组</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> publicKeyBytes <span style="color:#f92672">=</span> keyPair.<span style="color:#a6e22e">getPublic</span>().<span style="color:#a6e22e">getEncoded</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> privateKeyBytes <span style="color:#f92672">=</span> keyPair.<span style="color:#a6e22e">getPrivate</span>().<span style="color:#a6e22e">getEncoded</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 将字节数组编码为Base64字符串</span>
+</span></span><span style="display:flex;"><span>        String publicKeyBase64 <span style="color:#f92672">=</span> Base64.<span style="color:#a6e22e">getEncoder</span>().<span style="color:#a6e22e">encodeToString</span>(publicKeyBytes);
+</span></span><span style="display:flex;"><span>        String privateKeyBase64 <span style="color:#f92672">=</span> Base64.<span style="color:#a6e22e">getEncoder</span>().<span style="color:#a6e22e">encodeToString</span>(privateKeyBytes);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 构建PEM格式字符串</span>
+</span></span><span style="display:flex;"><span>        String publicKeyPem <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;-----BEGIN PUBLIC KEY-----\n&#34;</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                insertLineBreaks(publicKeyBase64, 64) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;\n-----END PUBLIC KEY-----\n&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        String privateKeyPem <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;-----BEGIN PRIVATE KEY-----\n&#34;</span> <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                insertLineBreaks(privateKeyBase64, 64) <span style="color:#f92672">+</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;\n-----END PRIVATE KEY-----\n&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 定义文件路径</span>
+</span></span><span style="display:flex;"><span>        Path publicKeyPath <span style="color:#f92672">=</span> Paths.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#34;d:\\test\\pub.pem&#34;</span>);
+</span></span><span style="display:flex;"><span>        Path privateKeyPath <span style="color:#f92672">=</span> Paths.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#34;d:\\test\\pri.pem&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 将PEM格式的密钥写入文件</span>
+</span></span><span style="display:flex;"><span>        Files.<span style="color:#a6e22e">write</span>(publicKeyPath, publicKeyPem.<span style="color:#a6e22e">getBytes</span>());
+</span></span><span style="display:flex;"><span>        Files.<span style="color:#a6e22e">write</span>(privateKeyPath, privateKeyPem.<span style="color:#a6e22e">getBytes</span>());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;PEM格式的密钥生成并保存成功！&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 将长字符串每隔指定长度插入换行符，提高PEM文件的可读性
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @param input  输入字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @param length 每行长度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @return 带有换行符的字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String <span style="color:#a6e22e">insertLineBreaks</span>(String input, <span style="color:#66d9ef">int</span> length) {
+</span></span><span style="display:flex;"><span>        StringBuilder sb <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StringBuilder();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (index <span style="color:#f92672">&lt;</span> input.<span style="color:#a6e22e">length</span>()) {
+</span></span><span style="display:flex;"><span>            sb.<span style="color:#a6e22e">append</span>(input, index, Math.<span style="color:#a6e22e">min</span>(index <span style="color:#f92672">+</span> length, input.<span style="color:#a6e22e">length</span>()));
+</span></span><span style="display:flex;"><span>            sb.<span style="color:#a6e22e">append</span>(<span style="color:#e6db74">&#34;\n&#34;</span>);
+</span></span><span style="display:flex;"><span>            index <span style="color:#f92672">+=</span> length;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> sb.<span style="color:#a6e22e">toString</span>().<span style="color:#a6e22e">trim</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="二jwt">二、JWT</h1>
+<h2 id="20-jwt基本概念">2.0 JWT基本概念</h2>
+<h3 id="201-什么是jwt">2.0.1 什么是JWT</h3>
+<p>JWT （JSON Web Token），是一种通过数字签名的方式，以JSON对象为载体，用于在各方之间安全地传输信息。它由三个部分组成，使用点 <code>.</code> 分隔：</p>
+<ol>
+<li><strong>Header（头部）</strong>：包含令牌的类型typ（通常是 JWT）和所使用的签名算法arg（如 HS256、RS256）。</li>
+<li><strong>Payload（负载）</strong>：包含声明（claims），即要传输的数据，如用户信息、权限、过期时间等。</li>
+<li><strong>Signature（签名）</strong>：对头部和负载进行签名，确保 JWT 未被篡改。</li>
+</ol>
+<h3 id="202-jwt有什么用">2.0.2 JWT有什么用</h3>
+<p>JWT最常见的场景是授权认证，一旦用户登录，后续每个请求都包含JWT，系统在每次处理用户的请求之前，都要先进行JWT安全校验，通过之后再进行处理。</p>
+<h3 id="202-jwt结构示例">2.0.2 JWT结构示例</h3>
+<p>它由三个部分组成，使用点 <code>.</code> 分隔。</p>
+<pre tabindex="0"><code>eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.
+eyJyb2xlIjoiMCIsIm5pY2tuYW1lIjoi5ri45a6iIiwic2Vzc2lvbklkIjoiYWE1Nzc0MGEtZmU3Ny00Yjk0LTg2MTktZTczNWUwYzNjNTczIiwiaWQiOiI3IiwiZW1haWwiOiJkb25nZmFuZ2ppYmFpQGZvcmVzdHBoYWV0b24uY29tIiwiZXhwaXJlZFRpbWUiOiIxNzI4NjEyMTU3MDkyIiwidXNlcm5hbWUiOiJkb25nZmFuZ2ppYmFpQGZvcmVzdHBoYWV0b24uY29tIiwiZXhwIjoxNzI4NjEyMTU3fQ.
+m0WFeKisAKyQYxUha3sq3ErucpTd_7_bSn-4o5jq9yTXdgVcF6KqQXIOlB7PrjsusWPo9oDjuSWO89lnpym-L9cZ2sIEfFoUdomWjranvRt8hQNBYCmTSB6te1dv8j1ldOsfsolhG9FeZyP63ergQPUXF2cwBOtag7B_VXFoMFzF4Xl-DN0mk9Q9NDQJEAoLQUomJ0cL3KEi5pJuX2ZXi6GscxglVfTmoLnCmDV9rf6Jcz3qis0WDx-Lw1QH_-WVxBxalwbF8VmyIWT4L92DcX167io60EXn1l410FmwO-znZnsXrdGe8N3dPlQJSPW55mGavwOgjaA5Xrlrl6xKkQ
+</code></pre><h3 id="203-jwt的生成与验证流程">2.0.3 JWT的生成与验证流程</h3>
+<h4 id="生成-jwt">生成 JWT</h4>
+<p>在用户成功登录后，服务器会生成一个 JWT 并将其返回给客户端。这个 JWT 包含了用户的身份信息和一些声明，如过期时间。生成 JWT 的关键步骤如下：</p>
+<ol>
+<li><strong>创建头部</strong>：指定使用的签名算法（如 RS256）。</li>
+<li><strong>创建负载</strong>：包含用户信息（如用户 ID、角色）和声明（如过期时间）。</li>
+<li><strong>生成签名</strong>：使用私钥（非对称加密）或共享密钥（对称加密）对头部和负载进行签名。</li>
+</ol>
+<h4 id="验证-jwt">验证 JWT</h4>
+<p>当客户端发起请求时，会在请求头中携带 JWT（通常在 <code>Authorization</code> 头中）。服务器接收到请求后，需要验证 JWT 的有效性，确保其未被篡改且未过期。验证 JWT 的关键步骤如下：</p>
+<ol>
+<li><strong>解析 JWT</strong>：分离头部、负载和签名部分。</li>
+<li><strong>验证签名</strong>：使用公钥（非对称加密）或共享密钥（对称加密）验证签名，确保 JWT 的完整性。</li>
+<li><strong>验证声明</strong>：检查 JWT 的过期时间（<code>exp</code>）、发行时间（<code>iat</code>）、受众（<code>aud</code>）等声明，确保 JWT 的有效性。</li>
+</ol>
+<h3 id="204-对称加密算法和非对称加密算法生成jwt">2.0.4 对称加密算法和非对称加密算法生成JWT</h3>
+<p><strong>对称加密</strong>（如HMAC）：如果使用HMAC算法生成JWT，则伪造者需要共享的密钥。如果攻击者获取到这个密钥，就可以伪造合法的JWT。</p>
+<ul>
+<li>例如：使用<code>HMAC256</code>生成JWT，攻击者如果知道密钥（例如<code>dawnstar</code>），则可以伪造JWT。</li>
+</ul>
+<p><strong>非对称加密</strong>（如RSA）：使用私钥生成的JWT只可以由拥有私钥的一方签名。攻击者即使能看到JWT的内容，也无法生成有效的JWT，除非他们获得了私钥。</p>
+<ul>
+<li>例如：使用<code>RS256</code>签名，只有拥有私钥的服务器才能签名JWT，攻击者无权签名。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th><code>JwtService</code></th>
+<th><code>JwtUtil</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>加密算法</strong></td>
+<td>非对称加密（RSA <code>RS256</code>）</td>
+<td>对称加密（HMAC <code>HMAC256</code>）</td>
+</tr>
+<tr>
+<td><strong>密钥管理</strong></td>
+<td>私钥和公钥，私钥保密，公钥可公开</td>
+<td>单一共享密钥，必须保密</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>分布式系统、高安全性需求、微服务架构</td>
+<td>简单应用、签名和验证在同一服务内</td>
+</tr>
+<tr>
+<td><strong>库依赖</strong></td>
+<td><code>io.jsonwebtoken</code>（JJWT）</td>
+<td><code>com.auth0.jwt</code>（Java JWT）</td>
+</tr>
+<tr>
+<td><strong>代码复杂度</strong></td>
+<td>较高，涉及密钥加载和管理</td>
+<td>较低，直接使用静态密钥</td>
+</tr>
+<tr>
+<td><strong>安全性</strong></td>
+<td>更高，私钥不易泄露且公钥可公开验证</td>
+<td>较低，密钥一旦泄露，所有 JWT 都易被伪造</td>
+</tr>
+<tr>
+<td><strong>灵活性</strong></td>
+<td>高，支持多种算法和复杂操作</td>
+<td>低，功能相对简单</td>
+</tr>
+</tbody>
+</table>
+<h2 id="21-jwt对称加密">2.1 JWT对称加密</h2>
+<ul>
+<li>对称加密算法，使用 HMAC (<code>HMAC256</code>)，即使用相同的密钥进行签名和验证。</li>
+<li>单一密钥，同时用于签名和验证，必须确保该密钥的安全性。</li>
+<li>适用于简单的应用场景，尤其是当签名和验证在同一服务内部进行时。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JwtUtil</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> String KEY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;dawnstar&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//接收业务数据,生成token并返回</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">genToken</span>(Map<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;</span> claims) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JWT.<span style="color:#a6e22e">create</span>()
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">withClaim</span>(<span style="color:#e6db74">&#34;claims&#34;</span>, claims)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">withExpiresAt</span>(<span style="color:#66d9ef">new</span> Date(System.<span style="color:#a6e22e">currentTimeMillis</span>() <span style="color:#f92672">+</span> 1000 <span style="color:#f92672">*</span> 60 <span style="color:#f92672">*</span> 60 <span style="color:#f92672">*</span> 24)) <span style="color:#75715e">// 24小时过期</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//                .withExpiresAt(new Date(System.currentTimeMillis() + 1000 * 60)) // 1分钟过期，用于测试</span>
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">sign</span>(Algorithm.<span style="color:#a6e22e">HMAC256</span>(KEY));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//接收token,验证token,并返回业务数据</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Map<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">parseToken</span>(String token) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JWT.<span style="color:#a6e22e">require</span>(Algorithm.<span style="color:#a6e22e">HMAC256</span>(KEY))
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">build</span>()
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">verify</span>(token)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">getClaim</span>(<span style="color:#e6db74">&#34;claims&#34;</span>)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">asMap</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="22-jwt非对称加密">2.2 JWT非对称加密</h2>
+<ul>
+<li><strong>配置属性</strong>（如<code>login.jwt.private-key</code>）存储的是私钥的Base64编码字符串，适合于配置文件的存储格式。</li>
+<li><strong><code>getPrivateKey()</code>方法</strong>负责将这个字符串转换为<code>PrivateKey</code>对象，以便在代码中实际使用（如生成和签名JWT）。</li>
+<li><strong>转换过程</strong>包括Base64解码、密钥规范创建和使用<code>KeyFactory</code>生成密钥对象。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JwtService</span> <span style="color:#66d9ef">implements</span> InitializingBean {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> Logger logger <span style="color:#f92672">=</span> LoggerFactory.<span style="color:#a6e22e">getLogger</span>(JwtService.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 私钥</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> PrivateKey privateKey;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// JWT解析器</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> JwtParser jwtParser;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 创建JWT,使用私钥对 JWT 进行签名</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// expiredAt：应确保传入的过期时间合理，以防 JWT 过早失效或长时间有效，增加安全风险。</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// jwtPayload：负载部分可以包含用户信息、权限等，但应避免存储敏感信息，因为虽然签名保证了完整性，但负载部分是可解码的。</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">createJwt</span>(Object jwtPayload, <span style="color:#66d9ef">long</span> expiredAt) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 添加构成JWT的参数</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 构建JWT头部，alg签名算法，typ固定JWT</span>
+</span></span><span style="display:flex;"><span>        Map<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;</span> headMap <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;</span>();
+</span></span><span style="display:flex;"><span>        headMap.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;alg&#34;</span>, SignatureAlgorithm.<span style="color:#a6e22e">RS256</span>.<span style="color:#a6e22e">getValue</span>());<span style="color:#75715e">//使用RS256签名算法</span>
+</span></span><span style="display:flex;"><span>        headMap.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;typ&#34;</span>, <span style="color:#e6db74">&#34;JWT&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 构建JWT负载，body</span>
+</span></span><span style="display:flex;"><span>        Map body <span style="color:#f92672">=</span> JSONUtil.<span style="color:#a6e22e">parse</span>(JSONUtil.<span style="color:#a6e22e">stringify</span>(jwtPayload), HashMap.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 构建JWT</span>
+</span></span><span style="display:flex;"><span>        String jwt <span style="color:#f92672">=</span> Jwts.<span style="color:#a6e22e">builder</span>()
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">setHeader</span>(headMap)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">setClaims</span>(body)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">setExpiration</span>(<span style="color:#66d9ef">new</span> Date(expiredAt))
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">signWith</span>(privateKey)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">compact</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 返回生成的 JWT 字符串</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> jwt;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 私钥的 Base64 编码字符串</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Value</span>(<span style="color:#e6db74">&#34;${login.jwt.private-key}&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String privateKeyBase64;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//获取私钥，用于生成Jwt</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> PrivateKey <span style="color:#a6e22e">getPrivateKey</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 利用JDK自带的工具生成私钥</span>
+</span></span><span style="display:flex;"><span>            KeyFactory kf <span style="color:#f92672">=</span> KeyFactory.<span style="color:#a6e22e">getInstance</span>(<span style="color:#e6db74">&#34;RSA&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 解码Base64私钥为字节数组，构建 PKCS8EncodedKeySpec</span>
+</span></span><span style="display:flex;"><span>            PKCS8EncodedKeySpec ks <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> PKCS8EncodedKeySpec(Decoders.<span style="color:#a6e22e">BASE64</span>.<span style="color:#a6e22e">decode</span>(privateKeyBase64));
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 返回生成的 PrivateKey 对象，用于 JWT 的签名操作</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> kf.<span style="color:#a6e22e">generatePrivate</span>(ks);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (Exception e) {
+</span></span><span style="display:flex;"><span>            logger.<span style="color:#a6e22e">error</span>(e.<span style="color:#a6e22e">getMessage</span>(), e);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> BusinessException( <span style="color:#e6db74">&#34;获取Jwt私钥失败&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 公钥的 Base64 编码字符串</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Value</span>(<span style="color:#e6db74">&#34;${login.jwt.public-key}&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String publicKeyBase64;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 获取 JwtParser，公钥用于验证签名，确保JWT没有被纂改</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> JwtParser <span style="color:#a6e22e">getJwtParser</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            X509EncodedKeySpec keySpec <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> X509EncodedKeySpec(Decoders.<span style="color:#a6e22e">BASE64</span>.<span style="color:#a6e22e">decode</span>(publicKeyBase64));
+</span></span><span style="display:flex;"><span>            KeyFactory keyFactory <span style="color:#f92672">=</span> KeyFactory.<span style="color:#a6e22e">getInstance</span>(<span style="color:#e6db74">&#34;RSA&#34;</span>);
+</span></span><span style="display:flex;"><span>            PublicKey pk <span style="color:#f92672">=</span> keyFactory.<span style="color:#a6e22e">generatePublic</span>(keySpec);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Jwts.<span style="color:#a6e22e">parserBuilder</span>().<span style="color:#a6e22e">setSigningKey</span>(pk).<span style="color:#a6e22e">build</span>();
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (Exception e) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 获取公钥失败</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> BusinessException(<span style="color:#e6db74">&#34;获取Jwt公钥失败&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 初始化方法</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">afterPropertiesSet</span>() <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 调用 getPrivateKey 方法将 Base64 编码的私钥字符串转换为 PrivateKey 对象。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 私钥生成数字签名</span>
+</span></span><span style="display:flex;"><span>        privateKey <span style="color:#f92672">=</span> getPrivateKey();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 调用 getJwtParser 方法将 Base64 编码的公钥字符串转换为 JwtParser 对象，用于后续的 JWT 验证。</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 公钥验证数字签名</span>
+</span></span><span style="display:flex;"><span>        jwtParser <span style="color:#f92672">=</span> getJwtParser();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 验证JWT</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> T <span style="color:#a6e22e">verifyJwt</span>(String jwt, Class<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> jwtPayloadClass) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 为空，返回null，表示无效的JWT</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (jwt <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> jwt.<span style="color:#a6e22e">isEmpty</span>()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 签名验证，过期时间验证</span>
+</span></span><span style="display:flex;"><span>        Jws<span style="color:#f92672">&lt;</span>Claims<span style="color:#f92672">&gt;</span> jws <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">jwtParser</span>.<span style="color:#a6e22e">parseClaimsJws</span>(jwt); 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 获取JWT负载</span>
+</span></span><span style="display:flex;"><span>        Claims jwtPayload <span style="color:#f92672">=</span> jws.<span style="color:#a6e22e">getBody</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (jwtPayload <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 负载转换</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> JSONUtil.<span style="color:#a6e22e">convert</span>(jwtPayload, jwtPayloadClass);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 提取 JWT 负载</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> T <span style="color:#a6e22e">getPayload</span>(String jwt, Class<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> jwtPayloadClass) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (jwt <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> jwt.<span style="color:#a6e22e">isEmpty</span>()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// jwt字符串由3部分组成，用英文的点分割：herder.payload.sign</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 可以直接取中间一段，进行Base64解码</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> decodedBytes <span style="color:#f92672">=</span> Base64.<span style="color:#a6e22e">getDecoder</span>().<span style="color:#a6e22e">decode</span>(jwt.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#34;\\.&#34;</span>)<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> JSONUtil.<span style="color:#a6e22e">parse</span>(<span style="color:#66d9ef">new</span> String(decodedBytes), jwtPayloadClass);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (Exception e) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+</content>
+<p>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

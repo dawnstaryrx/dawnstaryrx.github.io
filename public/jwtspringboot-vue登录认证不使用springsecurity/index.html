@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.gooodh.com/images/favicon.png" />
+<title>[JWT]Springboot&#43;vue登录认证不使用SpringSecurity | ᕕ( ᐛ )ᕗ yrx&#39;s Blog</title>
+<meta name="title" content="[JWT]Springboot&#43;vue登录认证不使用SpringSecurity" />
+<meta name="description" content="一、预备内容 1. 统一响应结果 @Data @AllArgsConstructor @NoArgsConstructor public class Result&lt;T&gt; implements Serializable { private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &lt;E&gt; Result&lt;E&gt; success(E data) { return new Result&lt;&gt;(0, &#34;操作成功&#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &#34;操作成功&#34;, null); } public static Result error(String message) { return new Result(1, message, null); } } 2. 用户类 @Data @AllArgsConstructor @NoArgsConstructor public class User { private Long id; private String email; private String phone; private String password; private String username; private Integer role; private Integer coin; private Integer accuCoin; private Boolean isDeleted; private Boolean isLocked; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime createTime; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime updateTime; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime lastLoginTime; } 3." />
+<meta name="keywords" content="" />
+
+
+<meta property="og:url" content="https://blog.gooodh.com/jwtspringboot-vue%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E4%B8%8D%E4%BD%BF%E7%94%A8springsecurity/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ yrx&#39;s Blog">
+  <meta property="og:title" content="[JWT]Springboot&#43;vue登录认证不使用SpringSecurity">
+  <meta property="og:description" content="一、预备内容 1. 统一响应结果 @Data @AllArgsConstructor @NoArgsConstructor public class Result&lt;T&gt; implements Serializable { private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &lt;E&gt; Result&lt;E&gt; success(E data) { return new Result&lt;&gt;(0, &#34;操作成功&#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &#34;操作成功&#34;, null); } public static Result error(String message) { return new Result(1, message, null); } } 2. 用户类 @Data @AllArgsConstructor @NoArgsConstructor public class User { private Long id; private String email; private String phone; private String password; private String username; private Integer role; private Integer coin; private Integer accuCoin; private Boolean isDeleted; private Boolean isLocked; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime createTime; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime updateTime; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime lastLoginTime; } 3.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2024-10-12T21:14:11+08:00">
+    <meta property="article:modified_time" content="2024-10-12T21:14:11+08:00">
+    <meta property="og:image" content="https://blog.gooodh.com/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.gooodh.com/images/share.png">
+  <meta name="twitter:title" content="[JWT]Springboot&#43;vue登录认证不使用SpringSecurity">
+  <meta name="twitter:description" content="一、预备内容 1. 统一响应结果 @Data @AllArgsConstructor @NoArgsConstructor public class Result&lt;T&gt; implements Serializable { private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &lt;E&gt; Result&lt;E&gt; success(E data) { return new Result&lt;&gt;(0, &#34;操作成功&#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &#34;操作成功&#34;, null); } public static Result error(String message) { return new Result(1, message, null); } } 2. 用户类 @Data @AllArgsConstructor @NoArgsConstructor public class User { private Long id; private String email; private String phone; private String password; private String username; private Integer role; private Integer coin; private Integer accuCoin; private Boolean isDeleted; private Boolean isLocked; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime createTime; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime updateTime; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime lastLoginTime; } 3.">
+
+
+
+
+  <meta itemprop="name" content="[JWT]Springboot&#43;vue登录认证不使用SpringSecurity">
+  <meta itemprop="description" content="一、预备内容 1. 统一响应结果 @Data @AllArgsConstructor @NoArgsConstructor public class Result&lt;T&gt; implements Serializable { private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &lt;E&gt; Result&lt;E&gt; success(E data) { return new Result&lt;&gt;(0, &#34;操作成功&#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &#34;操作成功&#34;, null); } public static Result error(String message) { return new Result(1, message, null); } } 2. 用户类 @Data @AllArgsConstructor @NoArgsConstructor public class User { private Long id; private String email; private String phone; private String password; private String username; private Integer role; private Integer coin; private Integer accuCoin; private Boolean isDeleted; private Boolean isLocked; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime createTime; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime updateTime; @JsonFormat(pattern = &#34;yyyy-MM-dd HH:mm:ss&#34;) private LocalDateTime lastLoginTime; } 3.">
+  <meta itemprop="datePublished" content="2024-10-12T21:14:11+08:00">
+  <meta itemprop="dateModified" content="2024-10-12T21:14:11+08:00">
+  <meta itemprop="wordCount" content="1103">
+  <meta itemprop="image" content="https://blog.gooodh.com/images/share.png">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ yrx&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/blog">博客</a>
+
+
+</nav>
+</header>
+  <main>
+ 
+<h1>[JWT]Springboot&#43;vue登录认证不使用SpringSecurity</h1>
+<p>
+  <i>
+    <time datetime='2024-10-12' pubdate>
+      12 Oct, 2024
+    </time>
+  </i>
+</p>
+ 
+<content>
+  <h1 id="一预备内容">一、预备内容</h1>
+<h2 id="1-统一响应结果">1. 统一响应结果</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@AllArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@NoArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Result</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">implements</span> Serializable {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> serialVersionUID <span style="color:#f92672">=</span> 1L;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Integer code;<span style="color:#75715e">//业务状态码  0-成功  1-失败</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String message;<span style="color:#75715e">//提示信息</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> T data;<span style="color:#75715e">//响应数据</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//快速返回操作成功响应结果(带响应数据)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;</span> Result<span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">success</span>(E data) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Result<span style="color:#f92672">&lt;&gt;</span>(0, <span style="color:#e6db74">&#34;操作成功&#34;</span>, data);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//快速返回操作成功响应结果</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Result <span style="color:#a6e22e">success</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Result(0, <span style="color:#e6db74">&#34;操作成功&#34;</span>, <span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Result <span style="color:#a6e22e">error</span>(String message) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Result(1, message, <span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="2-用户类">2. 用户类</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@AllArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@NoArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long id;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String email;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String phone;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String password;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String username;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Integer role;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Integer coin;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Integer accuCoin;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Boolean isDeleted;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Boolean isLocked;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@JsonFormat</span>(pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;yyyy-MM-dd HH:mm:ss&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> LocalDateTime createTime;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@JsonFormat</span>(pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;yyyy-MM-dd HH:mm:ss&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> LocalDateTime updateTime;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@JsonFormat</span>(pattern <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;yyyy-MM-dd HH:mm:ss&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> LocalDateTime lastLoginTime;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="3-tokenjs">3. token.js</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> {<span style="color:#a6e22e">defineStore</span>} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;pinia&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> {<span style="color:#a6e22e">ref</span>} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;vue&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">useTokenStore</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">defineStore</span>(<span style="color:#e6db74">&#39;token&#39;</span>,
+</span></span><span style="display:flex;"><span>  () =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ref</span>(<span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">setToken</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">newToken</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">token</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">newToken</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">removeToken</span> <span style="color:#f92672">=</span> () =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">token</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">token</span>, <span style="color:#a6e22e">setToken</span>, <span style="color:#a6e22e">removeToken</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">persist</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><h2 id="4-threadlocal工具类">4. ThreadLocal工具类</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ThreadLocalUtil</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//提供ThreadLocal对象,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> ThreadLocal THREAD_LOCAL <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ThreadLocal();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//根据键获取值</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> T <span style="color:#a6e22e">get</span>(){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (T) THREAD_LOCAL.<span style="color:#a6e22e">get</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//存储键值对</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">set</span>(Object value){
+</span></span><span style="display:flex;"><span>        THREAD_LOCAL.<span style="color:#a6e22e">set</span>(value);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//清除ThreadLocal 防止内存泄漏</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">remove</span>(){
+</span></span><span style="display:flex;"><span>        THREAD_LOCAL.<span style="color:#a6e22e">remove</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="二基本流程">二、基本流程</h1>
+<h2 id="1-用户名密码登录">1. 用户名密码登录</h2>
+<ol>
+<li>前端输入用户名+密码，点击登录，发送登录请求到后端</li>
+<li>用户登录请求不拦截，后端处理登录请求
+<ol>
+<li>判断用户是否存在，用户是否被禁用</li>
+<li>判断密码是否正确</li>
+<li>若以上都通过，生成token并保存到Redis，返回token给前端；</li>
+<li>否则，抛出异常</li>
+</ol>
+</li>
+<li>前端接收到响应结果，将token存储到Pinia状态管理器中，并持久化</li>
+<li>之后前端每次发起请求，都携带token</li>
+<li>后端拦截到请求后，校验token</li>
+<li>若token有效，则放行，进行下一步处理</li>
+</ol>
+<h2 id="2-邮箱验证码登录">2. 邮箱验证码登录</h2>
+<p>只需将2.2判断密码是否正确，修改为判断验证码是否正确即可。</p>
+<p>验证码通过邮箱发送给用户一份，Redis中保存一份。比较这两个验证码是否一致。</p>
+<h1 id="三后端">三、后端</h1>
+<h2 id="1-处理登录请求">1. 处理登录请求</h2>
+<ol>
+<li>判断是否有该用户</li>
+<li>若有，则进行后端校验，判断密码是否正确，及用户是否被禁用</li>
+<li>若通过校验，则生成token，并存储到Redis中一份</li>
+<li>返回UserInfoVO</li>
+</ol>
+<p>UserController.java</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@PostMapping</span>(<span style="color:#e6db74">&#34;/login&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> Result <span style="color:#a6e22e">login</span>(<span style="color:#a6e22e">@RequestBody</span> <span style="color:#a6e22e">@Validated</span> LoginDTO loginDTO){
+</span></span><span style="display:flex;"><span>    UserInfoVO userInfoVO <span style="color:#f92672">=</span> userService.<span style="color:#a6e22e">login</span>(loginDTO);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">final</span> Map<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;</span> map <span style="color:#f92672">=</span> ThreadLocalUtil.<span style="color:#a6e22e">get</span>();
+</span></span><span style="display:flex;"><span>    log.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">&#34;map: &#34;</span> <span style="color:#f92672">+</span> map);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Result.<span style="color:#a6e22e">success</span>(userInfoVO);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>UserServiceImpl.java</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> UserInfoVO <span style="color:#a6e22e">login</span>(LoginDTO loginDTO) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. 判断是否有该用户</span>
+</span></span><span style="display:flex;"><span>    User userByEmail <span style="color:#f92672">=</span> userMapper.<span style="color:#a6e22e">getUserByEmail</span>(loginDTO.<span style="color:#a6e22e">getEmail</span>());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (userByEmail <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> BussinesException(<span style="color:#e6db74">&#34;该邮箱未注册&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. 已注册，判断登录方式</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span> (loginDTO.<span style="color:#a6e22e">getLoginType</span>()){
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 2.1 验证码登录</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> 1:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 2.1.1 判断有无验证码、验证码是否正确</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>StringUtils.<span style="color:#a6e22e">hasLength</span>(loginDTO.<span style="color:#a6e22e">getEmailCode</span>())){
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> BussinesException(<span style="color:#e6db74">&#34;验证码不能为空&#34;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            String codeKey <span style="color:#f92672">=</span> RedisConstants.<span style="color:#a6e22e">EMAIL_CODE_PREFIX</span> <span style="color:#f92672">+</span> loginDTO.<span style="color:#a6e22e">getEmail</span>();
+</span></span><span style="display:flex;"><span>            String serverCode <span style="color:#f92672">=</span> stringRedisTemplate.<span style="color:#a6e22e">opsForValue</span>().<span style="color:#a6e22e">get</span>(codeKey);
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 2.1.2 验证码错误</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>StringUtils.<span style="color:#a6e22e">hasLength</span>(serverCode) <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>serverCode.<span style="color:#a6e22e">equals</span>(loginDTO.<span style="color:#a6e22e">getEmailCode</span>())){
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> BussinesException(<span style="color:#e6db74">&#34;验证码错误&#34;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 2.1.3 验证码正确,移除redis验证码</span>
+</span></span><span style="display:flex;"><span>            stringRedisTemplate.<span style="color:#a6e22e">delete</span>(codeKey);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 2.2 密码登录</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> 2:
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 判断有无密码、密码是否正确</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>StringUtils.<span style="color:#a6e22e">hasLength</span>(loginDTO.<span style="color:#a6e22e">getPassword</span>())){
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> BussinesException(<span style="color:#e6db74">&#34;密码不能为空&#34;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>Md5Util.<span style="color:#a6e22e">checkPassword</span>(loginDTO.<span style="color:#a6e22e">getPassword</span>(), userByEmail.<span style="color:#a6e22e">getPassword</span>())){
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> BussinesException(<span style="color:#e6db74">&#34;密码错误&#34;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 密码正确</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">default</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> BussinesException(<span style="color:#e6db74">&#34;登录方式错误&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 3. 验证通过， 生成UserInfoVO</span>
+</span></span><span style="display:flex;"><span>    UserInfoVO userInfoVO <span style="color:#f92672">=</span> CopyUtil.<span style="color:#a6e22e">copy</span>(userByEmail, UserInfoVO.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 4. 生成token</span>
+</span></span><span style="display:flex;"><span>    Map<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;</span> claims <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HashMap<span style="color:#f92672">&lt;&gt;</span>();
+</span></span><span style="display:flex;"><span>    claims.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;userId&#34;</span>, userInfoVO.<span style="color:#a6e22e">getId</span>());
+</span></span><span style="display:flex;"><span>    claims.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;userRole&#34;</span>, userInfoVO.<span style="color:#a6e22e">getRole</span>());
+</span></span><span style="display:flex;"><span>    claims.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;userEmail&#34;</span>, userInfoVO.<span style="color:#a6e22e">getEmail</span>());
+</span></span><span style="display:flex;"><span>    claims.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;userName&#34;</span>, userInfoVO.<span style="color:#a6e22e">getUsername</span>());
+</span></span><span style="display:flex;"><span>    log.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">&#34;claims:{}&#34;</span>, claims);
+</span></span><span style="display:flex;"><span>    String token <span style="color:#f92672">=</span> JwtUtil.<span style="color:#a6e22e">genToken</span>(claims);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 5. 保存登录信息到redis</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 5.1 封装TokenUserInfoDTO</span>
+</span></span><span style="display:flex;"><span>    TokenUserInfoDTO tokenUserInfoDto <span style="color:#f92672">=</span> getTokenUserInfoDto(userByEmail);
+</span></span><span style="display:flex;"><span>    tokenUserInfoDto.<span style="color:#a6e22e">setToken</span>(token);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 5.2 获取key value</span>
+</span></span><span style="display:flex;"><span>    String tokenKey <span style="color:#f92672">=</span> USER_TOKEN_PREFIX <span style="color:#f92672">+</span> userInfoVO.<span style="color:#a6e22e">getEmail</span>();
+</span></span><span style="display:flex;"><span>    String tokenValue <span style="color:#f92672">=</span> JSON.<span style="color:#a6e22e">toJSONString</span>(tokenUserInfoDto);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 5.3 token 保存一天</span>
+</span></span><span style="display:flex;"><span>    stringRedisTemplate.<span style="color:#a6e22e">opsForValue</span>().<span style="color:#a6e22e">set</span>(tokenKey, tokenValue, 1, TimeUnit.<span style="color:#a6e22e">DAYS</span>);
+</span></span><span style="display:flex;"><span>    userInfoVO.<span style="color:#a6e22e">setToken</span>(tokenUserInfoDto.<span style="color:#a6e22e">getToken</span>());
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 6 更新上次登录时间</span>
+</span></span><span style="display:flex;"><span>    userByEmail.<span style="color:#a6e22e">setLastLoginTime</span>(LocalDateTime.<span style="color:#a6e22e">now</span>());
+</span></span><span style="display:flex;"><span>    userMapper.<span style="color:#a6e22e">update</span>(userByEmail);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 7 返回</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> userInfoVO;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * 封装TokenUserInfoDTO，序列化后，保存到Redis
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @param user
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * @return TokenUserInfoDTO
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> TokenUserInfoDTO <span style="color:#a6e22e">getTokenUserInfoDto</span>(User user){
+</span></span><span style="display:flex;"><span>    TokenUserInfoDTO tokenUserInfoDto <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TokenUserInfoDTO();
+</span></span><span style="display:flex;"><span>    tokenUserInfoDto.<span style="color:#a6e22e">setId</span>(user.<span style="color:#a6e22e">getId</span>());
+</span></span><span style="display:flex;"><span>    tokenUserInfoDto.<span style="color:#a6e22e">setEmail</span>(user.<span style="color:#a6e22e">getEmail</span>());
+</span></span><span style="display:flex;"><span>    tokenUserInfoDto.<span style="color:#a6e22e">setUsername</span>(user.<span style="color:#a6e22e">getUsername</span>());
+</span></span><span style="display:flex;"><span>    tokenUserInfoDto.<span style="color:#a6e22e">setRole</span>(user.<span style="color:#a6e22e">getRole</span>());
+</span></span><span style="display:flex;"><span>    tokenUserInfoDto.<span style="color:#a6e22e">setIsLocked</span>(user.<span style="color:#a6e22e">getIsLocked</span>());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> tokenUserInfoDto;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="2-处理不需要登录的请求">2. 处理不需要登录的请求</h2>
+<p>直接放行。</p>
+<h2 id="3-处理需要登录的请求拦截器">3. 处理需要登录的请求（拦截器）</h2>
+<ol>
+<li>对登录注册等接口不拦截</li>
+<li>对于其他接口
+<ol>
+<li>首先判断token是否存在，如果不存在，直接抛出异常</li>
+<li>存在，解析token，进行校验
+<ol>
+<li>判断token是否过期</li>
+<li>获取邮箱，并取出在Redis中的token，判断两个token是否一致</li>
+</ol>
+</li>
+<li>校验通过，将用户信息存储到ThreadLocal中</li>
+</ol>
+</li>
+</ol>
+<p>WebConfig</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequiredArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WebConfig</span> <span style="color:#66d9ef">implements</span> WebMvcConfigurer {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> LoginInterceptor loginInterceptor;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addInterceptors</span>(InterceptorRegistry registry) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 登录和注册接口不拦截，发送验证码的服务不拦截</span>
+</span></span><span style="display:flex;"><span>        registry.<span style="color:#a6e22e">addInterceptor</span>(loginInterceptor).<span style="color:#a6e22e">excludePathPatterns</span>(
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;/user/register&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;/user/sendCode&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;/user/login&#34;</span>,
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>loginInterceptor</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Component</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Slf4j</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LoginInterceptor</span> <span style="color:#66d9ef">implements</span> HandlerInterceptor {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> StringRedisTemplate stringRedisTemplate;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">preHandle</span>(HttpServletRequest request, HttpServletResponse response, Object handler) <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 令牌验证</span>
+</span></span><span style="display:flex;"><span>        String token <span style="color:#f92672">=</span> request.<span style="color:#a6e22e">getHeader</span>(<span style="color:#e6db74">&#34;token&#34;</span>);
+</span></span><span style="display:flex;"><span>        log.<span style="color:#a6e22e">info</span>(<span style="color:#e6db74">&#34;==============&gt; token: &#34;</span> <span style="color:#f92672">+</span> token);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//验证token</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 把业务数据存储到ThreadLocal中</span>
+</span></span><span style="display:flex;"><span>            Map<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;</span> claims <span style="color:#f92672">=</span> JwtUtil.<span style="color:#a6e22e">parseToken</span>(token);
+</span></span><span style="display:flex;"><span>            ThreadLocalUtil.<span style="color:#a6e22e">set</span>(claims);
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 获取Email</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">final</span> Map<span style="color:#f92672">&lt;</span>String, Object<span style="color:#f92672">&gt;</span> map <span style="color:#f92672">=</span> ThreadLocalUtil.<span style="color:#a6e22e">get</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">final</span> String userEmail <span style="color:#f92672">=</span> (String) map.<span style="color:#a6e22e">get</span>(<span style="color:#e6db74">&#34;userEmail&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 取redis中的token</span>
+</span></span><span style="display:flex;"><span>            String key <span style="color:#f92672">=</span> USER_TOKEN_PREFIX <span style="color:#f92672">+</span> userEmail;
+</span></span><span style="display:flex;"><span>            ValueOperations<span style="color:#f92672">&lt;</span>String, String<span style="color:#f92672">&gt;</span> operations <span style="color:#f92672">=</span> stringRedisTemplate.<span style="color:#a6e22e">opsForValue</span>();
+</span></span><span style="display:flex;"><span>            String redisToken <span style="color:#f92672">=</span> operations.<span style="color:#a6e22e">get</span>(key);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (redisToken <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>){
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// token失效, 移除业务数据</span>
+</span></span><span style="display:flex;"><span>                ThreadLocalUtil.<span style="color:#a6e22e">remove</span>();
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 比较Redis中的token与用户的token是否一致</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (redisToken <span style="color:#f92672">!=</span> token){
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// token失效, 移除业务数据</span>
+</span></span><span style="display:flex;"><span>                ThreadLocalUtil.<span style="color:#a6e22e">remove</span>();
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> RuntimeException();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>; <span style="color:#75715e">// 放行</span>
+</span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">catch</span> (Exception e) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// http响应状态码为401</span>
+</span></span><span style="display:flex;"><span>            log.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;==============&gt;  &#34;</span><span style="color:#f92672">+</span> e);
+</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setStatus</span>(401);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>; <span style="color:#75715e">// 不放行</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">afterCompletion</span>(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 清空ThreadLocal中的数据</span>
+</span></span><span style="display:flex;"><span>        ThreadLocalUtil.<span style="color:#a6e22e">remove</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="四前端">四、前端</h1>
+<h2 id="1-发送请求">1. 发送请求</h2>
+<ul>
+<li>
+<p>前端进行简单校验</p>
+</li>
+<li>
+<p>如判断用户名/密码是否为空，如果为空，则不能发起请求。</p>
+</li>
+<li>
+<p>校验通过，发送请求。</p>
+</li>
+</ul>
+<p>api</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">userLoginService</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">loginData</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">post</span>(<span style="color:#e6db74">&#39;/user/login&#39;</span>,  <span style="color:#a6e22e">loginData</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>前端发起请求</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">login</span> <span style="color:#f92672">=</span>  <span style="color:#66d9ef">async</span> () =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">userLoginService</span>(<span style="color:#a6e22e">loginData</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">code</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ElMessage</span>.<span style="color:#a6e22e">success</span>(<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">message</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">message</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;登录成功！&#39;</span>)
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ElMessage</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">message</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">message</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;登录失败！&#39;</span>)
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">tokenStore</span>.<span style="color:#a6e22e">setToken</span>(<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">data</span>)
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">&#39;/&#39;</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="2-登录成功">2. 登录成功</h2>
+<p>将result.data也就是token存储到pinia状态管理器中，并持久化（1天）。随后跳转到首页。</p>
+<pre tabindex="0"><code>tokenStore.setToken(result.data)
+router.push(&#39;/&#39;)
+</code></pre><p>除此之外，还应该存储当前用户信息到Pinia中。</p>
+<h3 id="21-已登录不能访问登录页面">2.1 已登录不能访问登录页面</h3>
+<p>用户在已登录的情况下，访问/login登录页面，会跳转到/首页。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">beforeEach</span>((<span style="color:#a6e22e">to</span>, <span style="color:#a6e22e">from</span>, <span style="color:#a6e22e">next</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">tokenStore</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useTokenStore</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isLoggedIn</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">tokenStore</span>.<span style="color:#a6e22e">token</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">tokenStore</span>.<span style="color:#a6e22e">token</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">false</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">path</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;/login&#34;</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">isLoggedIn</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 已登录，重定向到主页
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">next</span>({ <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/&#34;</span> });
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span>();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="22-未登录不能访问需要登录的页面">2.2 未登录不能访问需要登录的页面</h3>
+<p>这是在前端进行的处理，用户如果在未登录的状态下访问需要授权的页面，则会跳转到登录页面。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// 全局前置守卫，这里可以加入用户登录判断
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useTokenStore</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;@/stores/token.js&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 解析token，判断有没有过期
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">jwtDecode</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;jwt-decode&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// to跳转到哪个页面， from表示从哪个页面跳转过去
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// next的表示将页面要不要执行下一步操作，写之前首先要记录每一个未授权界面
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">beforeEach</span>((<span style="color:#a6e22e">to</span>, <span style="color:#a6e22e">from</span>, <span style="color:#a6e22e">next</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">tokenStore</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useTokenStore</span>()
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// pinia出来
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">nowtoken</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">tokenStore</span>.<span style="color:#a6e22e">token</span>.<span style="color:#a6e22e">token</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">meta</span>.<span style="color:#a6e22e">requireAuth</span> <span style="color:#f92672">&amp;&amp;</span> (<span style="color:#a6e22e">nowtoken</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">nowtoken</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>)) {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">next</span>({<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;login&#34;</span>});
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">meta</span>.<span style="color:#a6e22e">requireAuth</span>){
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">next</span>();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 判断token有没有过期
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 解析出来
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">decode</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">jwtDecode</span>(<span style="color:#a6e22e">nowtoken</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 如果过期
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">decode</span>.<span style="color:#a6e22e">exp</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span>  <span style="color:#f92672">&lt;</span> Date.<span style="color:#a6e22e">now</span>()) {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 删除token
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">tokenStore</span>.<span style="color:#a6e22e">removeToken</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">next</span>({<span style="color:#a6e22e">name</span><span style="color:#f92672">:</span><span style="color:#e6db74">&#34;login&#34;</span>});
+</span></span><span style="display:flex;"><span>    }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">next</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><p>扩展：普通用户访问需要管理员权限的页面(/admin开头的路由)时，跳转到首页。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">routes</span> <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;/admin&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;AdminDashboard&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">component</span><span style="color:#f92672">:</span> () =&gt; <span style="color:#66d9ef">import</span>(<span style="color:#e6db74">&#39;@/views/AdminDashboard.vue&#39;</span>),
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">meta</span><span style="color:#f92672">:</span> { <span style="color:#a6e22e">requireAuth</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>, <span style="color:#a6e22e">roles</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;admin&#39;</span>] }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 其他路由
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 导入必要的模块和函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">router</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;@/router&#39;</span>; <span style="color:#75715e">// 根据您的项目结构调整路径
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">useTokenStore</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;@/stores/token.js&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">jwtDecode</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;jwt-decode&#39;</span>; <span style="color:#75715e">// 确保正确导入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">computed</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;vue&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">beforeEach</span>((<span style="color:#a6e22e">to</span>, <span style="color:#a6e22e">from</span>, <span style="color:#a6e22e">next</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">tokenStore</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useTokenStore</span>();
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">tokenStore</span>.<span style="color:#a6e22e">token</span>.<span style="color:#a6e22e">token</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 检查是否需要认证
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">meta</span>.<span style="color:#a6e22e">requireAuth</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">token</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 未登录，重定向到登录页
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">next</span>({ <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;login&#39;</span> });
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 解析token
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">decoded</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">jwtDecode</span>(<span style="color:#a6e22e">token</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 检查token是否过期
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">decoded</span>.<span style="color:#a6e22e">exp</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">&lt;</span> Date.<span style="color:#a6e22e">now</span>()) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Token过期，移除token并重定向到登录页
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">tokenStore</span>.<span style="color:#a6e22e">removeToken</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">next</span>({ <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;login&#39;</span> });
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 如果路由有角色要求，检查用户角色
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">meta</span>.<span style="color:#a6e22e">roles</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">meta</span>.<span style="color:#a6e22e">roles</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">userRole</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">decoded</span>.<span style="color:#a6e22e">role</span>; <span style="color:#75715e">// 假设token中有role字段
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">meta</span>.<span style="color:#a6e22e">roles</span>.<span style="color:#a6e22e">includes</span>(<span style="color:#a6e22e">userRole</span>)) {
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e">// 用户角色不匹配，重定向到首页
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>          <span style="color:#a6e22e">next</span>({ <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;home&#39;</span> });
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 一切检查通过，放行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">next</span>();
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">error</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;Token解析错误:&#39;</span>, <span style="color:#a6e22e">error</span>);
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// Token无效，移除token并重定向到登录页
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#a6e22e">tokenStore</span>.<span style="color:#a6e22e">removeToken</span>();
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">next</span>({ <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;login&#39;</span> });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 不需要认证的路由，直接放行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">next</span>();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h2 id="3-之后的请求">3. 之后的请求</h2>
+<p>之后的每次请求，都应该在请求头中携带token。使用请求拦截器。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">//定制请求的实例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">//导入axios
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">axios</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;axios&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">router</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@/router&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> {<span style="color:#a6e22e">ElMessage</span>} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;element-plus&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> {<span style="color:#a6e22e">useTokenStore</span>} <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@/stores/token.js&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//定义一个变量,记录公共的前缀  ,  baseURL
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">baseURL</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/api&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">instance</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">axios</span>.<span style="color:#a6e22e">create</span>({<span style="color:#a6e22e">baseURL</span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">interceptors</span>.<span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">use</span>(
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">config</span>) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 添加token
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">tokenStore</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">useTokenStore</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">tokenStore</span>.<span style="color:#a6e22e">token</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">headers</span>.<span style="color:#a6e22e">token</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">tokenStore</span>.<span style="color:#a6e22e">token</span>.<span style="color:#a6e22e">token</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">config</span>;
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">err</span>) =&gt; {
+</span></span><span style="display:flex;"><span>        Promise.<span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//添加响应拦截器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">instance</span>.<span style="color:#a6e22e">interceptors</span>.<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">use</span>(
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">result</span> =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">code</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">data</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">ElMessage</span>.<span style="color:#a6e22e">error</span>(<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">message</span> <span style="color:#f92672">?</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">message</span> <span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;服务异常&#34;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Promise.<span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">data</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">err</span> =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">status</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">401</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">ElMessage</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;请先登陆&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">router</span>.<span style="color:#a6e22e">push</span>(<span style="color:#e6db74">&#34;/login&#34;</span>)
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">ElMessage</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;服务异常&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Promise.<span style="color:#a6e22e">reject</span>(<span style="color:#a6e22e">err</span>);<span style="color:#75715e">//异步的状态转化成失败的状态
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#a6e22e">instance</span>;
+</span></span></code></pre></div>
+</content>
+<p>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

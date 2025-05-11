@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.gooodh.com/images/favicon.png" />
+<title>[GoNav 02]前端顶部导航、底部版权信息与搜索框的实现 | ᕕ( ᐛ )ᕗ yrx&#39;s Blog</title>
+<meta name="title" content="[GoNav 02]前端顶部导航、底部版权信息与搜索框的实现" />
+<meta name="description" content="一、顶部导航栏 本项目前端使用Vue和Bootstrap5.3，主要参考Bootstrap样式并进行调整。
+主要有以下需求：
+导航栏有左右两部分，左边导航进入子模块，右边展示信息或进入登录注册页面； 导航栏居中，设置最大宽度（这样在很宽的屏幕下效果更好）； 导航栏样式：鼠标悬浮变色，且底部有横线展开；当前路由的菜单高亮显示；支持响应式布局。 导航栏固定在顶部，鼠标向下滚动，导航栏不动。 在小屏幕上隐藏掉了登录按钮和Github按钮。 Vue代码如下：
+&lt;template&gt; &lt;div class=&#34;header-navbar-container&#34;&gt; &lt;nav class=&#34;navbar navbar-expand-lg bg-body-tertiary header-navbar-top&#34;&gt; &lt;div class=&#34;container-fluid header-navbar-top-content&#34;&gt; &lt;div class=&#34;d-flex align-items-center&#34;&gt; &lt;img class=&#34;img-navbar-brand&#34; src=&#34;@/assets/logo.png&#34; alt=&#34;导航站&#34; width=&#34;36&#34; height=&#34;36&#34; /&gt; &lt;router-link class=&#34;navbar-brand ms-2 noto-serif-sc-brand&#34; to=&#34;/&#34;&gt;Go导航&lt;/router-link&gt; &lt;/div&gt; &lt;button class=&#34;navbar-toggler&#34; type=&#34;button&#34; data-bs-toggle=&#34;collapse&#34; data-bs-target=&#34;#navbarText&#34; aria-controls=&#34;navbarText&#34; aria-expanded=&#34;false&#34; aria-label=&#34;Toggle navigation&#34;&gt; &lt;span class=&#34;navbar-toggler-icon&#34;&gt;&lt;/span&gt; &lt;/button&gt; &lt;div class=&#34;collapse navbar-collapse&#34; id=&#34;navbarText&#34;&gt; &lt;ul class=&#34;navbar-nav me-auto mb-2 mb-lg-0&#34;&gt; &lt;li class=&#34;nav-item header-navbar-top-item&#34;&gt; &lt;router-link class=&#34;nav-link noto-serif-sc-text&#34; aria-current=&#34;page&#34; to=&#34;/hello&#34;&gt;Hello&lt;/router-link&gt; &lt;/li&gt; &lt;li class=&#34;nav-item header-navbar-top-item&#34;&gt; &lt;a class=&#34;nav-link noto-serif-sc-text&#34; href=&#34;https://www." />
+<meta name="keywords" content="" />
+
+
+<meta property="og:url" content="https://blog.gooodh.com/gonav-02%E5%89%8D%E7%AB%AF%E9%A1%B6%E9%83%A8%E5%AF%BC%E8%88%AA%E5%BA%95%E9%83%A8%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A1%86%E7%9A%84%E5%AE%9E%E7%8E%B0/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ yrx&#39;s Blog">
+  <meta property="og:title" content="[GoNav 02]前端顶部导航、底部版权信息与搜索框的实现">
+  <meta property="og:description" content="一、顶部导航栏 本项目前端使用Vue和Bootstrap5.3，主要参考Bootstrap样式并进行调整。
+主要有以下需求：
+导航栏有左右两部分，左边导航进入子模块，右边展示信息或进入登录注册页面； 导航栏居中，设置最大宽度（这样在很宽的屏幕下效果更好）； 导航栏样式：鼠标悬浮变色，且底部有横线展开；当前路由的菜单高亮显示；支持响应式布局。 导航栏固定在顶部，鼠标向下滚动，导航栏不动。 在小屏幕上隐藏掉了登录按钮和Github按钮。 Vue代码如下：
+&lt;template&gt; &lt;div class=&#34;header-navbar-container&#34;&gt; &lt;nav class=&#34;navbar navbar-expand-lg bg-body-tertiary header-navbar-top&#34;&gt; &lt;div class=&#34;container-fluid header-navbar-top-content&#34;&gt; &lt;div class=&#34;d-flex align-items-center&#34;&gt; &lt;img class=&#34;img-navbar-brand&#34; src=&#34;@/assets/logo.png&#34; alt=&#34;导航站&#34; width=&#34;36&#34; height=&#34;36&#34; /&gt; &lt;router-link class=&#34;navbar-brand ms-2 noto-serif-sc-brand&#34; to=&#34;/&#34;&gt;Go导航&lt;/router-link&gt; &lt;/div&gt; &lt;button class=&#34;navbar-toggler&#34; type=&#34;button&#34; data-bs-toggle=&#34;collapse&#34; data-bs-target=&#34;#navbarText&#34; aria-controls=&#34;navbarText&#34; aria-expanded=&#34;false&#34; aria-label=&#34;Toggle navigation&#34;&gt; &lt;span class=&#34;navbar-toggler-icon&#34;&gt;&lt;/span&gt; &lt;/button&gt; &lt;div class=&#34;collapse navbar-collapse&#34; id=&#34;navbarText&#34;&gt; &lt;ul class=&#34;navbar-nav me-auto mb-2 mb-lg-0&#34;&gt; &lt;li class=&#34;nav-item header-navbar-top-item&#34;&gt; &lt;router-link class=&#34;nav-link noto-serif-sc-text&#34; aria-current=&#34;page&#34; to=&#34;/hello&#34;&gt;Hello&lt;/router-link&gt; &lt;/li&gt; &lt;li class=&#34;nav-item header-navbar-top-item&#34;&gt; &lt;a class=&#34;nav-link noto-serif-sc-text&#34; href=&#34;https://www.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2024-10-04T09:38:56+08:00">
+    <meta property="article:modified_time" content="2024-10-04T09:38:56+08:00">
+    <meta property="og:image" content="https://blog.gooodh.com/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.gooodh.com/images/share.png">
+  <meta name="twitter:title" content="[GoNav 02]前端顶部导航、底部版权信息与搜索框的实现">
+  <meta name="twitter:description" content="一、顶部导航栏 本项目前端使用Vue和Bootstrap5.3，主要参考Bootstrap样式并进行调整。
+主要有以下需求：
+导航栏有左右两部分，左边导航进入子模块，右边展示信息或进入登录注册页面； 导航栏居中，设置最大宽度（这样在很宽的屏幕下效果更好）； 导航栏样式：鼠标悬浮变色，且底部有横线展开；当前路由的菜单高亮显示；支持响应式布局。 导航栏固定在顶部，鼠标向下滚动，导航栏不动。 在小屏幕上隐藏掉了登录按钮和Github按钮。 Vue代码如下：
+&lt;template&gt; &lt;div class=&#34;header-navbar-container&#34;&gt; &lt;nav class=&#34;navbar navbar-expand-lg bg-body-tertiary header-navbar-top&#34;&gt; &lt;div class=&#34;container-fluid header-navbar-top-content&#34;&gt; &lt;div class=&#34;d-flex align-items-center&#34;&gt; &lt;img class=&#34;img-navbar-brand&#34; src=&#34;@/assets/logo.png&#34; alt=&#34;导航站&#34; width=&#34;36&#34; height=&#34;36&#34; /&gt; &lt;router-link class=&#34;navbar-brand ms-2 noto-serif-sc-brand&#34; to=&#34;/&#34;&gt;Go导航&lt;/router-link&gt; &lt;/div&gt; &lt;button class=&#34;navbar-toggler&#34; type=&#34;button&#34; data-bs-toggle=&#34;collapse&#34; data-bs-target=&#34;#navbarText&#34; aria-controls=&#34;navbarText&#34; aria-expanded=&#34;false&#34; aria-label=&#34;Toggle navigation&#34;&gt; &lt;span class=&#34;navbar-toggler-icon&#34;&gt;&lt;/span&gt; &lt;/button&gt; &lt;div class=&#34;collapse navbar-collapse&#34; id=&#34;navbarText&#34;&gt; &lt;ul class=&#34;navbar-nav me-auto mb-2 mb-lg-0&#34;&gt; &lt;li class=&#34;nav-item header-navbar-top-item&#34;&gt; &lt;router-link class=&#34;nav-link noto-serif-sc-text&#34; aria-current=&#34;page&#34; to=&#34;/hello&#34;&gt;Hello&lt;/router-link&gt; &lt;/li&gt; &lt;li class=&#34;nav-item header-navbar-top-item&#34;&gt; &lt;a class=&#34;nav-link noto-serif-sc-text&#34; href=&#34;https://www.">
+
+
+
+
+  <meta itemprop="name" content="[GoNav 02]前端顶部导航、底部版权信息与搜索框的实现">
+  <meta itemprop="description" content="一、顶部导航栏 本项目前端使用Vue和Bootstrap5.3，主要参考Bootstrap样式并进行调整。
+主要有以下需求：
+导航栏有左右两部分，左边导航进入子模块，右边展示信息或进入登录注册页面； 导航栏居中，设置最大宽度（这样在很宽的屏幕下效果更好）； 导航栏样式：鼠标悬浮变色，且底部有横线展开；当前路由的菜单高亮显示；支持响应式布局。 导航栏固定在顶部，鼠标向下滚动，导航栏不动。 在小屏幕上隐藏掉了登录按钮和Github按钮。 Vue代码如下：
+&lt;template&gt; &lt;div class=&#34;header-navbar-container&#34;&gt; &lt;nav class=&#34;navbar navbar-expand-lg bg-body-tertiary header-navbar-top&#34;&gt; &lt;div class=&#34;container-fluid header-navbar-top-content&#34;&gt; &lt;div class=&#34;d-flex align-items-center&#34;&gt; &lt;img class=&#34;img-navbar-brand&#34; src=&#34;@/assets/logo.png&#34; alt=&#34;导航站&#34; width=&#34;36&#34; height=&#34;36&#34; /&gt; &lt;router-link class=&#34;navbar-brand ms-2 noto-serif-sc-brand&#34; to=&#34;/&#34;&gt;Go导航&lt;/router-link&gt; &lt;/div&gt; &lt;button class=&#34;navbar-toggler&#34; type=&#34;button&#34; data-bs-toggle=&#34;collapse&#34; data-bs-target=&#34;#navbarText&#34; aria-controls=&#34;navbarText&#34; aria-expanded=&#34;false&#34; aria-label=&#34;Toggle navigation&#34;&gt; &lt;span class=&#34;navbar-toggler-icon&#34;&gt;&lt;/span&gt; &lt;/button&gt; &lt;div class=&#34;collapse navbar-collapse&#34; id=&#34;navbarText&#34;&gt; &lt;ul class=&#34;navbar-nav me-auto mb-2 mb-lg-0&#34;&gt; &lt;li class=&#34;nav-item header-navbar-top-item&#34;&gt; &lt;router-link class=&#34;nav-link noto-serif-sc-text&#34; aria-current=&#34;page&#34; to=&#34;/hello&#34;&gt;Hello&lt;/router-link&gt; &lt;/li&gt; &lt;li class=&#34;nav-item header-navbar-top-item&#34;&gt; &lt;a class=&#34;nav-link noto-serif-sc-text&#34; href=&#34;https://www.">
+  <meta itemprop="datePublished" content="2024-10-04T09:38:56+08:00">
+  <meta itemprop="dateModified" content="2024-10-04T09:38:56+08:00">
+  <meta itemprop="wordCount" content="1225">
+  <meta itemprop="image" content="https://blog.gooodh.com/images/share.png">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ yrx&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/blog">博客</a>
+
+
+</nav>
+</header>
+  <main>
+ 
+<h1>[GoNav 02]前端顶部导航、底部版权信息与搜索框的实现</h1>
+<p>
+  <i>
+    <time datetime='2024-10-04' pubdate>
+      04 Oct, 2024
+    </time>
+  </i>
+</p>
+ 
+<content>
+  <h1 id="一顶部导航栏">一、顶部导航栏</h1>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F10%2F08%2F0e86c5cf3281dbd73266a703a7f0189a-image-20241008202749051-71ff70.png" alt="image-20241008202749051"></p>
+<p>本项目前端使用Vue和Bootstrap5.3，主要参考Bootstrap样式并进行调整。</p>
+<p>主要有以下需求：</p>
+<ol>
+<li>导航栏有左右两部分，左边导航进入子模块，右边展示信息或进入登录注册页面；</li>
+<li>导航栏居中，设置最大宽度（这样在很宽的屏幕下效果更好）；</li>
+<li>导航栏样式：鼠标悬浮变色，且底部有横线展开；当前路由的菜单高亮显示；支持响应式布局。</li>
+<li>导航栏固定在顶部，鼠标向下滚动，导航栏不动。</li>
+<li>在小屏幕上隐藏掉了登录按钮和Github按钮。</li>
+</ol>
+<p>Vue代码如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vue" data-lang="vue"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;header-navbar-container&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">nav</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar navbar-expand-lg bg-body-tertiary header-navbar-top&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;container-fluid header-navbar-top-content&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;d-flex align-items-center&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;img-navbar-brand&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;@/assets/logo.png&#34;</span> <span style="color:#a6e22e">alt</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;导航站&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;36&#34;</span> <span style="color:#a6e22e">height</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;36&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">router-link</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar-brand ms-2 noto-serif-sc-brand&#34;</span>  <span style="color:#a6e22e">to</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/&#34;</span>&gt;<span style="color:#a6e22e">Go导航</span><span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/router-link&gt;</span>
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar-toggler&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;button&#34;</span> <span style="color:#a6e22e">data</span><span style="color:#f92672">-bs-toggle</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">collapse</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">data</span><span style="color:#f92672">-bs-target</span><span style="color:#960050;background-color:#1e0010">=&#34;#</span><span style="color:#a6e22e">navbarText</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">aria</span><span style="color:#f92672">-controls</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">navbarText</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">aria</span><span style="color:#f92672">-expanded</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">false</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">aria</span><span style="color:#f92672">-label</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">Toggle</span> <span style="color:#a6e22e">navigation</span><span style="color:#960050;background-color:#1e0010">&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">span</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar-toggler-icon&#34;</span>&gt;&lt;/<span style="color:#f92672">span</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;collapse navbar-collapse&#34;</span> <span style="color:#a6e22e">id</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbarText&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">ul</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar-nav me-auto mb-2 mb-lg-0&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-item header-navbar-top-item&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>              &lt;<span style="color:#f92672">router-link</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-link noto-serif-sc-text&#34;</span> <span style="color:#a6e22e">aria</span><span style="color:#f92672">-current</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">page</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/hello&#34;</span>&gt;<span style="color:#a6e22e">Hello</span><span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/router-link&gt;</span>
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-item header-navbar-top-item&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>              &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-link noto-serif-sc-text&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://www.baidu.com&#34;</span>&gt;<span style="color:#a6e22e">百度</span>&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-item header-navbar-top-item&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>              &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-link noto-serif-sc-text&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://google.com/&#34;</span>&gt;<span style="color:#a6e22e">谷歌</span>&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;/<span style="color:#f92672">ul</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">ul</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;navbar-nav ms-auto d-none d-lg-flex&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-item header-navbar-top-icon&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-link&#34;</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://github.com/dawnstaryrx/go-nav&#34;</span> <span style="color:#a6e22e">target</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;_blank&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>              &lt;<span style="color:#f92672">svg</span> <span style="color:#a6e22e">xmlns</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://www.w3.org/2000/svg&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;icon&#34;</span> <span style="color:#a6e22e">viewBox</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0 0 1024 1024&#34;</span> <span style="color:#a6e22e">fill</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;currentColor&#34;</span> <span style="color:#a6e22e">aria</span><span style="color:#f92672">-label</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">github</span> <span style="color:#a6e22e">icon</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width:1.25rem;height:1.25rem;vertical-align:middle;&#34;</span>&gt;&lt;<span style="color:#f92672">path</span> <span style="color:#a6e22e">d</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;M511.957 21.333C241.024 21.333 21.333 240.981 21.333 512c0 216.832 140.544 400.725 335.574 465.664 24.49 4.395 32.256-10.07 32.256-23.083 0-11.69.256-44.245 0-85.205-136.448 29.61-164.736-64.64-164.736-64.64-22.315-56.704-54.4-71.765-54.4-71.765-44.587-30.464 3.285-29.824 3.285-29.824 49.195 3.413 75.179 50.517 75.179 50.517 43.776 75.008 114.816 53.333 142.762 40.79 4.523-31.66 17.152-53.377 31.19-65.537-108.971-12.458-223.488-54.485-223.488-242.602 0-53.547 19.114-97.323 50.517-131.67-5.035-12.33-21.93-62.293 4.779-129.834 0 0 41.258-13.184 134.912 50.346a469.803 469.803 0 0 1 122.88-16.554c41.642.213 83.626 5.632 122.88 16.554 93.653-63.488 134.784-50.346 134.784-50.346 26.752 67.541 9.898 117.504 4.864 129.834 31.402 34.347 50.474 78.123 50.474 131.67 0 188.586-114.73 230.016-224.042 242.09 17.578 15.232 33.578 44.672 33.578 90.454v135.85c0 13.142 7.936 27.606 32.854 22.87C862.25 912.597 1002.667 728.747 1002.667 512c0-271.019-219.648-490.667-490.71-490.667z&#34;</span>&gt;&lt;/<span style="color:#f92672">path</span>&gt;&lt;/<span style="color:#f92672">svg</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#f92672">li</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-item header-navbar-top-icon&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>            &lt;<span style="color:#f92672">router-link</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;nav-link&#34;</span> <span style="color:#a6e22e">to</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/login&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>              &lt;<span style="color:#f92672">svg</span> <span style="color:#a6e22e">t</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1727966561987&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;icon&#34;</span> <span style="color:#a6e22e">viewBox</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0 0 1024 1024&#34;</span> <span style="color:#a6e22e">version</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.1&#34;</span> <span style="color:#a6e22e">xmlns</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://www.w3.org/2000/svg&#34;</span> <span style="color:#a6e22e">p</span><span style="color:#f92672">-id</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">5152</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;20&#34;</span> <span style="color:#a6e22e">height</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;20&#34;</span>&gt;&lt;<span style="color:#f92672">path</span> <span style="color:#a6e22e">d</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;M521.7 82c-152.5-0.4-286.7 78.5-363.4 197.7-3.4 5.3 0.4 12.3 6.7 12.3h70.3c4.8 0 9.3-2.1 12.3-5.8 7-8.5 14.5-16.7 22.4-24.5 32.6-32.5 70.5-58.1 112.7-75.9 43.6-18.4 90-27.8 137.9-27.8 47.9 0 94.3 9.3 137.9 27.8 42.2 17.8 80.1 43.4 112.7 75.9 32.6 32.5 58.1 70.4 76 112.5C865.7 417.8 875 464.1 875 512c0 47.9-9.4 94.2-27.8 137.8-17.8 42.1-43.4 80-76 112.5s-70.5 58.1-112.7 75.9c-43.6 18.4-90 27.8-137.9 27.8-47.9 0-94.3-9.4-137.9-27.8-42.2-17.8-80.1-43.4-112.7-75.9-7.9-7.9-15.3-16.1-22.4-24.5-3-3.7-7.6-5.8-12.3-5.8H165c-6.3 0-10.2 7-6.7 12.3C234.9 863.2 368.5 942 520.6 942c236.2 0 428-190.1 430.4-425.6C953.4 277.1 761.3 82.6 521.7 82zM395.025 624v-76h-314c-4.4 0-8-3.6-8-8v-56c0-4.4 3.6-8 8-8h314v-76c0-6.7 7.8-10.5 13-6.3l141.9 112c4.1 3.2 4.1 9.4 0 12.6l-141.9 112c-5.2 4.1-13 0.4-13-6.3z&#34;</span> <span style="color:#a6e22e">fill</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;currentColor&#34;</span> <span style="color:#a6e22e">p</span><span style="color:#f92672">-id</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">5153</span><span style="color:#960050;background-color:#1e0010">&#34;</span>&gt;&lt;/<span style="color:#f92672">path</span>&gt;&lt;/<span style="color:#f92672">svg</span>&gt;
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/router-link&gt;</span>
+</span></span><span style="display:flex;"><span>          &lt;/<span style="color:#f92672">li</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#f92672">ul</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">nav</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">style</span> <span style="color:#a6e22e">scoped</span>&gt;
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">header</span><span style="color:#f92672">-</span><span style="color:#a6e22e">navbar</span><span style="color:#f92672">-</span><span style="color:#a6e22e">container</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">position</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">fixed</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">backdrop</span><span style="color:#f92672">-</span><span style="color:#a6e22e">filter</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">blur</span>(<span style="color:#ae81ff">6</span><span style="color:#a6e22e">px</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">z</span><span style="color:#f92672">-</span><span style="color:#a6e22e">index</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1000</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">header</span><span style="color:#f92672">-</span><span style="color:#a6e22e">navbar</span><span style="color:#f92672">-</span><span style="color:#a6e22e">top</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">opacity</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.90</span>;<span style="color:#75715e">/* 设置透明度 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">family</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;STHeiti&#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">margin</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">auto</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">box</span><span style="color:#f92672">-</span><span style="color:#a6e22e">shadow</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span><span style="color:#a6e22e">px</span> <span style="color:#ae81ff">2</span><span style="color:#a6e22e">px</span> <span style="color:#ae81ff">5</span><span style="color:#a6e22e">px</span> <span style="color:#ae81ff">2</span><span style="color:#a6e22e">px</span> <span style="color:#a6e22e">rgba</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0.1</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">noto</span><span style="color:#f92672">-</span><span style="color:#a6e22e">serif</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sc</span><span style="color:#f92672">-</span><span style="color:#a6e22e">brand</span> {<span style="color:#75715e">/* 设置brand字体 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">family</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Noto Serif SC&#34;</span>, <span style="color:#a6e22e">serif</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">optical</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sizing</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">auto</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">weight</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">900</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">style</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">normal</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">noto</span><span style="color:#f92672">-</span><span style="color:#a6e22e">serif</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sc</span><span style="color:#f92672">-</span><span style="color:#a6e22e">text</span> {<span style="color:#75715e">/* 设置导航项字体 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">family</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Noto Serif SC&#34;</span>, <span style="color:#a6e22e">serif</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">optical</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sizing</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">auto</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">weight</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">700</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">style</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">normal</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">size</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">18</span><span style="color:#a6e22e">px</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">header</span><span style="color:#f92672">-</span><span style="color:#a6e22e">navbar</span><span style="color:#f92672">-</span><span style="color:#a6e22e">top</span><span style="color:#f92672">-</span><span style="color:#a6e22e">content</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">max</span><span style="color:#f92672">-</span><span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1100</span><span style="color:#a6e22e">px</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">navbar</span><span style="color:#f92672">-</span><span style="color:#a6e22e">brand</span><span style="color:#f92672">:</span><span style="color:#a6e22e">hover</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">de7622</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">important</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">header</span><span style="color:#f92672">-</span><span style="color:#a6e22e">navbar</span><span style="color:#f92672">-</span><span style="color:#a6e22e">top</span><span style="color:#f92672">-</span><span style="color:#a6e22e">item</span><span style="color:#f92672">:</span><span style="color:#a6e22e">hover</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">a</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">de7622</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">important</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">header</span><span style="color:#f92672">-</span><span style="color:#a6e22e">navbar</span><span style="color:#f92672">-</span><span style="color:#a6e22e">top</span><span style="color:#f92672">-</span><span style="color:#a6e22e">icon</span><span style="color:#f92672">:</span><span style="color:#a6e22e">hover</span><span style="color:#f92672">&gt;</span><span style="color:#a6e22e">a</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">de7622</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">important</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">header</span><span style="color:#f92672">-</span><span style="color:#a6e22e">navbar</span><span style="color:#f92672">-</span><span style="color:#a6e22e">top</span><span style="color:#f92672">-</span><span style="color:#a6e22e">item</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">position</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">relative</span>;  <span style="color:#75715e">/* 确保伪元素相对于链接定位 */</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">text</span><span style="color:#f92672">-</span><span style="color:#a6e22e">decoration</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">none</span>;  <span style="color:#75715e">/* 移除默认的下划线 */</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">header</span><span style="color:#f92672">-</span><span style="color:#a6e22e">navbar</span><span style="color:#f92672">-</span><span style="color:#a6e22e">top</span><span style="color:#f92672">-</span><span style="color:#a6e22e">item</span><span style="color:#f92672">::</span><span style="color:#a6e22e">after</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">content</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;&#39;</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">position</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">absolute</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">bottom</span><span style="color:#f92672">:</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#a6e22e">px</span>;             <span style="color:#75715e">/* 下划线位于文本的下方 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">50</span><span style="color:#f92672">%</span>;             <span style="color:#75715e">/* 起始位置在中间 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>;              <span style="color:#75715e">/* 默认宽度为 0 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">height</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span><span style="color:#a6e22e">px</span>;           <span style="color:#75715e">/* 下划线的高度 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">background</span><span style="color:#f92672">-</span><span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">de7622</span>; <span style="color:#75715e">/* 下划线的颜色 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">transition</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">width</span> <span style="color:#ae81ff">0.3</span><span style="color:#a6e22e">s</span> <span style="color:#a6e22e">ease</span>, <span style="color:#a6e22e">left</span> <span style="color:#ae81ff">0.3</span><span style="color:#a6e22e">s</span> <span style="color:#a6e22e">ease</span>;  <span style="color:#75715e">/* 添加动画效果 */</span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">header</span><span style="color:#f92672">-</span><span style="color:#a6e22e">navbar</span><span style="color:#f92672">-</span><span style="color:#a6e22e">top</span><span style="color:#f92672">-</span><span style="color:#a6e22e">item</span><span style="color:#f92672">:</span><span style="color:#a6e22e">hover</span><span style="color:#f92672">::</span><span style="color:#a6e22e">after</span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>;           <span style="color:#75715e">/* 下划线扩展至整个文本宽度 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>;               <span style="color:#75715e">/* 从左边展开 */</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">router</span><span style="color:#f92672">-</span><span style="color:#a6e22e">link</span><span style="color:#f92672">-</span><span style="color:#a6e22e">active</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">de7622</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">important</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">style</span>&gt;
+</span></span></code></pre></div><p>其中，header-navbar-container类的div中包含了导航栏nav，主要是为了方便固定在顶部。通过router-link-active修改当前所在路由菜单的颜色。</p>
+<h1 id="二底部版权信息">二、底部版权信息</h1>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F10%2F08%2F0e86c5cf3281dbd73266a703a7f0189a-image-20241008202749051-71ff70.png" alt="image-20241008202749051"></p>
+<p>主要需求是：</p>
+<ol>
+<li>如果当前页面的高度不满一屏，版权信息在页面最底部；</li>
+<li>如果当前页面的高度超出一屏，版权信息尾随在最后。</li>
+<li>某些页面下，不显示版权信息，如后台和登录页面。</li>
+</ol>
+<p>实现：</p>
+<p>BottomIcp.vue</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vue" data-lang="vue"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;page-container noto-serif-sc-font-family&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&lt;!--</span> <span style="color:#a6e22e">页面主体内容</span> <span style="color:#f92672">--&gt;</span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;content&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">&lt;!--</span> <span style="color:#a6e22e">这里是页面的其他内容</span> <span style="color:#f92672">--&gt;</span>
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&lt;!--</span> <span style="color:#a6e22e">备案号部分</span> <span style="color:#f92672">--&gt;</span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;icp&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">CopyRight</span> {{<span style="color:#e6db74">`© </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">year</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">author</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> `</span> }}
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://beian.miit.gov.cn/&#34;</span> <span style="color:#a6e22e">target</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;_blank&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        {{ <span style="color:#a6e22e">record</span> }}
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#f92672">a</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">setup</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">year</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Date().<span style="color:#a6e22e">getFullYear</span>();        <span style="color:#75715e">// 一般都是最新的一年
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">author</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;智浪星辰&#39;</span>;						<span style="color:#75715e">// 作者名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> <span style="color:#a6e22e">record</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;鲁ICP备2024107617号-1&#39;</span>;		<span style="color:#75715e">// 备案号
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">style</span>&gt;
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">noto</span><span style="color:#f92672">-</span><span style="color:#a6e22e">serif</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sc</span><span style="color:#f92672">-</span><span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">family</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">family</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Noto Serif SC&#34;</span>, <span style="color:#a6e22e">serif</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">optical</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sizing</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">auto</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">weight</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">600</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">font</span><span style="color:#f92672">-</span><span style="color:#a6e22e">style</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">normal</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 页面内容 */</span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">content</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">flex</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>; <span style="color:#75715e">/* 让内容区域自动扩展，推到备案号组件 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* 这里可以放置其他内容样式 */</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 备案号样式 */</span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">icp</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">background</span><span style="color:#f92672">-</span><span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">white</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">margin</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">text</span><span style="color:#f92672">-</span><span style="color:#a6e22e">align</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">center</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">gray</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">padding</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">10</span><span style="color:#a6e22e">px</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">icp</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">a</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">gray</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">text</span><span style="color:#f92672">-</span><span style="color:#a6e22e">decoration</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">none</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">icp</span> <span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">a</span><span style="color:#f92672">:</span><span style="color:#a6e22e">hover</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">de7622</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">text</span><span style="color:#f92672">-</span><span style="color:#a6e22e">decoration</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">none</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">style</span>&gt;
+</span></span></code></pre></div><p>App.vue：实现页面内容高度不足一屏时，版权信息固定在页面底部</p>
+<p><strong>实现方式</strong>：</p>
+<ul>
+<li><strong>使用 Flex 布局</strong>：在 <code>App.vue</code> 中，通过设置 <code>.m-content-display</code> 为 <code>flex</code> 布局，并使用 <code>flex-direction: column</code> 使子元素垂直排列。</li>
+<li><strong>内容区域自动扩展</strong>：<code>.m-router-view</code> 设置了 <code>flex: 1</code>，使其占据剩余的可用空间。这确保了当页面内容不足一屏时，<code>.m-router-view</code> 会扩展以填满可用空间，从而将版权信息（<code>BottomIcp</code> 组件）推到页面底部。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vue" data-lang="vue"><span style="display:flex;"><span>&lt;<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;m-content-display&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;m-router-view&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">router-view</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">&lt;!--</span> <span style="color:#a6e22e">使用</span> <span style="color:#a6e22e">v</span><span style="color:#f92672">-</span><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">根据条件决定是否显示</span> <span style="color:#a6e22e">BottomIcp</span> <span style="color:#f92672">--&gt;</span>
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">BottomIcp</span> <span style="color:#a6e22e">v</span><span style="color:#f92672">-if</span><span style="color:#960050;background-color:#1e0010">=&#34;!</span><span style="color:#a6e22e">hideBottomIcp</span><span style="color:#960050;background-color:#1e0010">&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">template</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">BottomIcp</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@/components/front/BottomIcp.vue&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">components</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">BottomIcp</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">computed</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">hideBottomIcp</span>() {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">route</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">$route</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 确保 this.$route 存在后再访问 path
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">route</span> <span style="color:#f92672">||</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">route</span>.<span style="color:#a6e22e">path</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span>;  <span style="color:#75715e">// 如果没有路由信息，默认显示 BottomIcp
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      }
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">path</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">route</span>.<span style="color:#a6e22e">path</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 检查当前路由是否是 /login, /register 或以 /admin 开头
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">path</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;/login&#39;</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">path</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;/register&#39;</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">path</span>.<span style="color:#a6e22e">startsWith</span>(<span style="color:#e6db74">&#39;/admin&#39;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">style</span> <span style="color:#a6e22e">scoped</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">html</span>, <span style="color:#a6e22e">body</span>, <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">app</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">margin</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">padding</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">height</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* 禁止横向滚动 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">overflow</span><span style="color:#f92672">-</span><span style="color:#a6e22e">x</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">hidden</span>; 
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">box</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sizing</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">border</span><span style="color:#f92672">-</span><span style="color:#a6e22e">box</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">*</span>, <span style="color:#f92672">*::</span><span style="color:#a6e22e">before</span>, <span style="color:#f92672">*::</span><span style="color:#a6e22e">after</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">box</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sizing</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">inherit</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">m</span><span style="color:#f92672">-</span><span style="color:#a6e22e">content</span><span style="color:#f92672">-</span><span style="color:#a6e22e">display</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">display</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">flex</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">flex</span><span style="color:#f92672">-</span><span style="color:#a6e22e">direction</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">column</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* 使用视口高度 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">min</span><span style="color:#f92672">-</span><span style="color:#a6e22e">height</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">100</span><span style="color:#a6e22e">vh</span>; 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* 禁止横向滚动 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">overflow</span><span style="color:#f92672">-</span><span style="color:#a6e22e">x</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">hidden</span>; 
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">m</span><span style="color:#f92672">-</span><span style="color:#a6e22e">router</span><span style="color:#f92672">-</span><span style="color:#a6e22e">view</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">flex</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">style</span>&gt;
+</span></span></code></pre></div><p>确保应用的根元素 <code>#app</code> 覆盖整个视口，以便 Flex 布局正常工作。并禁止掉横向滚动。</p>
+<h1 id="三搜索框">三、搜索框</h1>
+<p><img src="https://dawnstar-blog-1309734834.cos.ap-nanjing.myqcloud.com/img/2024%2F10%2F08%2F0e86c5cf3281dbd73266a703a7f0189a-image-20241008202749051-71ff70.png" alt="image-20241008202749051"></p>
+<p>搜索框的实现</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vue" data-lang="vue"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;content-section-search-container&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">form</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;d-flex &#34;</span> <span style="color:#a6e22e">role</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;search&#34;</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;width: 100%;&#34;</span> <span style="color:#f92672">@submit</span><span style="color:#e6db74">=&#34;handleSearch&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">input</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ref</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;searchInput&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;form-control me-2&#34;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;search&#34;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">placeholder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;按任意键开始搜索~~&#34;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">aria</span><span style="color:#f92672">-label</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">Search</span><span style="color:#960050;background-color:#1e0010">&#34;</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;border: 0px;box-shadow: 0 0 0 0rem;&#34;</span>
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#f92672">button</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;btn custom-search-btn&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> &gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">svg</span> <span style="color:#a6e22e">t</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1728041224119&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;icon&#34;</span> <span style="color:#a6e22e">viewBox</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0 0 1024 1024&#34;</span> <span style="color:#a6e22e">version</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1.1&#34;</span> <span style="color:#a6e22e">xmlns</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://www.w3.org/2000/svg&#34;</span> <span style="color:#a6e22e">p</span><span style="color:#f92672">-id</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">5573</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">width</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;20&#34;</span> <span style="color:#a6e22e">height</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;20&#34;</span>&gt;&lt;<span style="color:#f92672">path</span> <span style="color:#a6e22e">d</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;M351.1808 59.2896A435.2 435.2 0 0 1 805.376 715.264 460.8 460.8 0 0 1 351.1808 59.3408z&#34;</span> <span style="color:#a6e22e">fill</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;#ffffff&#34;</span> <span style="color:#a6e22e">p</span><span style="color:#f92672">-id</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">5574</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">data</span><span style="color:#f92672">-spm-anchor-id</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">a313x.search_index.0.i12.117c3a817iUd2m</span><span style="color:#960050;background-color:#1e0010">&#34;</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;selected&#34;</span>&gt;&lt;/<span style="color:#f92672">path</span>&gt;&lt;<span style="color:#f92672">path</span> <span style="color:#a6e22e">d</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;M754.3808 722.2272a358.4 358.4 0 1 0-267.8272 120.2176 51.2 51.2 0 0 1 0 102.4 460.8 460.8 0 1 1 365.1584-179.712l118.8864 121.2416c23.7568 24.2176 23.552 63.0272-0.4096 87.04l-0.4096 0.4096a61.184 61.184 0 0 1-86.9888-0.4608l-148.0192-150.9376a61.7984 61.7984 0 0 1 0.4096-86.9888l0.4096-0.4096c5.632-5.5808 11.9808-9.8304 18.7904-12.8z m-467.968-364.5952h409.6a51.2 51.2 0 1 1 0 102.4h-409.6a51.2 51.2 0 1 1 0-102.4z m0 204.8h256a51.2 51.2 0 0 1 0 102.4h-256a51.2 51.2 0 1 1 0-102.4z&#34;</span> <span style="color:#a6e22e">fill</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;currentColor&#34;</span> <span style="color:#a6e22e">p</span><span style="color:#f92672">-id</span><span style="color:#960050;background-color:#1e0010">=&#34;</span><span style="color:#a6e22e">5575</span><span style="color:#960050;background-color:#1e0010">&#34;</span>&gt;&lt;/<span style="color:#f92672">path</span>&gt;&lt;/<span style="color:#f92672">svg</span>&gt;
+</span></span><span style="display:flex;"><span>  &lt;/<span style="color:#f92672">button</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">form</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#f92672">br</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">并进行响应式布局</span><span style="color:#960050;background-color:#1e0010">：</span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">content</span><span style="color:#f92672">-</span><span style="color:#a6e22e">section</span><span style="color:#f92672">-</span><span style="color:#a6e22e">search</span><span style="color:#f92672">-</span><span style="color:#a6e22e">container</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">max</span><span style="color:#f92672">-</span><span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1080</span><span style="color:#a6e22e">px</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">margin</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">auto</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">margin</span><span style="color:#f92672">-</span><span style="color:#a6e22e">top</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">66</span><span style="color:#a6e22e">px</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">position</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">fixed</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">top</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">20</span><span style="color:#a6e22e">px</span>;                      <span style="color:#75715e">/* 垂直居中 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">left</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">50</span><span style="color:#f92672">%</span>;                     <span style="color:#75715e">/* 水平居中 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">transform</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">translate</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">50</span><span style="color:#f92672">%</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">50</span><span style="color:#f92672">%</span>); <span style="color:#75715e">/* 精确居中 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* margin: auto; */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">background</span><span style="color:#f92672">-</span><span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">rgba</span>(<span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">0.5</span>); <span style="color:#75715e">/* 半透明背景 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">box</span><span style="color:#f92672">-</span><span style="color:#a6e22e">shadow</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">4</span><span style="color:#a6e22e">px</span> <span style="color:#ae81ff">6</span><span style="color:#a6e22e">px</span> <span style="color:#a6e22e">rgba</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0.1</span>);   <span style="color:#75715e">/* 添加阴影 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">border</span><span style="color:#f92672">-</span><span style="color:#a6e22e">radius</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">8</span><span style="color:#a6e22e">px</span>;            <span style="color:#75715e">/* 圆角边框 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">display</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">flex</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">align</span><span style="color:#f92672">-</span><span style="color:#a6e22e">items</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">center</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">justify</span><span style="color:#f92672">-</span><span style="color:#a6e22e">content</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">space</span><span style="color:#f92672">-</span><span style="color:#a6e22e">between</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">z</span><span style="color:#f92672">-</span><span style="color:#a6e22e">index</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">999</span>;                 <span style="color:#75715e">/* 确保搜索框位于其他内容之上 */</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">media</span> (<span style="color:#a6e22e">max</span><span style="color:#f92672">-</span><span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">768</span><span style="color:#a6e22e">px</span>) {
+</span></span><span style="display:flex;"><span>  .<span style="color:#a6e22e">content</span><span style="color:#f92672">-</span><span style="color:#a6e22e">section</span><span style="color:#f92672">-</span><span style="color:#a6e22e">search</span><span style="color:#f92672">-</span><span style="color:#a6e22e">container</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">90</span><span style="color:#f92672">%</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">content</span><span style="color:#f92672">-</span><span style="color:#a6e22e">section</span><span style="color:#f92672">-</span><span style="color:#a6e22e">category</span><span style="color:#f92672">-</span><span style="color:#a6e22e">container</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">max</span><span style="color:#f92672">-</span><span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1080</span><span style="color:#a6e22e">px</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">margin</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">auto</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">margin</span><span style="color:#f92672">-</span><span style="color:#a6e22e">top</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">120</span><span style="color:#a6e22e">px</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">content</span><span style="color:#f92672">-</span><span style="color:#a6e22e">section</span><span style="color:#f92672">-</span><span style="color:#a6e22e">card</span><span style="color:#f92672">-</span><span style="color:#a6e22e">container</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">max</span><span style="color:#f92672">-</span><span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1100</span><span style="color:#a6e22e">px</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">margin</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">auto</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* margin-top: 120px; */</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 自定义按钮样式 */</span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">custom</span><span style="color:#f92672">-</span><span style="color:#a6e22e">search</span><span style="color:#f92672">-</span><span style="color:#a6e22e">btn</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* 基础样式 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">width</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">40</span><span style="color:#a6e22e">px</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">height</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">40</span><span style="color:#a6e22e">px</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">border</span><span style="color:#f92672">-</span><span style="color:#a6e22e">radius</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">100</span><span style="color:#f92672">%</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">000</span>; <span style="color:#75715e">/* 文字颜色 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">background</span><span style="color:#f92672">-</span><span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">fff</span>; <span style="color:#75715e">/* 按钮背景颜色 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">border</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span><span style="color:#a6e22e">px</span> <span style="color:#a6e22e">solid</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">de7622</span>; <span style="color:#75715e">/* 按钮边框颜色 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">transition</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">background</span><span style="color:#f92672">-</span><span style="color:#a6e22e">color</span> <span style="color:#ae81ff">0.3</span><span style="color:#a6e22e">s</span> <span style="color:#a6e22e">ease</span>, <span style="color:#a6e22e">border</span><span style="color:#f92672">-</span><span style="color:#a6e22e">color</span> <span style="color:#ae81ff">0.3</span><span style="color:#a6e22e">s</span> <span style="color:#a6e22e">ease</span>, <span style="color:#a6e22e">color</span> <span style="color:#ae81ff">0.3</span><span style="color:#a6e22e">s</span> <span style="color:#a6e22e">ease</span>; <span style="color:#75715e">/* 平滑过渡效果 */</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 悬停状态样式 */</span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">custom</span><span style="color:#f92672">-</span><span style="color:#a6e22e">search</span><span style="color:#f92672">-</span><span style="color:#a6e22e">btn</span><span style="color:#f92672">:</span><span style="color:#a6e22e">hover</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">background</span><span style="color:#f92672">-</span><span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">de7622</span>; <span style="color:#75715e">/* 悬浮后的背景颜色 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">border</span><span style="color:#f92672">-</span><span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">de7622</span>; <span style="color:#75715e">/* 悬浮后的边框颜色 */</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">fff</span>; <span style="color:#75715e">/* 悬浮后的文字颜色 */</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 聚焦状态样式（可选） */</span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">custom</span><span style="color:#f92672">-</span><span style="color:#a6e22e">search</span><span style="color:#f92672">-</span><span style="color:#a6e22e">btn</span><span style="color:#f92672">:</span><span style="color:#a6e22e">focus</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">box</span><span style="color:#f92672">-</span><span style="color:#a6e22e">shadow</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">0.1</span><span style="color:#a6e22e">rem</span> <span style="color:#a6e22e">rgba</span>(<span style="color:#ae81ff">222</span>, <span style="color:#ae81ff">118</span>, <span style="color:#ae81ff">34</span>, <span style="color:#ae81ff">0.5</span>); <span style="color:#75715e">/* 添加聚焦时的阴影效果 */</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">/* 禁用状态样式（可选） */</span>
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">custom</span><span style="color:#f92672">-</span><span style="color:#a6e22e">search</span><span style="color:#f92672">-</span><span style="color:#a6e22e">btn</span><span style="color:#f92672">:</span><span style="color:#a6e22e">disabled</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">background</span><span style="color:#f92672">-</span><span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">6</span><span style="color:#a6e22e">c757d</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">border</span><span style="color:#f92672">-</span><span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#ae81ff">6</span><span style="color:#a6e22e">c757d</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">color</span><span style="color:#f92672">:</span> <span style="color:#960050;background-color:#1e0010">#</span><span style="color:#a6e22e">fff</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">cursor</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">not</span><span style="color:#f92672">-</span><span style="color:#a6e22e">allowed</span>;
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">opacity</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">0.65</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>此外，搜索框实现了按下任意按键直接聚焦的功能</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-vue" data-lang="vue"><span style="display:flex;"><span>&lt;<span style="color:#f92672">script</span>&gt;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">ref</span>, <span style="color:#a6e22e">watch</span>, <span style="color:#a6e22e">onMounted</span>, <span style="color:#a6e22e">onBeforeUnmount</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;vue&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">name</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;SearchCenter&#39;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">setup</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 引用搜索输入框
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">searchInput</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">ref</span>(<span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 初始化一级分类选项
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">onMounted</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 添加键盘事件监听
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      window.<span style="color:#a6e22e">addEventListener</span>(<span style="color:#e6db74">&#39;keydown&#39;</span>, <span style="color:#a6e22e">handleKeydown</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">onBeforeUnmount</span>(() =&gt; {
+</span></span><span style="display:flex;"><span>      window.<span style="color:#a6e22e">removeEventListener</span>(<span style="color:#e6db74">&#39;keydown&#39;</span>, <span style="color:#a6e22e">handleKeydown</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 处理表单提交
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handleSearch</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">preventDefault</span>(); <span style="color:#75715e">// 阻止表单默认提交行为
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">query</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">searchInput</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">trim</span>();
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">query</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;搜索查询:&#39;</span>, <span style="color:#a6e22e">query</span>);
+</span></span><span style="display:flex;"><span>      } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#39;请输入搜索内容&#39;</span>);
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handleKeydown</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 忽略修饰键（Ctrl, Alt, Meta, Shift）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">ctrlKey</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">altKey</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">metaKey</span> <span style="color:#f92672">||</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">shiftKey</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 检查当前是否聚焦在输入框、textarea 或 contenteditable 元素
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">activeElement</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">activeElement</span>;
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">isInputFocused</span> <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">activeElement</span>.<span style="color:#a6e22e">tagName</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;INPUT&#39;</span> <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">activeElement</span>.<span style="color:#a6e22e">tagName</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;TEXTAREA&#39;</span> <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">activeElement</span>.<span style="color:#a6e22e">isContentEditable</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isInputFocused</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 检查按下的键是否为可打印字符
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">key</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">preventDefault</span>(); <span style="color:#75715e">// 防止其他默认行为
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">searchInput</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">focus</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">searchInput</span>.<span style="color:#a6e22e">value</span>.<span style="color:#a6e22e">value</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">key</span>;
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">searchInput</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">handleSearch</span>,
+</span></span><span style="display:flex;"><span>    };
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">script</span>&gt;
+</span></span></code></pre></div>
+</content>
+<p>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

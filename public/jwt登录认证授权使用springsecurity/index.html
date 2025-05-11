@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.gooodh.com/images/favicon.png" />
+<title>[JWT]登录认证授权使用SpringSecurity | ᕕ( ᐛ )ᕗ yrx&#39;s Blog</title>
+<meta name="title" content="[JWT]登录认证授权使用SpringSecurity" />
+<meta name="description" content="一、预备内容 1. 统一响应结果的封装 @Data @AllArgsConstructor @NoArgsConstructor public class Result&lt;T&gt; implements Serializable { @Serial private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 401-token过期 403-权限不足 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &lt;E&gt; Result&lt;E&gt; success(E data) { return new Result&lt;&gt;(0, &#34;操作成功&#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &#34;操作成功&#34;, null); } public static Result error(String message) { return new Result(1, message, null); } public static Result error(String message, Integer code) { return new Result(code, message, null); } } 2." />
+<meta name="keywords" content="" />
+
+
+<meta property="og:url" content="https://blog.gooodh.com/jwt%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E4%BD%BF%E7%94%A8springsecurity/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ yrx&#39;s Blog">
+  <meta property="og:title" content="[JWT]登录认证授权使用SpringSecurity">
+  <meta property="og:description" content="一、预备内容 1. 统一响应结果的封装 @Data @AllArgsConstructor @NoArgsConstructor public class Result&lt;T&gt; implements Serializable { @Serial private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 401-token过期 403-权限不足 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &lt;E&gt; Result&lt;E&gt; success(E data) { return new Result&lt;&gt;(0, &#34;操作成功&#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &#34;操作成功&#34;, null); } public static Result error(String message) { return new Result(1, message, null); } public static Result error(String message, Integer code) { return new Result(code, message, null); } } 2.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2024-10-13T14:07:12+08:00">
+    <meta property="article:modified_time" content="2024-10-13T14:07:12+08:00">
+    <meta property="og:image" content="https://blog.gooodh.com/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.gooodh.com/images/share.png">
+  <meta name="twitter:title" content="[JWT]登录认证授权使用SpringSecurity">
+  <meta name="twitter:description" content="一、预备内容 1. 统一响应结果的封装 @Data @AllArgsConstructor @NoArgsConstructor public class Result&lt;T&gt; implements Serializable { @Serial private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 401-token过期 403-权限不足 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &lt;E&gt; Result&lt;E&gt; success(E data) { return new Result&lt;&gt;(0, &#34;操作成功&#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &#34;操作成功&#34;, null); } public static Result error(String message) { return new Result(1, message, null); } public static Result error(String message, Integer code) { return new Result(code, message, null); } } 2.">
+
+
+
+
+  <meta itemprop="name" content="[JWT]登录认证授权使用SpringSecurity">
+  <meta itemprop="description" content="一、预备内容 1. 统一响应结果的封装 @Data @AllArgsConstructor @NoArgsConstructor public class Result&lt;T&gt; implements Serializable { @Serial private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 401-token过期 403-权限不足 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &lt;E&gt; Result&lt;E&gt; success(E data) { return new Result&lt;&gt;(0, &#34;操作成功&#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &#34;操作成功&#34;, null); } public static Result error(String message) { return new Result(1, message, null); } public static Result error(String message, Integer code) { return new Result(code, message, null); } } 2.">
+  <meta itemprop="datePublished" content="2024-10-13T14:07:12+08:00">
+  <meta itemprop="dateModified" content="2024-10-13T14:07:12+08:00">
+  <meta itemprop="wordCount" content="876">
+  <meta itemprop="image" content="https://blog.gooodh.com/images/share.png">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ yrx&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/blog">博客</a>
+
+
+</nav>
+</header>
+  <main>
+ 
+<h1>[JWT]登录认证授权使用SpringSecurity</h1>
+<p>
+  <i>
+    <time datetime='2024-10-13' pubdate>
+      13 Oct, 2024
+    </time>
+  </i>
+</p>
+ 
+<content>
+  <h1 id="一预备内容">一、预备内容</h1>
+<h2 id="1-统一响应结果的封装">1. 统一响应结果的封装</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@AllArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@NoArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Result</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">implements</span> Serializable {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Serial</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> serialVersionUID <span style="color:#f92672">=</span> 1L;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Integer code;<span style="color:#75715e">//业务状态码  0-成功  1-失败 401-token过期 403-权限不足</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String message;<span style="color:#75715e">//提示信息</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> T data;<span style="color:#75715e">//响应数据</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//快速返回操作成功响应结果(带响应数据)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;</span> Result<span style="color:#f92672">&lt;</span>E<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">success</span>(E data) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Result<span style="color:#f92672">&lt;&gt;</span>(0, <span style="color:#e6db74">&#34;操作成功&#34;</span>, data);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//快速返回操作成功响应结果</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Result <span style="color:#a6e22e">success</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Result(0, <span style="color:#e6db74">&#34;操作成功&#34;</span>, <span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Result <span style="color:#a6e22e">error</span>(String message) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Result(1, message, <span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> Result <span style="color:#a6e22e">error</span>(String message, Integer code) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> Result(code, message, <span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="2-用户实体类">2. 用户实体类</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@NoArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@AllArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long id;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String username;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String email;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String phone;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String password;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String nickname;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Integer role;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String wechatOpenid;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> LocalDateTime createTime;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> LocalDateTime updateTime;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@AllArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@NoArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserLoginDTO</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String sessionId; <span style="color:#75715e">// 会话id，全局唯一</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long id;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String username;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String email;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String phone;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String nickname;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Integer role;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> String wechatOpenid;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Long expiredTime; <span style="color:#75715e">// 过期时间</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="3-异常处理">3. 异常处理</h2>
+<p>BaseException</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BaseException</span> <span style="color:#66d9ef">extends</span> RuntimeException {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> HttpStatus httpStatus;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Setter</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Integer code; <span style="color:#75715e">// 自定义一个全局唯一的code，</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">BaseException</span>() {
+</span></span><span style="display:flex;"><span>        httpStatus <span style="color:#f92672">=</span> HttpStatus.<span style="color:#a6e22e">BAD_REQUEST</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">BaseException</span>(HttpStatus httpStatus) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">httpStatus</span> <span style="color:#f92672">=</span> httpStatus;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">BaseException</span>(String msg, HttpStatus httpStatus) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">super</span>(msg);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">httpStatus</span> <span style="color:#f92672">=</span> httpStatus;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> HttpStatus <span style="color:#a6e22e">getHttpStatus</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> httpStatus;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Integer <span style="color:#a6e22e">getCode</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> code;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>ExceptionTool</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ExceptionTool</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> HttpStatus defaultHttpStatus <span style="color:#f92672">=</span> HttpStatus.<span style="color:#a6e22e">BAD_REQUEST</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">throwException</span>(String message) {
+</span></span><span style="display:flex;"><span>        BaseException baseException <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BaseException(message, defaultHttpStatus);
+</span></span><span style="display:flex;"><span>        baseException.<span style="color:#a6e22e">setCode</span>(1);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> baseException;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">throwException</span>(String message, Integer code) {
+</span></span><span style="display:flex;"><span>        BaseException baseException <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BaseException(message, defaultHttpStatus);
+</span></span><span style="display:flex;"><span>        baseException.<span style="color:#a6e22e">setCode</span>(code);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> baseException;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">throwException</span>(String message, HttpStatus httpStatus, Integer errorCode) {
+</span></span><span style="display:flex;"><span>        BaseException baseException <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> BaseException(message, httpStatus);
+</span></span><span style="display:flex;"><span>        baseException.<span style="color:#a6e22e">setCode</span>(errorCode);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> baseException;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>GlobalExceptionHandler</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RestControllerAdvice</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GlobalExceptionHandler</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ExceptionHandler</span>(BaseException.<span style="color:#a6e22e">class</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Result <span style="color:#a6e22e">exceptionHandler</span>(HttpServletResponse response, BaseException e) {
+</span></span><span style="display:flex;"><span>        response.<span style="color:#a6e22e">setStatus</span>(e.<span style="color:#a6e22e">getHttpStatus</span>().<span style="color:#a6e22e">value</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> createResult(e);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Result <span style="color:#a6e22e">createResult</span>(BaseException e) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Result.<span style="color:#a6e22e">error</span>(e.<span style="color:#a6e22e">getMessage</span>(), e.<span style="color:#a6e22e">getCode</span>() <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">?</span> 1 : e.<span style="color:#a6e22e">getCode</span>());
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 处理认证异常</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ExceptionHandler</span>(AuthenticationException.<span style="color:#a6e22e">class</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Result<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">handleAuthenticationException</span>(AuthenticationException e){
+</span></span><span style="display:flex;"><span>        e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Result.<span style="color:#a6e22e">error</span>(StringUtils.<span style="color:#a6e22e">hasLength</span>(e.<span style="color:#a6e22e">getMessage</span>()) <span style="color:#f92672">?</span> e.<span style="color:#a6e22e">getMessage</span>() : <span style="color:#e6db74">&#34;认证失败！&#34;</span>, 401);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 处理授权异常</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ExceptionHandler</span>(AccessDeniedException.<span style="color:#a6e22e">class</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Result<span style="color:#f92672">&lt;</span>Void<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">handleAccessDeniedException</span>(AccessDeniedException e){
+</span></span><span style="display:flex;"><span>        e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Result.<span style="color:#a6e22e">error</span>(StringUtils.<span style="color:#a6e22e">hasLength</span>(e.<span style="color:#a6e22e">getMessage</span>()) <span style="color:#f92672">?</span> e.<span style="color:#a6e22e">getMessage</span>() : <span style="color:#e6db74">&#34;权限不足！&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ExceptionHandler</span>(value <span style="color:#f92672">=</span> MethodArgumentNotValidException.<span style="color:#a6e22e">class</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Result <span style="color:#a6e22e">handleVaildException</span>(MethodArgumentNotValidException e){
+</span></span><span style="display:flex;"><span>        BindingResult bindingResult <span style="color:#f92672">=</span> e.<span style="color:#a6e22e">getBindingResult</span>();
+</span></span><span style="display:flex;"><span>        StringBuffer stringBuffer <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StringBuffer();
+</span></span><span style="display:flex;"><span>        bindingResult.<span style="color:#a6e22e">getFieldErrors</span>().<span style="color:#a6e22e">forEach</span>(item <span style="color:#f92672">-&gt;</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//获取错误信息</span>
+</span></span><span style="display:flex;"><span>            String message <span style="color:#f92672">=</span> item.<span style="color:#a6e22e">getDefaultMessage</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//获取错误的属性名字</span>
+</span></span><span style="display:flex;"><span>            String field <span style="color:#f92672">=</span> item.<span style="color:#a6e22e">getField</span>();
+</span></span><span style="display:flex;"><span>            stringBuffer.<span style="color:#a6e22e">append</span>(field <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> message <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span>);
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Result.<span style="color:#a6e22e">error</span>(stringBuffer <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ExceptionHandler</span>(Exception.<span style="color:#a6e22e">class</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Result <span style="color:#a6e22e">handleException</span>(Exception e){
+</span></span><span style="display:flex;"><span>        e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Result.<span style="color:#a6e22e">error</span>(StringUtils.<span style="color:#a6e22e">hasLength</span>(e.<span style="color:#a6e22e">getMessage</span>())<span style="color:#f92672">?</span>e.<span style="color:#a6e22e">getMessage</span>():<span style="color:#e6db74">&#34;操作失败！&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="二springsecurity基本配置">二、SpringSecurity基本配置</h1>
+<h2 id="1-异常处理">1. 异常处理</h2>
+<p><strong><code>CustomAccessDeniedHandler</code></strong>：处理授权失败（即用户权限不足）时的异常。</p>
+<p><strong><code>CustomAuthenticationExceptionHandler</code></strong>：处理认证失败时的异常。</p>
+<p><strong><code>CustomSecurityExceptionHandler</code></strong>：全局过滤器，用于统一处理各种安全相关的异常。</p>
+<p><code>CustomAccessDeniedHandler</code> 实现了Spring Security的 <code>AccessDeniedHandler</code> 接口，用于处理用户在尝试访问受保护资源时，因权限不足而被拒绝访问的情况。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Component</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomAccessDeniedHandler</span> <span style="color:#66d9ef">implements</span> AccessDeniedHandler {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> ObjectMapper objectMapper;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">CustomAccessDeniedHandler</span>(ObjectMapper objectMapper){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">objectMapper</span> <span style="color:#f92672">=</span> objectMapper;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">handle</span>(HttpServletRequest request, HttpServletResponse response,
+</span></span><span style="display:flex;"><span>                       AccessDeniedException accessDeniedException) <span style="color:#66d9ef">throws</span> IOException, ServletException {
+</span></span><span style="display:flex;"><span>        Result result <span style="color:#f92672">=</span> Result.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;权限不足，拒绝访问！&#34;</span>);
+</span></span><span style="display:flex;"><span>        response.<span style="color:#a6e22e">setContentType</span>(<span style="color:#e6db74">&#34;application/json;charset=UTF-8&#34;</span>);
+</span></span><span style="display:flex;"><span>        response.<span style="color:#a6e22e">setStatus</span>(HttpServletResponse.<span style="color:#a6e22e">SC_FORBIDDEN</span>);
+</span></span><span style="display:flex;"><span>        response.<span style="color:#a6e22e">getWriter</span>().<span style="color:#a6e22e">write</span>(objectMapper.<span style="color:#a6e22e">writeValueAsString</span>(result));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>CustomAuthenticationExceptionHandler</code> 实现了Spring Security的 <code>AuthenticationEntryPoint</code> 接口，用于处理用户在认证过程中失败的情况，如未登录或认证失败。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Component</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomAuthenticationExceptionHandler</span> <span style="color:#66d9ef">implements</span> AuthenticationEntryPoint {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// private final ObjectMapper objectMapper;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// public CustomAuthenticationExceptionHandler(ObjectMapper objectMapper){</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//     this.objectMapper = objectMapper;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// }</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">commence</span>(HttpServletRequest request, HttpServletResponse response,
+</span></span><span style="display:flex;"><span>                         AuthenticationException authException) <span style="color:#66d9ef">throws</span> IOException, ServletException {
+</span></span><span style="display:flex;"><span>        response.<span style="color:#a6e22e">setContentType</span>(MediaType.<span style="color:#a6e22e">APPLICATION_JSON_UTF8_VALUE</span>);
+</span></span><span style="display:flex;"><span>        response.<span style="color:#a6e22e">setStatus</span>(HttpStatus.<span style="color:#a6e22e">UNAUTHORIZED</span>.<span style="color:#a6e22e">value</span>());
+</span></span><span style="display:flex;"><span>        PrintWriter writer <span style="color:#f92672">=</span> response.<span style="color:#a6e22e">getWriter</span>();
+</span></span><span style="display:flex;"><span>        writer.<span style="color:#a6e22e">print</span>(JSONUtil.<span style="color:#a6e22e">stringify</span>(Result.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;${authentication.fail:认证失败}&#34;</span>, 1)));
+</span></span><span style="display:flex;"><span>        writer.<span style="color:#a6e22e">flush</span>();
+</span></span><span style="display:flex;"><span>        writer.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>CustomSecurityExceptionHandler</code> 继承自 <code>OncePerRequestFilter</code>，是一个自定义的全局安全异常处理过滤器。它用于捕获和处理过滤器链中抛出的各种安全相关异常，确保系统能够返回统一的错误响应。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomSecurityExceptionHandler</span> <span style="color:#66d9ef">extends</span> OncePerRequestFilter {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> Logger logger <span style="color:#f92672">=</span> LoggerFactory.<span style="color:#a6e22e">getLogger</span>(CustomSecurityExceptionHandler.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doFilterInternal</span>(HttpServletRequest request, HttpServletResponse response,
+</span></span><span style="display:flex;"><span>                                 FilterChain filterChain) <span style="color:#66d9ef">throws</span> ServletException, IOException {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            filterChain.<span style="color:#a6e22e">doFilter</span>(request, response);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (BaseException e) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 自定义异常</span>
+</span></span><span style="display:flex;"><span>            Result result <span style="color:#f92672">=</span> Result.<span style="color:#a6e22e">error</span>(e.<span style="color:#a6e22e">getMessage</span>(), e.<span style="color:#a6e22e">getCode</span>());
+</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setContentType</span>(MediaType.<span style="color:#a6e22e">APPLICATION_JSON_UTF8_VALUE</span>);
+</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setStatus</span>(e.<span style="color:#a6e22e">getHttpStatus</span>().<span style="color:#a6e22e">value</span>());
+</span></span><span style="display:flex;"><span>            PrintWriter writer <span style="color:#f92672">=</span> response.<span style="color:#a6e22e">getWriter</span>();
+</span></span><span style="display:flex;"><span>            writer.<span style="color:#a6e22e">write</span>(JSONUtil.<span style="color:#a6e22e">stringify</span>(result));
+</span></span><span style="display:flex;"><span>            writer.<span style="color:#a6e22e">flush</span>();
+</span></span><span style="display:flex;"><span>            writer.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (AuthenticationException <span style="color:#f92672">|</span> AccessDeniedException e) {
+</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setContentType</span>(MediaType.<span style="color:#a6e22e">APPLICATION_JSON_UTF8_VALUE</span>);
+</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setStatus</span>(HttpStatus.<span style="color:#a6e22e">FORBIDDEN</span>.<span style="color:#a6e22e">value</span>());
+</span></span><span style="display:flex;"><span>            PrintWriter writer <span style="color:#f92672">=</span> response.<span style="color:#a6e22e">getWriter</span>();
+</span></span><span style="display:flex;"><span>            writer.<span style="color:#a6e22e">print</span>(JSONUtil.<span style="color:#a6e22e">stringify</span>(Result.<span style="color:#a6e22e">error</span>(e.<span style="color:#a6e22e">getMessage</span>())));
+</span></span><span style="display:flex;"><span>            writer.<span style="color:#a6e22e">flush</span>();
+</span></span><span style="display:flex;"><span>            writer.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (Exception e) {
+</span></span><span style="display:flex;"><span>            logger.<span style="color:#a6e22e">error</span>(e.<span style="color:#a6e22e">getMessage</span>(), e);
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 未知异常</span>
+</span></span><span style="display:flex;"><span>            Result result <span style="color:#f92672">=</span> Result.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;系统异常&#34;</span>);
+</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setContentType</span>(MediaType.<span style="color:#a6e22e">APPLICATION_JSON_UTF8_VALUE</span>);
+</span></span><span style="display:flex;"><span>            response.<span style="color:#a6e22e">setStatus</span>(HttpStatus.<span style="color:#a6e22e">INTERNAL_SERVER_ERROR</span>.<span style="color:#a6e22e">value</span>());
+</span></span><span style="display:flex;"><span>            PrintWriter writer <span style="color:#f92672">=</span> response.<span style="color:#a6e22e">getWriter</span>();
+</span></span><span style="display:flex;"><span>            writer.<span style="color:#a6e22e">write</span>(JSONUtil.<span style="color:#a6e22e">stringify</span>(result));
+</span></span><span style="display:flex;"><span>            writer.<span style="color:#a6e22e">flush</span>();
+</span></span><span style="display:flex;"><span>            writer.<span style="color:#a6e22e">close</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="2-securityconfig">2. SecurityConfig</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableWebSecurity</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SecurityConfig</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> ApplicationContext applicationContext;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> CustomAuthenticationExceptionHandler customAuthenticationExceptionHandler;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> AuthenticationEntryPoint authenticationExceptionHandler <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CustomAuthenticationExceptionHandler();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> Filter globalSpringSecurityExceptionHandler <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> CustomSecurityExceptionHandler();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> CustomAccessDeniedHandler customAccessDeniedHandler;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">SecurityConfig</span>(
+</span></span><span style="display:flex;"><span>            ApplicationContext applicationContext,
+</span></span><span style="display:flex;"><span>            CustomAuthenticationExceptionHandler customAuthenticationExceptionHandler,
+</span></span><span style="display:flex;"><span>            CustomAccessDeniedHandler customAccessDeniedHandler
+</span></span><span style="display:flex;"><span>    ){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">applicationContext</span> <span style="color:#f92672">=</span> applicationContext;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">customAuthenticationExceptionHandler</span> <span style="color:#f92672">=</span> customAuthenticationExceptionHandler;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">customAccessDeniedHandler</span> <span style="color:#f92672">=</span> customAccessDeniedHandler;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> PasswordEncoder <span style="color:#a6e22e">passwordEncoder</span>(){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> BCryptPasswordEncoder();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">commonHttpSetting</span>(HttpSecurity http) <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 禁用SpringSecurity默认filter。这些filter都是非前后端分离项目的产物，用不上.</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// yml配置文件将日志设置DEBUG模式，就能看到加载了哪些filter</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// logging:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//    level:</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//       org.springframework.security: DEBUG</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 表单登录/登出、session管理、csrf防护等默认配置，如果不disable。会默认创建默认filter</span>
+</span></span><span style="display:flex;"><span>        http.<span style="color:#a6e22e">formLogin</span>(AbstractHttpConfigurer::disable)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">httpBasic</span>(AbstractHttpConfigurer::disable)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">logout</span>(AbstractHttpConfigurer::disable)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">sessionManagement</span>(AbstractHttpConfigurer::disable)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">csrf</span>(AbstractHttpConfigurer::disable)
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// requestCache用于重定向，前后端分析项目无需重定向，requestCache也用不上</span>
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">requestCache</span>(cache <span style="color:#f92672">-&gt;</span> cache
+</span></span><span style="display:flex;"><span>                        .<span style="color:#a6e22e">requestCache</span>(<span style="color:#66d9ef">new</span> NullRequestCache())
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 无需给用户一个匿名身份</span>
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">anonymous</span>(AbstractHttpConfigurer::disable);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 处理 SpringSecurity 异常响应结果。响应数据的结构，改成业务统一的JSON结构。不要框架默认的响应结构</span>
+</span></span><span style="display:flex;"><span>        http.<span style="color:#a6e22e">exceptionHandling</span>(exceptionHandling <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>                        exceptionHandling
+</span></span><span style="display:flex;"><span>                                <span style="color:#75715e">// 认证失败异常</span>
+</span></span><span style="display:flex;"><span>                                .<span style="color:#a6e22e">authenticationEntryPoint</span>(authenticationExceptionHandler)
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 鉴权失败异常</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//                        .accessDeniedHandler(authorizationExceptionHandler)</span>
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 其他未知异常. 尽量提前加载。</span>
+</span></span><span style="display:flex;"><span>        http.<span style="color:#a6e22e">addFilterBefore</span>(globalSpringSecurityExceptionHandler, SecurityContextHolderFilter.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> SecurityFilterChain <span style="color:#a6e22e">loginFilterChain</span>(HttpSecurity http) <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>        commonHttpSetting(http);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 使用securityMatcher限定当前配置作用的路径</span>
+</span></span><span style="display:flex;"><span>        http.<span style="color:#a6e22e">securityMatcher</span>(<span style="color:#e6db74">&#34;/public/user/login/*&#34;</span>)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">authorizeHttpRequests</span>(authorize <span style="color:#f92672">-&gt;</span> authorize.<span style="color:#a6e22e">anyRequest</span>().<span style="color:#a6e22e">authenticated</span>());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 异常处理</span>
+</span></span><span style="display:flex;"><span>        http
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">exceptionHandling</span>(exception <span style="color:#f92672">-&gt;</span> exception
+</span></span><span style="display:flex;"><span>                        .<span style="color:#a6e22e">authenticationEntryPoint</span>(customAuthenticationExceptionHandler)
+</span></span><span style="display:flex;"><span>                        .<span style="color:#a6e22e">accessDeniedHandler</span>(customAccessDeniedHandler));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> http.<span style="color:#a6e22e">build</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/** 其余路径，走这个默认过滤链 */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Order</span>(Integer.<span style="color:#a6e22e">MAX_VALUE</span>) <span style="color:#75715e">// 这个过滤链最后加载</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> SecurityFilterChain <span style="color:#a6e22e">defaultApiFilterChain</span>(HttpSecurity http) <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>        commonHttpSetting(http);
+</span></span><span style="display:flex;"><span>        http <span style="color:#75715e">// 不用securityMatcher表示缺省值，匹配不上其他过滤链时，都走这个过滤链</span>
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">authorizeHttpRequests</span>(authorize <span style="color:#f92672">-&gt;</span> authorize.<span style="color:#a6e22e">anyRequest</span>().<span style="color:#a6e22e">authenticated</span>());
+</span></span><span style="display:flex;"><span>        http.<span style="color:#a6e22e">addFilterBefore</span>(<span style="color:#66d9ef">new</span> PublicApiAuthenticationFilter(), UsernamePasswordAuthenticationFilter.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> http.<span style="color:#a6e22e">build</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="3-publicapiauthenticationfilter">3. PublicApiAuthenticationFilter</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PublicApiAuthenticationFilter</span> <span style="color:#66d9ef">extends</span> OncePerRequestFilter {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doFilterInternal</span>(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) <span style="color:#66d9ef">throws</span> ServletException, IOException {
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;这里是默认过滤链...&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 随便给个默认身份</span>
+</span></span><span style="display:flex;"><span>        Authentication authentication <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TestingAuthenticationToken(<span style="color:#e6db74">&#34;username&#34;</span>, <span style="color:#e6db74">&#34;password&#34;</span>, <span style="color:#e6db74">&#34;ROLE_TOURIST&#34;</span>);
+</span></span><span style="display:flex;"><span>        SecurityContextHolder.<span style="color:#a6e22e">getContext</span>().<span style="color:#a6e22e">setAuthentication</span>(authentication);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 放行</span>
+</span></span><span style="display:flex;"><span>        filterChain.<span style="color:#a6e22e">doFilter</span>(request, response);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="三登录认证流程">三、登录认证流程</h1>
+<h2 id="获取当前用户的信息">获取当前用户的信息</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CurrentUserUtil</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 获取当前认证的用户信息
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     *
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @return 当前用户的 UserPrincipal 对象，若未认证则返回 null
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> UserLoginDTO <span style="color:#a6e22e">getCurrentUser</span>() {
+</span></span><span style="display:flex;"><span>        Authentication authentication <span style="color:#f92672">=</span> SecurityContextHolder.<span style="color:#a6e22e">getContext</span>().<span style="color:#a6e22e">getAuthentication</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (authentication <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">&amp;&amp;</span> authentication.<span style="color:#a6e22e">isAuthenticated</span>()
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>(authentication.<span style="color:#a6e22e">getPrincipal</span>() <span style="color:#66d9ef">instanceof</span> String)) { <span style="color:#75715e">// 避免匿名用户</span>
+</span></span><span style="display:flex;"><span>            Object principal <span style="color:#f92672">=</span> authentication.<span style="color:#a6e22e">getPrincipal</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (principal <span style="color:#66d9ef">instanceof</span> UserLoginDTO) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> (UserLoginDTO) principal;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h1 id="四授权">四、授权</h1>
+<h1 id="五token无痛刷新">五、token无痛刷新</h1>
+
+</content>
+<p>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

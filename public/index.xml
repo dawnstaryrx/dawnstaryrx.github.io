@@ -1,244 +1,286 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>DawnStar on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content in DawnStar on ᕕ( ᐛ )ᕗ DawnStar&#39;s Blog</description>
+    <title>DawnStar on ᕕ( ᐛ )ᕗ yrx&#39;s Blog</title>
+    <link>https://blog.gooodh.com/</link>
+    <description>Recent content in DawnStar on ᕕ( ᐛ )ᕗ yrx&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Wed, 25 Sep 2024 09:43:11 +0800</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 27 Nov 2024 15:11:19 +0800</lastBuildDate>
+    <atom:link href="https://blog.gooodh.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>RSS</title>
-      <link>http://localhost:1313/rss/rss/</link>
-      <pubDate>Wed, 25 Sep 2024 09:43:11 +0800</pubDate>
-      <guid>http://localhost:1313/rss/rss/</guid>
-      <description>This message is used to verify that this feed (feedId:61579761738216448) belongs to me (userId:60956133279090688). Join me in enjoying the next generation information browser https://follow.is.</description>
+      <title>React</title>
+      <link>https://blog.gooodh.com/react/</link>
+      <pubDate>Wed, 27 Nov 2024 15:11:19 +0800</pubDate>
+      <guid>https://blog.gooodh.com/react/</guid>
+      <description>React 1. 创建React项目 1.1 创建 npm create vite@latest 输入项目名称：react-learn 选择React JavaScript cd xxx code . 打开VSCode npm install npm run dev 1.2 项目结构 vite.config.js 配置文件 index.html src main.jsx 入口文件 1.3 安装tailwind css https://tailwindcss.com/docs/guides/vite&#xA;npm install -D tailwindcss postcss autoprefixer npx tailwindcss init -p 修改tailwind.config.js&#xA;/** @type {import(&amp;#39;tailwindcss&amp;#39;).Config} */ export default { content: [ &amp;#34;./index.html&amp;#34;, &amp;#34;./src/**/*.{js,ts,jsx,tsx}&amp;#34;, ], theme: { extend: {}, }, plugins: [], } 修改index.css&#xA;@tailwind base; @tailwind components; @tailwind utilities; 重新启动</description>
+    </item>
+    <item>
+      <title>HTML2IMG</title>
+      <link>https://blog.gooodh.com/html2img/</link>
+      <pubDate>Wed, 13 Nov 2024 10:59:42 +0800</pubDate>
+      <guid>https://blog.gooodh.com/html2img/</guid>
+      <description>本文介绍如何将HTML代码转换成图片，网上有几种常见的方法，下面先来介绍一下。&#xA;一、 几种办法 1. Java 使用下面的依赖完成。&#xA;&amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;gui.ava&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;html2image&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;0.9&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; 可以参考https://www.cnblogs.com/nsw2018/p/16384419.html&#xA;缺点：无法获取HTML中的样式&#xA;2. API 使用https://docs.htmlcsstoimage.com/example-code/python这个网站的API来完成，每个月能免费生成50张图片，之后要收费。&#xA;缺点：贵。&#xA;3. wkhtmltopdf 我使用Java测试过，可以进行输入一个网站URL，得到网站截图。&#xA;但是我想要的是通过HTML代码，获取出图片，也就是这段HTML代码可能不运行在服务器上，访问不到，也就无法截图。&#xA;4. Puppeteer 符合我的需求。我可以编写一段JS脚本，Java发起请求，携带HTML代码，Node.js将图片返回给Java服务器。&#xA;二、步骤 服务器安装环境 服务器运行脚本 Java发起请求 得到结果 三、服务器安装环境 以Ubuntu22.04为例&#xA;1. 安装Node和NPM puppeteer-core 需要 Node.js 环境，所以你首先需要在 Ubuntu 上安装 Node.js。&#xA;可以通过以下命令来安装 Node.js 和 npm：&#xA;# 更新软件包列表 sudo apt update # 安装 Node.js 和 npm sudo apt install nodejs npm 验证安装是否成功：&#xA;node -v npm -v 可能遇到的问题：&#xA;安装失败 解决：更换镜像源，阿里的我经常测试可以安装 安装Node版本太低，一般需要至少14以上 解决：使用 n 管理工具更新 Node.</description>
+    </item>
+    <item>
+      <title>[JWT]登录认证授权使用SpringSecurity</title>
+      <link>https://blog.gooodh.com/jwt%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E4%BD%BF%E7%94%A8springsecurity/</link>
+      <pubDate>Sun, 13 Oct 2024 14:07:12 +0800</pubDate>
+      <guid>https://blog.gooodh.com/jwt%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E4%BD%BF%E7%94%A8springsecurity/</guid>
+      <description>一、预备内容 1. 统一响应结果的封装 @Data @AllArgsConstructor @NoArgsConstructor public class Result&amp;lt;T&amp;gt; implements Serializable { @Serial private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 401-token过期 403-权限不足 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &amp;lt;E&amp;gt; Result&amp;lt;E&amp;gt; success(E data) { return new Result&amp;lt;&amp;gt;(0, &amp;#34;操作成功&amp;#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &amp;#34;操作成功&amp;#34;, null); } public static Result error(String message) { return new Result(1, message, null); } public static Result error(String message, Integer code) { return new Result(code, message, null); } } 2.</description>
+    </item>
+    <item>
+      <title>[JWT]Springboot&#43;vue登录认证不使用SpringSecurity</title>
+      <link>https://blog.gooodh.com/jwtspringboot-vue%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E4%B8%8D%E4%BD%BF%E7%94%A8springsecurity/</link>
+      <pubDate>Sat, 12 Oct 2024 21:14:11 +0800</pubDate>
+      <guid>https://blog.gooodh.com/jwtspringboot-vue%E7%99%BB%E5%BD%95%E8%AE%A4%E8%AF%81%E4%B8%8D%E4%BD%BF%E7%94%A8springsecurity/</guid>
+      <description>一、预备内容 1. 统一响应结果 @Data @AllArgsConstructor @NoArgsConstructor public class Result&amp;lt;T&amp;gt; implements Serializable { private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &amp;lt;E&amp;gt; Result&amp;lt;E&amp;gt; success(E data) { return new Result&amp;lt;&amp;gt;(0, &amp;#34;操作成功&amp;#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &amp;#34;操作成功&amp;#34;, null); } public static Result error(String message) { return new Result(1, message, null); } } 2. 用户类 @Data @AllArgsConstructor @NoArgsConstructor public class User { private Long id; private String email; private String phone; private String password; private String username; private Integer role; private Integer coin; private Integer accuCoin; private Boolean isDeleted; private Boolean isLocked; @JsonFormat(pattern = &amp;#34;yyyy-MM-dd HH:mm:ss&amp;#34;) private LocalDateTime createTime; @JsonFormat(pattern = &amp;#34;yyyy-MM-dd HH:mm:ss&amp;#34;) private LocalDateTime updateTime; @JsonFormat(pattern = &amp;#34;yyyy-MM-dd HH:mm:ss&amp;#34;) private LocalDateTime lastLoginTime; } 3.</description>
+    </item>
+    <item>
+      <title>[JWT]认证</title>
+      <link>https://blog.gooodh.com/jwt%E8%AE%A4%E8%AF%81/</link>
+      <pubDate>Thu, 10 Oct 2024 21:31:49 +0800</pubDate>
+      <guid>https://blog.gooodh.com/jwt%E8%AE%A4%E8%AF%81/</guid>
+      <description>一、公钥和私钥 1.1 公钥和私钥的基本概念 公钥（Public Key）和私钥（Private Key）是一对密钥，属于非对称加密（Asymmetric Encryption）的范畴。非对称加密使用一对相关但不同的密钥来进行加密和解密操作，与对称加密（使用同一个密钥进行加密和解密）不同。&#xA;私钥（Private Key） 定义：私钥是需要严格保密的密钥，仅由持有者掌握。 用途：用于解密数据或生成数字签名。 公钥（Public Key） 定义：公钥可以公开共享，任何人都可以获取。 用途：用于加密数据或验证数字签名。 1.2 公钥和私钥的用途 加密与解密 加密：使用公钥加密数据。 解密：使用对应的私钥解密数据。 签名与验证 签名：使用私钥对数据或消息生成数字签名。 验证：使用公钥验证数字签名的真实性和完整性。 1.3 非对称加密的优势 安全性高：私钥不需要在网络中传输，减少泄露风险。 密钥分发简便：公钥可以自由分发，任何人都可以使用公钥进行加密或验证签名 1.4 生成公钥和私钥 使用RSA算法生成公钥和私钥，并以PEM格式保存到文件中。 password在这里用于生成一个自定义的随机数生成器（SecureRandom）的种子。这意味着相同的密码将生成相同的密钥对。 初始化KeyPairGenerator，指定密钥长度为1024位，并使用之前创建的SecureRandom实例。使用2048位更安全。 public class GenSecretKeyTest { @Test public void genSecretKey() throws Exception{ //自定义 随机密码, 请修改这里 String password = &amp;#34;dawnstar&amp;#34;; KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(&amp;#34;RSA&amp;#34;); SecureRandom secureRandom = new SecureRandom(password.getBytes()); keyPairGenerator.initialize(1024, secureRandom); KeyPair keyPair = keyPairGenerator.genKeyPair(); // 获取公钥和私钥的字节数组 byte[] publicKeyBytes = keyPair.getPublic().getEncoded(); byte[] privateKeyBytes = keyPair.</description>
+    </item>
+    <item>
+      <title>SpringSecurity6笔记</title>
+      <link>https://blog.gooodh.com/springsecurity6%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Sun, 06 Oct 2024 10:09:28 +0800</pubDate>
+      <guid>https://blog.gooodh.com/springsecurity6%E7%AC%94%E8%AE%B0/</guid>
+      <description>一、统一API响应数据结构 定义统一响应结果类Result.java&#xA;//统一响应结果 @Data @AllArgsConstructor @NoArgsConstructor public class Result&amp;lt;T&amp;gt; implements Serializable { @Serial private static final long serialVersionUID = 1L; private Integer code;//业务状态码 0-成功 1-失败 private String message;//提示信息 private T data;//响应数据 //快速返回操作成功响应结果(带响应数据) public static &amp;lt;E&amp;gt; Result&amp;lt;E&amp;gt; success(E data) { return new Result&amp;lt;&amp;gt;(0, &amp;#34;操作成功&amp;#34;, data); } //快速返回操作成功响应结果 public static Result success() { return new Result(0, &amp;#34;操作成功&amp;#34;, null); } public static Result error(String message) { return new Result(1, message, null); } } 测试</description>
+    </item>
+    <item>
+      <title>[GoNav 02]前端顶部导航、底部版权信息与搜索框的实现</title>
+      <link>https://blog.gooodh.com/gonav-02%E5%89%8D%E7%AB%AF%E9%A1%B6%E9%83%A8%E5%AF%BC%E8%88%AA%E5%BA%95%E9%83%A8%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A1%86%E7%9A%84%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Fri, 04 Oct 2024 09:38:56 +0800</pubDate>
+      <guid>https://blog.gooodh.com/gonav-02%E5%89%8D%E7%AB%AF%E9%A1%B6%E9%83%A8%E5%AF%BC%E8%88%AA%E5%BA%95%E9%83%A8%E7%89%88%E6%9D%83%E4%BF%A1%E6%81%AF%E4%B8%8E%E6%90%9C%E7%B4%A2%E6%A1%86%E7%9A%84%E5%AE%9E%E7%8E%B0/</guid>
+      <description>一、顶部导航栏 本项目前端使用Vue和Bootstrap5.3，主要参考Bootstrap样式并进行调整。&#xA;主要有以下需求：&#xA;导航栏有左右两部分，左边导航进入子模块，右边展示信息或进入登录注册页面； 导航栏居中，设置最大宽度（这样在很宽的屏幕下效果更好）； 导航栏样式：鼠标悬浮变色，且底部有横线展开；当前路由的菜单高亮显示；支持响应式布局。 导航栏固定在顶部，鼠标向下滚动，导航栏不动。 在小屏幕上隐藏掉了登录按钮和Github按钮。 Vue代码如下：&#xA;&amp;lt;template&amp;gt; &amp;lt;div class=&amp;#34;header-navbar-container&amp;#34;&amp;gt; &amp;lt;nav class=&amp;#34;navbar navbar-expand-lg bg-body-tertiary header-navbar-top&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;container-fluid header-navbar-top-content&amp;#34;&amp;gt; &amp;lt;div class=&amp;#34;d-flex align-items-center&amp;#34;&amp;gt; &amp;lt;img class=&amp;#34;img-navbar-brand&amp;#34; src=&amp;#34;@/assets/logo.png&amp;#34; alt=&amp;#34;导航站&amp;#34; width=&amp;#34;36&amp;#34; height=&amp;#34;36&amp;#34; /&amp;gt; &amp;lt;router-link class=&amp;#34;navbar-brand ms-2 noto-serif-sc-brand&amp;#34; to=&amp;#34;/&amp;#34;&amp;gt;Go导航&amp;lt;/router-link&amp;gt; &amp;lt;/div&amp;gt; &amp;lt;button class=&amp;#34;navbar-toggler&amp;#34; type=&amp;#34;button&amp;#34; data-bs-toggle=&amp;#34;collapse&amp;#34; data-bs-target=&amp;#34;#navbarText&amp;#34; aria-controls=&amp;#34;navbarText&amp;#34; aria-expanded=&amp;#34;false&amp;#34; aria-label=&amp;#34;Toggle navigation&amp;#34;&amp;gt; &amp;lt;span class=&amp;#34;navbar-toggler-icon&amp;#34;&amp;gt;&amp;lt;/span&amp;gt; &amp;lt;/button&amp;gt; &amp;lt;div class=&amp;#34;collapse navbar-collapse&amp;#34; id=&amp;#34;navbarText&amp;#34;&amp;gt; &amp;lt;ul class=&amp;#34;navbar-nav me-auto mb-2 mb-lg-0&amp;#34;&amp;gt; &amp;lt;li class=&amp;#34;nav-item header-navbar-top-item&amp;#34;&amp;gt; &amp;lt;router-link class=&amp;#34;nav-link noto-serif-sc-text&amp;#34; aria-current=&amp;#34;page&amp;#34; to=&amp;#34;/hello&amp;#34;&amp;gt;Hello&amp;lt;/router-link&amp;gt; &amp;lt;/li&amp;gt; &amp;lt;li class=&amp;#34;nav-item header-navbar-top-item&amp;#34;&amp;gt; &amp;lt;a class=&amp;#34;nav-link noto-serif-sc-text&amp;#34; href=&amp;#34;https://www.</description>
+    </item>
+    <item>
+      <title>[GoNav 01]项目介绍与创建</title>
+      <link>https://blog.gooodh.com/gonav-01%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%88%9B%E5%BB%BA/</link>
+      <pubDate>Fri, 04 Oct 2024 09:38:13 +0800</pubDate>
+      <guid>https://blog.gooodh.com/gonav-01%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D%E4%B8%8E%E5%88%9B%E5%BB%BA/</guid>
+      <description>一、项目背景 在一家公司实习的时候，我参与了一个AI导航站的项目，主要是做AI工具的导航。最后因为种种原因，AI导航站的项目也停止了。&#xA;但是，我感受到了导航站的便捷性，于是就有了这个项目。这个项目的前端样式受到了Van-Nav的启发，因为我认为导航站首先要做到的是简约。&#xA;最后，因为我有一个域名 gooodh.com，所以，把这个项目命名为Go导航。&#xA;二、项目介绍 首先，这个项目是单用户/多用户的导航站，基于Springboot3和Vue3前后端分离开发，前端UI选择Bootstrap5.3。可以只有一个人使用（关闭注册），管理员用户的导航站展示在主页面，非管理员用户的导航站展示在子页面。通过开启注册/邀请码注册，也可以提供给多个人（团队使用/开放使用）。&#xA;项目的功能模块大致有：&#xA;注册登录 分类管理（书签管理） 应用管理 网站设置 三、项目创建 (一) 后端 创建SpringBoot3项目。选择依赖Lombok，MySQL，Web，MyBatis。&#xA;先注释掉数据库的依赖。创建UserController，测试：&#xA;@RestController public class UserController { @RequestMapping(&amp;#34;/hello&amp;#34;) public String hello(){ return &amp;#34;hello world&amp;#34;; } } 浏览器输入http://localhost:8080/hello，可以看到hello world。项目创建成功！&#xA;(二) 前端 1. 使用vite创建项目 npm create vite@latest 输入项目名：gonav 选择框架：Vue 选择：JavaScript cd gonav npm install npm run dev 项目创建完毕。&#xA;可更换npm镜像源：&#xA;npm config set registry https://registry.npmmirror.com npm config set registry https://registry.npm.taobao.org 2. 配置vite环境变量及代理 用于解决跨域问题，以及使用@别名配置（@代表src目录）&#xA;import { defineConfig } from &amp;#39;vite&amp;#39; import vue from &amp;#39;@vitejs/plugin-vue&amp;#39; import { resolve } from &amp;#39;path&amp;#39;; export default defineConfig({ plugins: [vue()], server: { // 配置前端服务地址和端口 // 服务器主机名 host: &amp;#39;0.</description>
     </item>
     <item>
       <title>[Leetcode2]链表</title>
-      <link>http://localhost:1313/code/leetcode2%E9%93%BE%E8%A1%A8/</link>
+      <link>https://blog.gooodh.com/leetcode2%E9%93%BE%E8%A1%A8/</link>
       <pubDate>Wed, 18 Sep 2024 17:11:02 +0800</pubDate>
-      <guid>http://localhost:1313/code/leetcode2%E9%93%BE%E8%A1%A8/</guid>
+      <guid>https://blog.gooodh.com/leetcode2%E9%93%BE%E8%A1%A8/</guid>
       <description>1. 相交链表 https://leetcode.cn/problems/intersection-of-two-linked-lists/description/&#xA;l1=s1+s2&#xA;l2=s3+s2&#xA;s1+s2+s3长度固定&#xA;/** * Definition for singly-linked list. * public class ListNode { * int val; * ListNode next; * ListNode(int x) { * val = x; * next = null; * } * } */ public class Solution { public ListNode getIntersectionNode(ListNode headA, ListNode headB) { ListNode l1 = headA, l2 = headB; while(l1 != l2){ l1 = (l1 == null) ? headB : l1.next; l2 = (l2 == null) ?</description>
     </item>
     <item>
       <title>[Docker2]快速入门</title>
-      <link>http://localhost:1313/code/docker2%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</link>
+      <link>https://blog.gooodh.com/docker2%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</link>
       <pubDate>Thu, 29 Aug 2024 08:48:30 +0800</pubDate>
-      <guid>http://localhost:1313/code/docker2%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</guid>
+      <guid>https://blog.gooodh.com/docker2%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</guid>
       <description>docker镜像https://dockerhub.icu/&#xA;centos ip: 192.168.80.129&#xA;部署MySQL 拉取MySQL镜像&#xA;docker pull dockerhub.icu/library/mysql 创建MySQL容器&#xA;docker run -d \&#xD;--name mysql \&#xD;-p 3306:3306 \&#xD;-e TZ=Asia/Shanghai \&#xD;-e MYSQL_ROOT_PASSWORD=dfjb \&#xD;mysql 启动MySQL&#xA;docker start mysql 命令解读 docker run -d \&#xD;创建并运行一个容器，-d是让容器在后台运行&#xD;--name mysql \&#xD;给容器起名，必须唯一&#xD;-p 3306:3306 \&#xD;端口映射，&#xD;-e TZ=Asia/Shanghai \&#xD;设置环境变量，时区&#xD;-e MYSQL_ROOT_PASSWORD=dfjb \&#xD;设置环境变量&#xD;mysql&#xD;指定运行镜像的名字，完整写法[repository]:[tag]，如mysql:5.7，默认latest </description>
     </item>
     <item>
       <title>[Docker3]基础</title>
-      <link>http://localhost:1313/code/docker3%E5%9F%BA%E7%A1%80/</link>
+      <link>https://blog.gooodh.com/docker3%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Thu, 29 Aug 2024 08:48:30 +0800</pubDate>
-      <guid>http://localhost:1313/code/docker3%E5%9F%BA%E7%A1%80/</guid>
+      <guid>https://blog.gooodh.com/docker3%E5%9F%BA%E7%A1%80/</guid>
       <description>一、常见命令 1. 镜像命令 docker pull：从镜像仓库拉取到本地 docker push：docker镜像推送到镜像仓库 docker images ：查看本地镜像 docker rmi：删除镜像 docker build：dockerfile自定义镜像 docker save ：保存镜像到本地变成一个压缩文件 docker load：压缩文件加载 2. 容器命令 docker run：创建并运行容器 docker stop：停止容器 docker start：运行容器 docker ps：查看当前容器的运行状态 docker rm：删除容器 docker logs：查看容器日志 docker exec：进入到容器内部 3. 案例 拉取nginx镜像，创建并运行nginx容器&#xA;// 拉取镜像&#xD;docker pull nginx&#xD;// 查看镜像列表&#xD;docker images&#xD;// 保存镜像到本地&#xD;docker save -o nginx.tar nginx:latest&#xD;// 删除&#xD;docker rmi nginx:latest&#xD;// 加载&#xD;docker load -i nginx.tar&#xD;// 创建并运行容器&#xD;docker run -d --name nginx -p 80:80 nginx&#xD;// 查看容器&#xD;docker ps&#xD;// 停止&#xD;docker stop&#xD;// 查看&#xD;docker ps -a&#xD;// 启动&#xD;docker start nginx&#xD;// 查看日志&#xD;docker logs&#xD;// 进入内部&#xD;docker exec -it nginx bash&#xD;// 退出&#xD;exit 二、数据卷 数据卷volume是一个虚拟目录，是容器内目录与宿主机目录之间映射的桥梁。</description>
     </item>
     <item>
       <title>MybtiasPlus快速入门</title>
-      <link>http://localhost:1313/code/mybatisplus/</link>
+      <link>https://blog.gooodh.com/mybtiasplus%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</link>
       <pubDate>Thu, 29 Aug 2024 08:48:30 +0800</pubDate>
-      <guid>http://localhost:1313/code/mybatisplus/</guid>
+      <guid>https://blog.gooodh.com/mybtiasplus%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</guid>
       <description>一、快速入门 MyBatisPlus使用的基本流程是什么？&#xA;引入起步依赖 自定义Mapper基础BaseMapper 在实体类上添加注解声明 表信息 在application.yml中根据需要添加配置 1. 引入依赖 Springboot2&#xA;&amp;lt;dependency&amp;gt;&#xD;&amp;lt;groupId&amp;gt;com.baomidou&amp;lt;/groupId&amp;gt;&#xD;&amp;lt;artifactId&amp;gt;mybatis-plus-boot-starter&amp;lt;/artifactId&amp;gt;&#xD;&amp;lt;version&amp;gt;3.5.7&amp;lt;/version&amp;gt;&#xD;&amp;lt;/dependency&amp;gt; Springboot3&#xA;&amp;lt;dependency&amp;gt;&#xD;&amp;lt;groupId&amp;gt;com.baomidou&amp;lt;/groupId&amp;gt;&#xD;&amp;lt;artifactId&amp;gt;mybatis-plus-spring-boot3-starter&amp;lt;/artifactId&amp;gt;&#xD;&amp;lt;version&amp;gt;3.5.7&amp;lt;/version&amp;gt;&#xD;&amp;lt;/dependency&amp;gt; 2. 定义Mapper 自定义的Mapper继承MybatisPlus提供的BaseMapper接口&#xA;public interface UserMapper extends BaseMapper&amp;lt;User&amp;gt; {&#xD;} 3. 常见注解 MybatisPlus是如何获取实现CRUD的数据库表信息的？&#xA;MyBatisPlus通过扫描实体类，并基于反射获取实体类信息作为数据库表信息。&#xA;类名驼峰转下划线作为表名 名为id的字段作为主键 变量名驼峰转下划线作为表的字段名 MybatisPlus中比较常用的几个注解如下：&#xA;@TableName：用来指定表名 @TableId：用来指定表中的主键字段信息 @TableField：用来指定表中的普通字段信息 IdType枚举：&#xA;•AUTO：数据库自增长&#xA;•INPUT：通过set方法自行输入&#xA;•ASSIGN_ID：分配 ID，接口IdentifierGenerator的方法nextId来生成id，默认实现类为DefaultIdentifierGenerator雪花算法&#xA;使用@TableField的常见场景：&#xA;•成员变量名与数据库字段名不一致&#xA;•成员变量名以is开头，且是布尔值&#xA;•成员变量名与数据库关键字冲突&#xA;•成员变量不是数据库字段&#xA;4. 常见配置 MyBatisPlus的配置项继承了MyBatis原生配置和一些自己特有的配置。例如：&#xA;mybatis-plus:&#xD;type-aliases-package: &amp;#34;com.itheima.mp.domain.po&amp;#34; # 别名扫描包&#xD;mapper-locations: &amp;#34;classpath*:/mapper/**/*.xml&amp;#34; # mapper.xml文件地址，默认值&#xD;configuration:&#xD;map-underscore-to-camel-case: true # 是否开启下划线和驼峰的映射&#xD;cache-enabled: false # 是否开启二级缓存&#xD;global-config:&#xD;db-config:&#xD;id-type: assign_id # id为雪花算法生成&#xD;update-strategy: not_null # 更新策略，只更新非空字段 二、核心功能 1.</description>
     </item>
     <item>
       <title>[Redis5]redis消息队列</title>
-      <link>http://localhost:1313/code/redis5redis%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</link>
+      <link>https://blog.gooodh.com/redis5redis%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</link>
       <pubDate>Mon, 26 Aug 2024 14:38:24 +0800</pubDate>
-      <guid>http://localhost:1313/code/redis5redis%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</guid>
+      <guid>https://blog.gooodh.com/redis5redis%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</guid>
       <description>消息队列 消息队列，Message Queue，字面意思就是存放消息的队列。最简单的消息队列模型包括三个角色：&#xA;消息队列：存储和管理消息，也被称为消息代理Message Broker 生产者：发送消息到消息队列 消费者：从消息队列获取消息并处理消息 Redis提供了三种不同的方式来实现消息队列：&#xA;list结构：基于List结构模拟消息队列 PubSub：基于点对点消息模型 Stream：比较完善的消息队列模型 </description>
     </item>
     <item>
       <title>[Wagtail02]第一个网站</title>
-      <link>http://localhost:1313/code/wagtail02%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99/</link>
+      <link>https://blog.gooodh.com/wagtail02%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99/</link>
       <pubDate>Mon, 19 Aug 2024 09:05:53 +0800</pubDate>
-      <guid>http://localhost:1313/code/wagtail02%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99/</guid>
+      <guid>https://blog.gooodh.com/wagtail02%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%BD%91%E7%AB%99/</guid>
       <description>创建app&#xA;python manage.py startapp blog 注册app到mysite/settings/base.py&#xA;INSTALLED_APPS = [ &amp;#34;blog&amp;#34;, # &amp;lt;- Our new blog app. &amp;#34;home&amp;#34;, &amp;#34;search&amp;#34;, &amp;#34;wagtail.contrib.forms&amp;#34;, &amp;#34;wagtail.contrib.redirects&amp;#34;, &amp;#34;wagtail.embeds&amp;#34;, &amp;#34;wagtail.sites&amp;#34;, &amp;#34;wagtail.users&amp;#34;, #... other packages ] 一、博客首页 编辑blog/models.py&#xA;from django.db import models # Add these: from wagtail.models import Page from wagtail.fields import RichTextField from wagtail.admin.panels import FieldPanel class BlogIndexPage(Page): intro = RichTextField(blank=True) content_panels = Page.content_panels + [ FieldPanel(&amp;#39;intro&amp;#39;) ] template = &amp;#39;blog/blog_index_page.html&amp;#39; 创建迁移文件并迁移&#xA;python manage.py makemigrations python manage.py migrate 创建文件blog/templates/blog/blog_index_page.</description>
     </item>
     <item>
       <title>[Wagtail01]创建</title>
-      <link>http://localhost:1313/code/wagtail01%E5%88%9B%E5%BB%BA/</link>
+      <link>https://blog.gooodh.com/wagtail01%E5%88%9B%E5%BB%BA/</link>
       <pubDate>Sun, 18 Aug 2024 21:52:49 +0800</pubDate>
-      <guid>http://localhost:1313/code/wagtail01%E5%88%9B%E5%BB%BA/</guid>
+      <guid>https://blog.gooodh.com/wagtail01%E5%88%9B%E5%BB%BA/</guid>
       <description>一、创建并激活虚拟环境 py -m venv mysite\env # then mysite\env\Scripts\activate.bat # if mysite\env\Scripts\activate.bat doesn&amp;#39;t work, run: mysite\env\Scripts\activate 二、安装Wagtail pip install wagtail 三、创建站点 wagtail start mysite mysite 项目结构：&#xA;mysite/ ├── .dockerignore ├── Dockerfile ├── home/ ├── manage.py* ├── mysite/ ├── requirements.txt └── search/ 安装依赖：&#xA;cd mysite pip install -r requirements.txt 四、创建数据库 python manage.py migrate Every time you alter your model, then you must run the python manage.py migrate command to update the database.</description>
     </item>
     <item>
       <title>[Redis4]Redis秒杀</title>
-      <link>http://localhost:1313/code/redis4redis%E7%A7%92%E6%9D%80/</link>
+      <link>https://blog.gooodh.com/redis4redis%E7%A7%92%E6%9D%80/</link>
       <pubDate>Thu, 15 Aug 2024 21:12:26 +0800</pubDate>
-      <guid>http://localhost:1313/code/redis4redis%E7%A7%92%E6%9D%80/</guid>
+      <guid>https://blog.gooodh.com/redis4redis%E7%A7%92%E6%9D%80/</guid>
       <description>一、全局唯一ID 使用自增ID存在的问题：&#xA;id的规律性太明显； 受表单数据量的限制。 全局ID生成器，是一种在分布式系统下用来生成全局唯一ID的工具，一般要满足下列特性：&#xA;唯一性 高可用 高性能 递增性 安全性 为了增加ID的安全性，我们可以不直接使用Redis自增的数值，而是拼接一些其他信息。&#xA;ID的组成部分：&#xA;符号位：1bit，永远为0（正数） 时间戳：31bit，以秒为单位，可以使用69年 序列号：32bit，Redis自增数值，秒内的计数器，支持每秒产生2^32个不同ID package com.hmdp.utils; import org.springframework.beans.factory.annotation.Autowired; import org.springframework.data.redis.core.StringRedisTemplate; import org.springframework.stereotype.Component; import java.time.LocalDateTime; import java.time.ZoneOffset; import java.time.format.DateTimeFormatter; @Component public class RedisIdWorker { // 开始时间戳 private static final long BEGIN_TIMESTAMP = 1704067200L; // 序列号位数 private static final int COUNT_BITS = 32; @Autowired private StringRedisTemplate stringRedisTemplate; public long nextId(String keyPrefix) { // 1. 生成时间戳 LocalDateTime now = LocalDateTime.now(); long nowSecond = now.</description>
     </item>
     <item>
       <title>[计算机网络01] 概述</title>
-      <link>http://localhost:1313/note/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C01-%E6%A6%82%E8%BF%B0/</link>
+      <link>https://blog.gooodh.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C01-%E6%A6%82%E8%BF%B0/</link>
       <pubDate>Sat, 10 Aug 2024 14:38:56 +0800</pubDate>
-      <guid>http://localhost:1313/note/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C01-%E6%A6%82%E8%BF%B0/</guid>
+      <guid>https://blog.gooodh.com/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C01-%E6%A6%82%E8%BF%B0/</guid>
       <description>总括 协议是保证各设备之间可以互操作的统一标准 应用层协议：直接提供给应用进程使用的协议，DNS，HTTP 传输层协议：进程到进程之间使用，TCP面向可靠连接服务，UDP面向不可靠连接服务 网络层协议：主机到主机E2E，分为传统协议和SDN，传统协议（IP和路由协议，路由器将IP报文分组，然后查路由表转发），SDN（数据定义网络，分为数据平面和控制平面） 数据链路层协议：点到点P2P 物理层协议：数字信号转化为物理信号 1 Internet 从具体构成来说，Internet是网络的网络。网络由节点和边组成，节点包括主机节点和数据交换节点（交换机、路由器、负载均衡设备），边包括接入网、骨干链路网，依靠协议来完成数据的交换。&#xA;2 网络边缘 网络由边缘、核心和接入三部分组成 客户/服务器模式CS、p2p模式（节点既请求服务，也提供服务） TCP：面向连接、可靠，HTTP、Web、Telnet、SMTP UDP：无连接、不可靠，流媒体、远程会议、DNS 3 网络核心 路由器的网状网络 数据传输方式：电路交换和分组交换 3.1 电路交换 建立连接——数据传输——释放连接 如打电话，需要找到一条A到B的路径，并独占该路径 速度快、实时、资源利用率低、建立连接时间长 3.2 分组交换 分组交换分为虚电路和数据报两种方式 虚电路方式：虚电路服务模拟了传统的电路交换，但在数据传输前并不需要建立实际的物理连接，而是建立一条逻辑连接，保证数据的顺序传输。 数据报方式：将数据包分组成更小的数据包进行传输，采用存储转发的机制，不用建立专用通信线路。如A将数据包P转发给E，拆分为p1,p2,p3，按照路由选择算法，A将p1丢给B路由器，最终汇总到E 存在延时，可能造成通信阻塞，存在重复无用数据，可能丢包，但资源利用率高 网络核心的关键功能：路由和转发 4 接入网和物理介质 住宅接入：modem调制解调，利用电话线传播数据，不能同时上网和打电话（DSL方式通过区分电信号和上网信号的频率可以同时传播） 企业接入网：局域网，Ethernet，以太网 无线接入网络：WLANs和广域无线接入 物理介质：双绞线、同轴电缆、光纤 5 Internet结构和ISP 互联网另一种划分方式：由多个ISPs网络组成（ISP是子网络，比如学校教育网） ISP运营商提供网络，ICP运营商提供服务，为了提高服务质量，IPC会选择部署数据中心，通过专网连接 IXP是不同ISP的对等接入点 6 分组、时延 节点处理延时： 检查 bit级差错、 检查分组首部和决定将分组导向何处 排队延时：在输出链路上等待传输的时间、 依赖于路由器的拥塞程度 传输延时: R=链路带宽(bps) 、L=分组长度(bits) ，将分组发送到链路上的时间= L/R ，存储转发延时 传播延时: d = 物理链路的长度 、s = 在媒体上的传播速度 (~2x10^8 m/sec) ，传播延时 = d/s 7 协议层次和服务模型 7.</description>
     </item>
     <item>
       <title>在Ubuntu22.04上配置NginxSSL证书</title>
-      <link>http://localhost:1313/code/%E5%9C%A8ubuntu22.04%E4%B8%8A%E9%85%8D%E7%BD%AEnginxssl%E8%AF%81%E4%B9%A6/</link>
+      <link>https://blog.gooodh.com/%E5%9C%A8ubuntu22.04%E4%B8%8A%E9%85%8D%E7%BD%AEnginxssl%E8%AF%81%E4%B9%A6/</link>
       <pubDate>Sat, 03 Aug 2024 06:45:03 +0800</pubDate>
-      <guid>http://localhost:1313/code/%E5%9C%A8ubuntu22.04%E4%B8%8A%E9%85%8D%E7%BD%AEnginxssl%E8%AF%81%E4%B9%A6/</guid>
+      <guid>https://blog.gooodh.com/%E5%9C%A8ubuntu22.04%E4%B8%8A%E9%85%8D%E7%BD%AEnginxssl%E8%AF%81%E4%B9%A6/</guid>
       <description>https://blog.csdn.net/re_xue/article/details/138003534</description>
     </item>
     <item>
       <title>[SpringSecurity2]基于数据库实现认证和授权</title>
-      <link>http://localhost:1313/code/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</link>
+      <link>https://blog.gooodh.com/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</link>
       <pubDate>Thu, 01 Aug 2024 16:06:35 +0800</pubDate>
-      <guid>http://localhost:1313/code/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</guid>
+      <guid>https://blog.gooodh.com/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</guid>
       <description>集成数据库实现认证和授权 流程 提供数据库表：单表 创建项目 引入相关依赖，lombok web security mybatis plus 配置MySQL 实体类 Mapper Service Controller：提供登录接口 配置SpringSecurity 创建实体类 </description>
     </item>
     <item>
       <title>Vue3项目搭建</title>
-      <link>http://localhost:1313/code/vue3%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</link>
+      <link>https://blog.gooodh.com/vue3%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</link>
       <pubDate>Wed, 31 Jul 2024 16:22:16 +0800</pubDate>
-      <guid>http://localhost:1313/code/vue3%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</guid>
+      <guid>https://blog.gooodh.com/vue3%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</guid>
       <description>一、使用vite创建项目 vite官方中文文档：https://cn.vitejs.dev/guide/&#xA;npm create vite@latest 进入项目&#xA;npm install&#xD;npm run dev 更换镜像源&#xA;npm config set registry https://registry.npmmirror.com&#xD;npm config set registry https://registry.npm.taobao.org 二、配置Vue3文件 1. 配置vite环境变量及配置代理 解决跨域问题&#xA;import { defineConfig } from &amp;#39;vite&amp;#39; import vue from &amp;#39;@vitejs/plugin-vue&amp;#39; import { resolve } from &amp;#39;path&amp;#39;; export default defineConfig({ plugins: [vue()], server: { // 配置前端服务地址和端口 // 服务器主机名 host: &amp;#39;0.0.0.0&amp;#39;, // 端口号 port: 80, // 设为 true 时若端口已被占用则会直接退出，而不是尝试下一个可用端口 strictPort: false, // 服务器启动时自动在浏览器中打开应用程序,当此值为字符串时，会被用作 URL 的路径名 open: false, // 自定义代理规则 proxy: { // 选项写法 &amp;#39;/api&amp;#39;: { target: &amp;#39;http://localhost:8080&amp;#39;, changeOrigin: true, rewrite: path =&amp;gt; path.</description>
     </item>
     <item>
       <title>[SpringSecurity1]初识SpringSecurity</title>
-      <link>http://localhost:1313/code/springsecurity1%E5%88%9D%E8%AF%86/</link>
+      <link>https://blog.gooodh.com/springsecurity1%E5%88%9D%E8%AF%86springsecurity/</link>
       <pubDate>Tue, 30 Jul 2024 08:34:45 +0800</pubDate>
-      <guid>http://localhost:1313/code/springsecurity1%E5%88%9D%E8%AF%86/</guid>
+      <guid>https://blog.gooodh.com/springsecurity1%E5%88%9D%E8%AF%86springsecurity/</guid>
       <description>一、安全框架是什么 安全框架的本质就是一堆过滤器的组成，目的在于保护系统资源的访问是被允许的，所以在到达资源之前会做一系列的验证工作，这些验证工作通过一系列的过滤器完成。安全框架通常的功能有认证、授权、防止常见的网络攻击，以此为核心拓展其他功能。比如session管理，密码加密，权限管理等功能。&#xA;二、常见的安全框架 1. Apache Shiro 功能 Shiro 干净利落地 处理身份认证，授权，会话管理和加密。 Apache Shiro 的首要目标是易于使用和理解。框架应该尽可能掩盖复杂的地方，暴露一个干净而直观的 API，来简化开发人员在应用程序安全上所花费的时间。&#xA;四大核心功能——身份验证，授权，会话管理和加密 Authentication ：简称为“登录”，这是一个证明用户是谁的行为。 Authorization ：访问控制的过程，也就是决定“谁”可以去访问“什么”。 Session Management ： 管理用户特定的会话，即使在非 Web 或 EJB 应用程序。 Cryptography ：通过使用加密算法保持数据安全同时易于使用。 额外功能 Web Support： web 支持的 API 能够轻松地保护 Web 应用程序。 Caching ：缓存是用来确保操作的快速而又高效的。 Concurrency ：Apache Shiro 利用它的并发特性来支持多线程应用程序。 Testing ：测试功能来帮助编写单元测试和集成测试。 Run As ：一个允许用户 以 另一个用户身份(如果允许) 运行的功能，有时候在管理脚本时很有用 Remember Me ：在会话中记住用户的身份，这样用户只需要在强制登录时登录。 特点&#xA;Shiro 框架具有 直观、易用 等特性，同时也能提供了 健壮的安全性 ，在常规的企业级应用中，其实也够用了。&#xA;2. SpringSecurity Spring Security是一个 功能强大且高度可定制的，主要负责为 Java 程序提供声明式的身份验证和访问控制的安全框架。其前身是Acegi Security ，后来被收纳为 Spring 的一个子项目，并更名为了Spring Security。</description>
     </item>
     <item>
       <title>Springboot&#43;Vue项目部署</title>
-      <link>http://localhost:1313/code/springboot&#43;vue%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/</link>
+      <link>https://blog.gooodh.com/springboot-vue%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/</link>
       <pubDate>Mon, 29 Jul 2024 19:13:05 +0800</pubDate>
-      <guid>http://localhost:1313/code/springboot&#43;vue%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/</guid>
+      <guid>https://blog.gooodh.com/springboot-vue%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/</guid>
       <description>在这篇文章，我将从头把一个Springboot Vue3项目打包、部署到腾讯云服务器，操作系统是Ubuntu。 在这个过程中，需要安装tmux（用于终端复用，也就是相当于多开几个屏），Vim（编辑器），JDK17，Nginx（前端部署在Nginx服务器上），MySQL，Redis（缓存数据库）。 其中会用到两个软件，puTTY（用于登录云服务器），FileZilla（用于从当前电脑向云服务器上传文件）。&#xA;1 安装tmux,Vim sudo apt update sudo apt install tmux sudo apt install vim 常用命令可以参考：&#xA;东方既白：Linux基础3-tmux和vim0 赞同 · 0 评论文章&#xA;2 安装JDK17 apt-cache search openjdk // 查找apt中JDK版本 sudo apt-get install openjdk-17-jdk // 安装JDK17 java --version // 检查JDK是否安装成功 sudo update-alternatives --config java // 查看JDK安装到什么地方，配置环境时使用 //------------------------------------------- // 以下可选，用于设置环境变量 sudo vim /etc/profile // 在/etc/profile文件的末尾添加以下内容 JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 // 根据上面查看到的路径 PATH=$PATH:$HOME/bin:$JAVA_HOME/bin export JAVA_HOME export JRE_HOME export PATH 3 安装Redis（没使用到则跳过） sudo apt install redis-server // 安装 sudo systemctl status redis-server // 检查服务的状态 active(running) 4 安装MySQL sudo apt install mysql-server // 安装 mysql --version // 确定mysql版本为8.</description>
     </item>
     <item>
       <title>[Leetcode1]双指针</title>
-      <link>http://localhost:1313/code/leetcode1%E5%8F%8C%E6%8C%87%E9%92%88/</link>
+      <link>https://blog.gooodh.com/leetcode1%E5%8F%8C%E6%8C%87%E9%92%88/</link>
       <pubDate>Fri, 26 Jul 2024 20:54:56 +0800</pubDate>
-      <guid>http://localhost:1313/code/leetcode1%E5%8F%8C%E6%8C%87%E9%92%88/</guid>
+      <guid>https://blog.gooodh.com/leetcode1%E5%8F%8C%E6%8C%87%E9%92%88/</guid>
       <description>1. 两数之和 II - 输入有序数组 两数之和 II - 输入有序数组&#xA;题目描述：在有序数组中找出两个数，使它们的和为 target。&#xA;使用双指针，一个指针指向值较小的元素，一个指针指向值较大的元素。指向较小元素的指针从头向尾遍历，指向较大元素的指针从尾向头遍历。&#xA;如果两个指针指向元素的和 sum == target，那么得到要求的结果； 如果 sum &amp;gt; target，移动较大的元素，使 sum 变小一些； 如果 sum &amp;lt; target，移动较小的元素，使 sum 变大一些。 数组中的元素最多遍历一次，时间复杂度为 O(N)。只使用了两个额外变量，空间复杂度为 O(1)。&#xA;public static int[] twoSum(int[] numbers, int target) { int left = 1; int right = numbers.length; while (left &amp;lt; right) { int sum = numbers[left - 1] + numbers[right - 1]; if (sum == target) { return new int[]{left, right}; } else if (sum &amp;gt; target) { right--; } else { left++; } } return null; } 2.</description>
     </item>
     <item>
       <title>[SQL] Case表达式</title>
-      <link>http://localhost:1313/code/sql%E8%BF%9B%E9%98%B601-case%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
+      <link>https://blog.gooodh.com/sql-case%E8%A1%A8%E8%BE%BE%E5%BC%8F/</link>
       <pubDate>Wed, 24 Jul 2024 19:37:55 +0800</pubDate>
-      <guid>http://localhost:1313/code/sql%E8%BF%9B%E9%98%B601-case%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
+      <guid>https://blog.gooodh.com/sql-case%E8%A1%A8%E8%BE%BE%E5%BC%8F/</guid>
       <description>一、基本语法 -- 简单case表达式&#xD;case sex&#xD;when &amp;#39;1&amp;#39; then &amp;#39;男&amp;#39;&#xD;when &amp;#39;2&amp;#39; then &amp;#39;女&amp;#39;&#xD;else &amp;#39;其他&amp;#39; end&#xD;--搜索case表达式&#xD;case when sex = &amp;#39;1&amp;#39; then &amp;#39;男&amp;#39;&#xD;when sex = &amp;#39;2&amp;#39; then &amp;#39;女&amp;#39;&#xD;else &amp;#39;其他&amp;#39; end 注意：&#xA;统一各分支返回的数据类型； 不要忘了写end; 养成写else子句的习惯。 二、应用 1. 将已有编号转换为新的方式并统计 按地区分类统计：&#xA;SELECT&#xD;case&#xD;when pref_name = &amp;#39;德岛&amp;#39; OR pref_name = &amp;#39;香川&amp;#39; OR pref_name = &amp;#39;爱媛&amp;#39; OR pref_name = &amp;#39;高知&amp;#39; then &amp;#39;四国&amp;#39;&#xD;when pref_name = &amp;#39;福冈&amp;#39; OR pref_name = &amp;#39;佐贺&amp;#39; OR pref_name = &amp;#39;长崎&amp;#39; then &amp;#39;九州&amp;#39; ELSE &amp;#39;其他&amp;#39;&#xD;END&#xD;AS area_name, sum(population)&#xD;FROM poptbl&#xD;GROUP BY case&#xD;when pref_name = &amp;#39;德岛&amp;#39; OR pref_name = &amp;#39;香川&amp;#39; OR pref_name = &amp;#39;爱媛&amp;#39; OR pref_name = &amp;#39;高知&amp;#39; then &amp;#39;四国&amp;#39;&#xD;when pref_name = &amp;#39;福冈&amp;#39; OR pref_name = &amp;#39;佐贺&amp;#39; OR pref_name = &amp;#39;长崎&amp;#39; then &amp;#39;九州&amp;#39; ELSE &amp;#39;其他&amp;#39;&#xD;END; 按人口数量分类统计：</description>
     </item>
     <item>
       <title>[JUC02]Java线程</title>
-      <link>http://localhost:1313/code/juc02java%E7%BA%BF%E7%A8%8B/</link>
+      <link>https://blog.gooodh.com/juc02java%E7%BA%BF%E7%A8%8B/</link>
       <pubDate>Wed, 24 Jul 2024 09:31:04 +0800</pubDate>
-      <guid>http://localhost:1313/code/juc02java%E7%BA%BF%E7%A8%8B/</guid>
+      <guid>https://blog.gooodh.com/juc02java%E7%BA%BF%E7%A8%8B/</guid>
       <description>一、创建和运行线程 Java程序在启动时，都已经创建了一个主线程。&#xA;1. 方法一：直接使用Thread // 创建线程对象，指定名字t1 Thread t = new Thread(&amp;#34;t1&amp;#34;){ public void run(){ // 要执行的任务 log.debug(&amp;#34;hello&amp;#34;); } }; // 启动线程 t.start(); log.debug(&amp;#34;hello main&amp;#34;); 结果&#xA;2. 方法二：使用Runnable配合Thread 把【线程】和【任务】（要执行的代码）分开&#xA;Thread代表线程 Runnable代表可运行的任务 Runnable runnable = new Runnable() { @Override public void run() { // 要执行的任务 log.debug(&amp;#34;running&amp;#34;); } }; // 创建线程对象 Thread t1 = new Thread(runnable, &amp;#34;t1&amp;#34;); // 启动线程 t1.start(); 3. lambda简化 Java8以后使用lambda精简代码&#xA;Runnable task2 = () -&amp;gt; log.debug(&amp;#34;task2&amp;#34;); Thread t2 = new Thread(task2, &amp;#34;t2&amp;#34;); t2.</description>
     </item>
     <item>
       <title>[JUC01]进程与线程</title>
-      <link>http://localhost:1313/code/juc01%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/</link>
+      <link>https://blog.gooodh.com/juc01%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/</link>
       <pubDate>Wed, 24 Jul 2024 08:15:56 +0800</pubDate>
-      <guid>http://localhost:1313/code/juc01%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/</guid>
+      <guid>https://blog.gooodh.com/juc01%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/</guid>
       <description>一、进程与线程 1. 进程 进程由指令和数据组成，但这些指令要运行，数据要读写，就必须将指令加载至CPU，数据加载至内存。在指令运行过程中还需要用到磁盘、网络等设备。进程就是用来加载指令、管理内存、管理IO的。 当一个程序被运行，从磁盘加载这个程序的代码至内存，这时就开启了一个进程。 进程可以视为程序的一个实例。大部分程序可以同时运行多个实例进程，也有的程序只能启动一个进程实例。 2. 线程 一个进程之内可以分为一到多个线程。 一个线程就是一个指令流，将指令流中的一条条指令以一定的顺序交给CPU执行。 Java中，线程作为最小调度单位，进程作为资源分配的最小单位。在Windows中进程是不活动的，只是作为线程的容器。 3. 二者对比 进程基本上是相互独立的，而线程存在于进程内，是进程的一个子集。 进程拥有共享的资源，例如内存空间等，供其内部的线程共享。 进程间通信较为复杂 同一台计算机的进程通信称为 IPC （Inter-process communication） 不同计算机之间的进程通信，需要通过网络，并遵守共同的协议，如HTTP 线程通信相对简单，因为它们共享进程内的内存，例如多个线程可以访问同一个共享变量 线程更轻量，线程上下文切换成本一般要比进程上下文切换低 二、并发与并行 将线程轮流使用CPU的做法称为并发。 并发（Concurrent）是同一时间应对（dealing with）多件事情的能力； 并行（Parallel）是同一时间动手做（doing）多件事情的能力。 三、同步与异步 从方法调用的角度来讲，如果&#xA;需要等待返回结果，才能继续运行就是同步； 不需要等待返回结果，就能继续运行就是异步。 注意：同步在多线程中还有另外一层意思，是让多个线程步调一致。</description>
     </item>
     <item>
       <title>[Docker1]安装</title>
-      <link>http://localhost:1313/code/docker1docker%E5%AE%89%E8%A3%85/</link>
+      <link>https://blog.gooodh.com/docker1%E5%AE%89%E8%A3%85/</link>
       <pubDate>Sun, 14 Jul 2024 08:48:30 +0800</pubDate>
-      <guid>http://localhost:1313/code/docker1docker%E5%AE%89%E8%A3%85/</guid>
+      <guid>https://blog.gooodh.com/docker1%E5%AE%89%E8%A3%85/</guid>
       <description>一、什么是Docker 0. 形象化理解：Docker-预制菜 传统的应用程序开发和部署方式可以理解为在家里做一道菜（运行一个应用程序），但你需要提前准备好所有的食材和工具（安装所有的依赖软件和配置环境），而且每次做菜前都要确保这些东西都是新鲜和合适的。缺点很明显，耗时费力，而且每次环境可能都不一样，可能会导致做出来的菜（应用程序）效果不一致。&#xA;Docker方式：在你想要吃一道菜时，你不用自己准备食材和工具，而是可以从餐厅里直接购买一个预制菜盒（Docker 容器）。其中包含了所有需要的食材和工具（应用程序及其依赖），你只需要加热一下就可以享用（运行容器）。每次打开享用时，里面的东西都是一样的（环境一致性）。&#xA;1. 什么是Docker？ Docker 是一个用于开发、发布和运行应用程序的开放平台。Docker 可让您将应用程序与基础架构分离，以便快速交付软件。借助 Docker，您可以像管理应用程序一样管理基础架构。通过利用 Docker 的发布、测试和部署代码方法，您可以显著减少编写代码和在生产中运行代码之间的延迟。&#xA;Docker是一个开源的容器项目，使用Go语言开发实现。官网：https://www.docker.com/&#xA;作为运行和管理容器的容器引擎，Docker让开发人员可以将应用程序及其依赖打包到一个可移植的镜像中，然后发布到任何流行的操作系统(Linux/win/mac os)的计算机上。&#xA;举个例子，假设你有一个需要运行在某种特定配置（特定版本的操作系统、依赖库等）上的 Web 应用程序。传统方式下，你可能需要在每一台服务器上手动配置环境，确保它们的一致性。而使用 Docker，你只需在开发环境中配置好应用程序，然后将其打包成一个容器镜像，并可以在任何支持 Docker 的环境中直接运行该镜像。这样，就不再需要担心环境不一致的问题了。&#xA;2. 可以用Docker来做什么？ 开发环境的标准化：如上介绍，使用 Docker，开发团队可以在每个人的电脑上创建相同的开发环境，避免因为环境差异导致的问题；开发者可以快速搭建并切换不同的开发环境，而不需要在本地安装大量依赖。 应用程序快速、一致地交付 微服务架构：每个微服务可以打包到一个独立的容器中，方便管理和扩展。容器之间的通信可以通过 Docker 提供的网络功能来实现，简化了微服务之间的互操作。 负载均衡：Docker 本身并不提供负载均衡的功能，但可以与其他工具和技术(Docker Swarm)结合使用来实现负载均衡。 &amp;hellip;&amp;hellip; 3. 容器与虚拟机 Docker是传统虚拟机的替代解决方案，越来越多的应用程序以容器的方式在开发、测试和生产环境中运行。&#xA;传统运维方式：部署慢、成本高、资源浪费、难以扩展和迁移； 虚拟机运维方式： 采用资源池化技术，一台物理机的资源可分配到不同的虚拟机上； 便于弹性扩展，增加物理机或虚拟机都很方便； 容易云化，如将应用程序部署到云主机； 但也存在一些局限，如每个虚拟机都运行一个完整的操作系统，当虚拟机数量增多时，操作系统本身消耗的资源势必增多。 何为容器？&#xA;容器是一种轻量级虚拟化技术，旨在为现有的虚拟机提供切实可行且经济高效的替代解决方案。&#xA;各个容器共享主机的操作系统，容器引擎将容器作为进程运行在主机上。&#xA;容器使用的是主机操作系统的内核，因此容器依赖主机操作系统的内核版本；虚拟机有自己的操作系统，且独立于主机操作系统，其操作系统内核可以与主机不同。&#xA;容器在主机操作系统的用户空间运行，并且与操作系统的其他进程相互隔离，启动时也不需要启动操作系统的内核空间。因此，与虚拟机相比，容器启动快、开销少、迁移便捷。&#xA;就隔离特性而言，容器是应用层面的隔离，虚拟机是物理资源层面的隔离。&#xA;4. Docker引擎 Docker引擎是目前主流的容器引擎。“引擎”（Engine）通常指的是一种软件组件或程序，负责处理特定类型的任务或实现特定的功能。例如：&#xA;数据库引擎：负责数据存储、检索和管理的核心部分，如 MySQL 引擎。 游戏引擎：提供创建和运行视频游戏所需的核心功能，如 Unity 或 Unreal 引擎。 Docker 引擎：是 Docker 平台的核心组件，负责构建、运行和管理 Docker 容器。 Docker 引擎由以下几个主要部分组成：&#xA;Docker CLI(command line interface)：表示Docker命令行接口，开发者可以在命令行中使用Docker相关指令与Docker守护进程进行交互，从而管理诸如image(镜像)、container(容器)、network(网络)和data volumes(数据卷)等实体。 REST API：表示应用程序API接口，开发者通过该API接口可以与Docker的守护进程进行交互，从而指示后台进行相关操作。 Docker daemon：表示Docker的服务端组件，他是Docker架构中运行在后台的一个守护进程，可以接收并处理来自命令行接口及API接口的指令，然后进行相应的后台操作。 可以将 Docker 引擎比喻成一台自动化厨房设备：</description>
     </item>
     <item>
       <title>[Java NIO5]NIO与BIO</title>
-      <link>http://localhost:1313/code/javanio5nio%E4%B8%8Ebio/</link>
+      <link>https://blog.gooodh.com/java-nio5nio%E4%B8%8Ebio/</link>
       <pubDate>Fri, 12 Jul 2024 09:53:24 +0800</pubDate>
-      <guid>http://localhost:1313/code/javanio5nio%E4%B8%8Ebio/</guid>
+      <guid>https://blog.gooodh.com/java-nio5nio%E4%B8%8Ebio/</guid>
       <description>5. NIO vs BIO 5.1 stream vs channel stream 不会自动缓冲数据，channel 会利用系统提供的发送缓冲区、接收缓冲区（更为底层） stream 仅支持阻塞 API，channel 同时支持阻塞、非阻塞 API，网络 channel 可配合 selector 实现多路复用 二者均为全双工，即读写可以同时进行 5.2 IO 模型 同步阻塞、同步非阻塞、同步多路复用、异步阻塞（没有此情况）、异步非阻塞&#xA;同步：线程自己去获取结果（一个线程） 异步：线程自己不去获取结果，而是由其它线程送结果（至少两个线程） 当调用一次 channel.read 或 stream.read 后，会切换至操作系统内核态来完成真正数据读取，而读取又分为两个阶段，分别为：&#xA;等待数据阶段 复制数据阶段 阻塞 IO&#xA;非阻塞 IO&#xA;多路复用&#xA;信号驱动&#xA;异步 IO&#xA;阻塞 IO vs 多路复用&#xA;🔖 参考 UNIX 网络编程 - 卷 I&#xA;5.3 零拷贝 传统 IO 问题 传统的 IO 将一个文件通过 socket 写出&#xA;File f = new File(&amp;#34;helloword/data.txt&amp;#34;); RandomAccessFile file = new RandomAccessFile(file, &amp;#34;r&amp;#34;); byte[] buf = new byte[(int)f.</description>
     </item>
     <item>
       <title>[Java NIO4]网络编程</title>
-      <link>http://localhost:1313/code/javanio4%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</link>
+      <link>https://blog.gooodh.com/java-nio4%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</link>
       <pubDate>Fri, 12 Jul 2024 09:52:40 +0800</pubDate>
-      <guid>http://localhost:1313/code/javanio4%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</guid>
+      <guid>https://blog.gooodh.com/java-nio4%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</guid>
       <description>4. 网络编程 4.1 非阻塞 vs 阻塞 阻塞 阻塞模式下，相关方法都会导致线程暂停 ServerSocketChannel.accept 会在没有连接建立时让线程暂停 SocketChannel.read 会在没有数据可读时让线程暂停 阻塞的表现其实就是线程暂停了，暂停期间不会占用 cpu，但线程相当于闲置 单线程下，阻塞方法之间相互影响，几乎不能正常工作，需要多线程支持 但多线程下，有新的问题，体现在以下方面 32 位 jvm 一个线程 320k，64 位 jvm 一个线程 1024k，如果连接数过多，必然导致 OOM，并且线程太多，反而会因为频繁上下文切换导致性能降低 可以采用线程池技术来减少线程数和线程上下文切换，但治标不治本，如果有很多连接建立，但长时间 inactive，会阻塞线程池中所有线程，因此不适合长连接，只适合短连接 服务器端&#xA;// 使用 nio 来理解阻塞模式, 单线程 // 0. ByteBuffer ByteBuffer buffer = ByteBuffer.allocate(16); // 1. 创建了服务器 ServerSocketChannel ssc = ServerSocketChannel.open(); // 2. 绑定监听端口 ssc.bind(new InetSocketAddress(8080)); // 3. 连接集合 List&amp;lt;SocketChannel&amp;gt; channels = new ArrayList&amp;lt;&amp;gt;(); while (true) { // 4. accept 建立与客户端连接， SocketChannel 用来与客户端之间通信 log.</description>
     </item>
     <item>
       <title>[Java NIO3]文件编程</title>
-      <link>http://localhost:1313/code/javanio3%E6%96%87%E4%BB%B6%E7%BC%96%E7%A8%8B/</link>
+      <link>https://blog.gooodh.com/java-nio3%E6%96%87%E4%BB%B6%E7%BC%96%E7%A8%8B/</link>
       <pubDate>Fri, 12 Jul 2024 09:52:23 +0800</pubDate>
-      <guid>http://localhost:1313/code/javanio3%E6%96%87%E4%BB%B6%E7%BC%96%E7%A8%8B/</guid>
+      <guid>https://blog.gooodh.com/java-nio3%E6%96%87%E4%BB%B6%E7%BC%96%E7%A8%8B/</guid>
       <description>3. 文件编程 3.1 FileChannel ⚠️ FileChannel 工作模式 FileChannel 只能工作在阻塞模式下&#xA;获取 不能直接打开 FileChannel，必须通过 FileInputStream、FileOutputStream 或者 RandomAccessFile 来获取 FileChannel，它们都有 getChannel 方法&#xA;通过 FileInputStream 获取的 channel 只能读 通过 FileOutputStream 获取的 channel 只能写 通过 RandomAccessFile 是否能读写根据构造 RandomAccessFile 时的读写模式决定 rw 读取 会从 channel 读取数据填充 ByteBuffer，返回值表示读到了多少字节，-1 表示到达了文件的末尾&#xA;int readBytes = channel.read(buffer); 写入 写入的正确姿势如下， SocketChannel&#xA;ByteBuffer buffer = ...; buffer.put(...); // 存入数据 buffer.flip(); // 切换读模式 while(buffer.hasRemaining()) { channel.write(buffer); } 在 while 中调用 channel.write 是因为 write 方法并不能保证一次将 buffer 中的内容全部写入 channel</description>
     </item>
     <item>
       <title>[Java NIO2]ByteBuffer</title>
-      <link>http://localhost:1313/code/javanio2bytebuffer/</link>
+      <link>https://blog.gooodh.com/java-nio2bytebuffer/</link>
       <pubDate>Fri, 12 Jul 2024 09:52:00 +0800</pubDate>
-      <guid>http://localhost:1313/code/javanio2bytebuffer/</guid>
+      <guid>https://blog.gooodh.com/java-nio2bytebuffer/</guid>
       <description>2. ByteBuffer 2.1 ByteBuffer的基本使用 向buffer写入数据，例如调用channel.read(buffer) 调用flip()切换至读模式 从buffer读取数据，例如调用buffer.get() 调用clear()或compact()切换至写模式 重复1~4步骤 // FileChannel 数据的读写通道 // 1. 输入输出流 2. RandomAccessFile .twr try (FileChannel channel = new FileInputStream(&amp;#34;./data.txt&amp;#34;).getChannel()) { // 准备缓冲区 ByteBuffer buffer = ByteBuffer.allocate(10); // 从 channel 读取数据，向 buffer 写入。 alt+enter while (true){ int len = channel.read(buffer); log.debug(&amp;#34;读取到的字节数 {}&amp;#34;, len); if (len == -1){ // 没有内容可读 break; } // 打印 buffer 的内容 buffer.flip(); // 切换到读模式 while (buffer.hasRemaining()){ // 是否还有剩余未读数据 byte b = buffer.get(); log.</description>
     </item>
     <item>
       <title>[Java NIO1]三大组件</title>
-      <link>http://localhost:1313/code/javanio1%E4%B8%89%E5%A4%A7%E7%BB%84%E4%BB%B6/</link>
+      <link>https://blog.gooodh.com/java-nio1%E4%B8%89%E5%A4%A7%E7%BB%84%E4%BB%B6/</link>
       <pubDate>Fri, 12 Jul 2024 09:51:47 +0800</pubDate>
-      <guid>http://localhost:1313/code/javanio1%E4%B8%89%E5%A4%A7%E7%BB%84%E4%BB%B6/</guid>
+      <guid>https://blog.gooodh.com/java-nio1%E4%B8%89%E5%A4%A7%E7%BB%84%E4%BB%B6/</guid>
       <description>NIO non-blocking io 非阻塞 IO&#xA;BIO blocking io 阻塞IO&#xA;0.流与块 Standard IO是对字节流的读写，在进行IO之前，首先创建一个流对象，流对象进行读写操作都是按字节 ，一个字节一个字节的来读或写。而NIO把IO抽象成块，类似磁盘的读写，每次IO操作的单位都是一个块，块被读入内存之后就是一个byte[]，NIO一次可以读或写多个字节。&#xA;I/O 与 NIO 最重要的区别是数据打包和传输的方式，I/O 以流的方式处理数据，而 NIO 以块的方式处理数据。&#xA;面向流的 I/O 一次处理一个字节数据：一个输入流产生一个字节数据，一个输出流消费一个字节数据。为流式数据创建过滤器非常容易，链接几个过滤器，以便每个过滤器只负责复杂处理机制的一部分。不利的一面是，面向流的 I/O 通常相当慢。&#xA;面向块的 I/O 一次处理一个数据块：按块处理数据比按流处理数据要快得多。但是面向块的 I/O 缺少一些面向流的 I/O 所具有的优雅性和简单性。&#xA;1. 三大组件 1.1 Channel &amp;amp; Buffer channel （通道）有一点类似于 stream，它就是读写数据的双向通道，可以从 channel 将数据读入 buffer（缓冲区，用于存储数据的内存块，是NIO中的数据容器），也可以将 buffer 的数据写入 channel，而之前的 stream 要么是输入，要么是输出，channel 比 stream 更为底层。&#xA;graph LR&#xD;channel --&amp;gt; buffer&#xD;buffer --&amp;gt; channel 常见的 Channel 有&#xA;FileChannel：文件传输通道 DatagramChannel：UDP时传输通道 SocketChannel：TCP时传输通道，客户端服务器端都能用 ServerSocketChannel：TCP时传输通道，服务器端 buffer 则用来缓冲读写数据，常见的 buffer 有</description>
     </item>
     <item>
       <title>[Django]项目创建与增删改查</title>
-      <link>http://localhost:1313/code/django%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/</link>
+      <link>https://blog.gooodh.com/django%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/</link>
       <pubDate>Thu, 04 Jul 2024 21:06:56 +0800</pubDate>
-      <guid>http://localhost:1313/code/django%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/</guid>
+      <guid>https://blog.gooodh.com/django%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/</guid>
       <description>一、常用命令 # 创建虚拟环境&#xD;virtualenv venv&#xD;# 激活虚拟环境&#xD;source venv/Scripts/activate&#xD;# 取消激活&#xD;deactivate&#xD;# 安装Django&#xD;pip install Django&#xD;# 创建项目&#xD;django-admin startproject studybud&#xD;# 到manage.py所在目录运行项目&#xD;cd studybud&#xD;python manage.py runserver&#xD;# 数据库迁移&#xD;python manage.py makemigrations # 生成了对应的sql语句，没真正将改动迁移到数据库中&#xD;python manage.py migrate&#xD;# 创建超级用户&#xD;python manage.py createsuperuser&#xD;#把英文改为中文&#xD;LANGUAGE_CODE = &amp;#39;zh-hans&amp;#39;&#xD;#把国际时区改为中国时区&#xD;TIME_ZONE = &amp;#39;Asia/Shanghai&amp;#39;&#xD;# Pygment生成CSS&#xD;pygmentize -S default -f html -a .codehilite &amp;gt; default.css 二、app创建 # 创建app python manage.py startapp base # 注册app-&amp;gt;settings.</description>
     </item>
     <item>
       <title>[Java]若依的使用</title>
-      <link>http://localhost:1313/code/java%E8%8B%A5%E4%BE%9D%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <link>https://blog.gooodh.com/java%E8%8B%A5%E4%BE%9D%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Thu, 27 Jun 2024 20:09:05 +0800</pubDate>
-      <guid>http://localhost:1313/code/java%E8%8B%A5%E4%BE%9D%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://blog.gooodh.com/java%E8%8B%A5%E4%BE%9D%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
       <description>一、若依搭建 前后端分离版本，前端使用Vue3，后端使用Springboot。&#xA;软件环境：JDK11，MySQL8，Redis，Maven，Node&#xA;后端地址：https://github.com/yangzongzhuan/RuoYi-Vue&#xA;前端地址：https://github.com/yangzongzhuan/RuoYi-Vue3&#xA;后端运行 Git克隆并初始化项目，git clone xxx； MySQL导入与配置，SQL脚本在./sql下，创建数据库并运行脚本；密码在ruoyi/admin/src/main/resources/application-druid.yml配置文件中修改； 启动Redis； 运行后端项目。 前端运行 Git克隆并初始化项目； 安装依赖，npm install； 运行前端项目，npm run dev。 二、功能详解 1. 系统管理 1.1 权限控制 RBAC(基于角色的访问控制)是一种广泛使用的访问控制模型，通过角色来分配和管理用户的菜单权限。&#xA;1.2 数据字典 用于维护系统中常见的静态数据，如：性别，状态。 功能包括：字典类型管理，字典数据管理。 1.3 其他功能 参数设置：对系统中的参数进行动态维护；（login.vue 97行 注册开关） 通知公告：促进组织内部进行信息传递；（自己编写页面，如发送邮件） 日志管理：轻松追踪用户行为和系统运行状况。 2. 系统监控 2.1 监控相关 帮助开发者和运维快速了解应用程序的性能状态。&#xA;在线用户：数据来自于Redis缓存 缓存列表 缓存监控 服务监控 数据监控：durid账号 密码（ruoyi 123456） 2.2 定时任务 提供方便友好的Web界面，实现动态管理任务。&#xA;quartz模块task包下创建任务类； 添加任务规则； 启动任务。 3. 系统工具 3.1 表单构建 https://jakhuang.github.io/form-generator/#/&#xA;3.2 代码生成 自动生成前后端CRUD代码； 提供三种生成模板：单表，树表（层级关系，能展开折叠，呈现父子关系，如部门表），主子表（一对多，如菜品表与口味表）。 四、项目结构 1. 后端部分 后端结构 ruoyi-admin：后台服务，包含通用功能的controller和启动类； ruoyi-common：通用工具。 annotation自定义注解，config全局配置，constant通用常量，core核心控制，enums通用枚举，exception通用异常，filter过滤器处理，utils通用工具类，xss自定义xss校验。 ruoyi-framework：框架核心。 aspectj自定义AOP，config系统配置，datasource多数据源，interceptor拦截器处理，manager异步处理，security权限控制，web前端控制。 ruoyi-generator：代码生成（可移除）。 ruoyi-quartz：定时任务（可移除）。 ruoyi-system：系统模块。domain，mapper，service。 ruoyi-ui。 项目中的配置 位于ruoyi-admin的resources目录下； i18n：国际化支持； META-INF：项目的元信息（描述数据的数据），无需修改。 mybatis：mabatis相关的配置； application.</description>
     </item>
     <item>
       <title>智能算法01 遗传算法</title>
-      <link>http://localhost:1313/code/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link>
+      <link>https://blog.gooodh.com/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</link>
       <pubDate>Sun, 02 Jun 2024 13:53:09 +0800</pubDate>
-      <guid>http://localhost:1313/code/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://blog.gooodh.com/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%9501-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/</guid>
       <description>一、生物进化理论和遗传学基本知识 达尔文的自然选择学说 遗传：子代和父代具有相同或相似的形状，保证物种的稳定性； 变异：子代和父代、子代不同个体之间总有差异，是生命多样性的根源； 生存斗争和适者生存：具有适应性变异的个体被保留，不具有适应性变异的个体被淘汰。 达尔文自然选择学说认为： **遗传和变异是决定生物进化的内在因素。**遗传——保持物种的特性；变异——使物种适应新环境而不断向前发展。 **遗传物质的载体是染色体。**染色体是由DNA和蛋白质两种物质组成的。 **基因，染色体上具有控制生物形状的DNA片段。**一条染色体含有一个DNA分子，一个DNA分子上有许多个基因。基因存储着遗传信息，可以准确复制，也能发生突变。 生物遗传和进化的规律 染色体由基因构成，决定了生物的形状； 生物所有遗传信息包含在染色体中； 同源染色体的交叉或变异生成新的物种，使生物呈现新的形状； 适应能力强的基因或染色体，有更多的机会遗传到下一代。 二、遗传算法概述 该算法是根据大自然中生物体进化规律设计提出的。 是一种通过模拟自然进化过程搜索最优解的方法。 该算法通过数学的方式，利用计算机仿真运算，将问题的求解过程转换成类似生物进化中的染色体基因的交叉、变异等过程。 在求解较为复杂的组合优化问题时，相对一些常规的优化算法，通常能够较快获得较好的优化结果。 应用领域 函数优化：非线性、多模型、多目标的优化问题 自动控制：控制器参数的优化 机器人：路径优化 图像处理：图像处理过程中的特征提取、图像分割等的优化计算 三、遗传算法中的基本概念 个体：模拟生物个体，即可行解，对应染色体。 种群(population)：模拟生物种群，由若干个体组成，即可行解集。 染色体(chromosome)：可行解的编码表示（二进制编码）。比如：个体9对应染色体1001。可行解编码的分量，成为基因(gene)，01。当然，也可以通过实数编码。 适应度(fitness)：生物个体对环境的适应能力。 适应度函数(fitness function)：遗传算法用来评价个体（解）优劣的数学函数。通常情况下，适应度函数值越大，解的质量越好。 四、遗传操作 1 选择 遗传算法使用选择运算实现对个体进行优胜劣汰操作：&#xA;适应度高的个体被遗传到下一代群体中的概率大； 不产生新个体。 经典的选择算子采用轮盘赌选择方法。 轮盘赌选择的基本思想是：个体被选中的概率与其适应度函数值大小成正比。设种群大小为 𝑛 ，个体 𝑖 的适应度为 𝐹𝑖 ，则个体 𝑖 被选中遗传到下一代群体的概率为： $$ 𝑃_𝑖=\frac{F_i}{\displaystyle \sum^{n}_{i = 1}F_i} $$ 例：假设有以下种群[16, 2, 8, 4, 1]，设个体值即为适应度值，可得选择概率和累积概率。轮盘赌选择可表示为：随机生成一个0~1的数，该数从上往下第一个小于的累积概率对应的个体，即为选择的个体。&#xA;个体 适应度 选择概率 累计概率 16 16 0.516 0.516 2 2 0.065 0.581 8 8 0.</description>
     </item>
     <item>
       <title>Hugo的使用</title>
-      <link>http://localhost:1313/code/hugo%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <link>https://blog.gooodh.com/hugo%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
       <pubDate>Sun, 02 Jun 2024 13:49:05 +0800</pubDate>
-      <guid>http://localhost:1313/code/hugo%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <guid>https://blog.gooodh.com/hugo%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
       <description>常用的Hugo命令 新建文件&#xA;hugo new content content/blog/Hugo命令.md </description>
     </item>
     <item>
       <title>[Redis3]Redis缓存</title>
-      <link>http://localhost:1313/code/redis3redis%E7%BC%93%E5%AD%98/</link>
+      <link>https://blog.gooodh.com/redis3redis%E7%BC%93%E5%AD%98/</link>
       <pubDate>Thu, 28 Mar 2024 08:30:10 +0800</pubDate>
-      <guid>http://localhost:1313/code/redis3redis%E7%BC%93%E5%AD%98/</guid>
+      <guid>https://blog.gooodh.com/redis3redis%E7%BC%93%E5%AD%98/</guid>
       <description>一、什么是缓存 缓存就是数据交换的缓冲区Cache，是存储数据的临时地方，一般读写性能较高。&#xA;缓存的作用：&#xA;降低后端负载； 提高读写效率，降低响应时间。 缓存的成本：&#xA;数据的一致性成本； 代码维护成本； 运维成本。 二、添加Redis缓存 三、缓存更新策略 缓存更新是redis为了节约内存而设计出来的一个东西，主要是因为内存数据宝贵，当我们向redis插入太多数据，此时就可能会导致缓存中的数据过多，所以redis会对部分数据进行更新，或者把他叫为淘汰更合适。&#xA;**内存淘汰：**redis自动进行，当redis内存达到咱们设定的max-memery的时候，会自动触发淘汰机制，淘汰掉一些不重要的数据(可以自己设置策略方式)&#xA;**超时剔除：**当我们给redis设置了过期时间ttl之后，redis会将超时的数据进行删除，方便咱们继续使用缓存&#xA;**主动更新：**我们可以手动调用方法把缓存删掉，通常用于解决缓存和数据库不一致问题&#xA;业务场景：&#xA;低一致性需求：使用内存淘汰机制。例如，店铺类型的查询缓存 高一致性需求：主动更新，并以超时剔除作为兜底方案。例如，店铺详情的查询缓存 主动更新策略 Cache Aside Pattern：由内存的调用者，在更新数据库的同时更新缓存 删除缓存还是更新缓存？更新缓存：每次更新数据库都更新缓存，无效写操作较多；删除缓存：更新数据库时让缓存失效，查询时再更新缓存。 如何保证缓存与数据库的操作同时成功或失败？单体系统：将缓存与数据库的操作放在一个事务；分布式系统：使用TCC等分布式事务方案。 先操作缓存还是先操作数据库？先删缓存，再操作数据库；先操作数据库，再删缓存。 ReadWrite Through Pattern：缓存与数据库整合为一个服务，由服务来维护一致性。调用者调用该服务，无需关心缓存一致性问题。 Write Behind Caching Pattern：调用者只操作缓存，由其它线程异步地将缓存数据持久化到数据库，保证最终一致。 四、缓存穿透 缓存穿透是指客户端请求的数据在缓存中和数据库中都不存在，这样缓存永远都不会生效，这些请求都会打到数据库。&#xA;常见的解决方案有两种：&#xA;缓存空对象： 优点：实现简单，维护方便； 缺点：额外的内存消耗（设置TTL），可能造成短期的不一致 布隆过滤： 优点：内存占用较少，没有多余key 缺点：实现复杂，存在误判可能 public Shop queryWithPassThrough(Long id){ String key = CACHE_SHOP_KEY + id; // 1. 从redis查询商铺缓存 String shopJson = stringRedisTemplate.opsForValue().get(key); // 2. 判断是否存在 if (StrUtil.isNotBlank(shopJson)){ // 3. 存在，直接返回 Shop shop = JSONUtil.toBean(shopJson, Shop.</description>
     </item>
     <item>
       <title>[Redis2]Redis登录</title>
-      <link>http://localhost:1313/code/redis2redis%E7%99%BB%E5%BD%95/</link>
+      <link>https://blog.gooodh.com/redis2redis%E7%99%BB%E5%BD%95/</link>
       <pubDate>Tue, 26 Mar 2024 16:09:19 +0800</pubDate>
-      <guid>http://localhost:1313/code/redis2redis%E7%99%BB%E5%BD%95/</guid>
+      <guid>https://blog.gooodh.com/redis2redis%E7%99%BB%E5%BD%95/</guid>
       <description>This is a page about »[Redis2]Redis登录«.</description>
     </item>
     <item>
       <title>[Redis1]Redis基础</title>
-      <link>http://localhost:1313/code/redis1redis%E5%9F%BA%E7%A1%80/</link>
+      <link>https://blog.gooodh.com/redis1redis%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Sat, 23 Mar 2024 14:45:39 +0800</pubDate>
-      <guid>http://localhost:1313/code/redis1redis%E5%9F%BA%E7%A1%80/</guid>
+      <guid>https://blog.gooodh.com/redis1redis%E5%9F%BA%E7%A1%80/</guid>
       <description>一、关系型数据库与NoSQL数据库的区别 结构化与非结构化: 传统关系型数据库是结构化数据，每一张表都有严格的约束信息：字段名、字段数据类型、字段约束等等信息，插入的数据必须遵守这些约束；而NoSql则对数据库格式没有严格约束，往往形式松散，自由。 关联和非关联：传统数据库的表与表之间往往存在关联，例如外键；非关系型数据库不存在关联关系，要维护关系要么靠代码中的业务逻辑，要么靠数据之间的耦合。 查询方式：传统关系型数据库会基于Sql语句做查询，语法有统一标准；而不同的非关系数据库查询语法差异极大，五花八门各种各样。 事务：传统关系型数据库能满足事务ACID（原子性、一致性、隔离性、持久性）的原则；而非关系型数据库往往不支持事务，或者不能严格保证ACID的特性，只能实现基本的一致性。 存储方式：关系型数据库基于磁盘进行存储，会有大量的磁盘IO，对性能有一定影响；非关系型数据库，他们的操作更多的是依赖于内存来操作，内存的读写速度会非常快，性能自然会好一些。 扩展性：关系型数据库集群模式一般是主从，主从数据一致，起到数据备份的作用，称为垂直扩展；非关系型数据库可以将数据拆分，存储在不同机器上，可以保存海量数据，解决内存大小有限的问题。称为水平扩展。关系型数据库因为表之间存在关联关系，如果做水平扩展会给数据查询带来很多麻烦。 二、什么是Redis 2.1 概述 Redis是一个基于内存的键值型的NoSql数据库，可以存储键和五种不同类型的值之间的映射。&#xA;键的类型只能为字符串，值支持五种数据类型：字符串、列表、集合、散列表、有序集合。&#xA;特征：&#xA;键值（key-value）型，value支持多种不同数据结构，功能丰富 单线程，每个命令具备原子性 低延迟，速度快（基于内存、IO多路复用、良好的编码）。 支持数据持久化 支持主从集群、分片集群 支持多语言客户端 2.2 数据类型 数据类型 可以存储的值 操作 STRING 字符串、整数或者浮点数 对整个字符串或者字符串的其中一部分执行操作对整数和浮点数执行自增或者自减操作 LIST 列表 从两端压入或者弹出元素 对单个或者多个元素进行修剪，只保留一个范围内的元素 SET 无序集合 添加、获取、移除单个元素 检查一个元素是否存在于集合中 计算交集、并集、差集 从集合里面随机获取元素 HASH 包含键值对的无序散列表 添加、获取、移除单个键值对 获取所有键值对 检查某个键是否存在 ZSET 有序集合 添加、获取、删除元素 根据分值范围或者成员来获取元素计算一个键的排名 三、使用场景 计数器 可以对 String 进行自增自减运算，从而实现计数器功能。&#xA;Redis 这种内存型数据库的读写性能非常高，很适合存储频繁读写的计数量。&#xA;缓存 将热点数据放到内存中，设置内存的最大使用量以及淘汰策略来保证缓存的命中率。&#xA;查找表 例如 DNS 记录就很适合使用 Redis 进行存储。&#xA;查找表和缓存类似，也是利用了 Redis 快速的查找特性。但是查找表的内容不能失效，而缓存的内容可以失效，因为缓存不作为可靠的数据来源。&#xA;消息队列 List 是一个双向链表，可以通过 lpush 和 rpop 写入和读取消息</description>
-    </item>
-    <item>
-      <title>DawnStar</title>
-      <link>http://localhost:1313/myproject/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/myproject/</guid>
-      <description>我做过的项目 企业官网 企业官网V1.0 2024年9月，地址：https://www.forestphaeton.com/ 技术栈：使用开源的内容管理系统wagtail6.2开发。便捷高效。 企业官网V2.0 2024年10月- AI PPT生成系统 客户关怀系统 2024年9月- 软著服务系统 2024年8月 项目简介： 开发目的：提供软著申请一站式服务，分享软著申请的信息。 功能模块：用户模块，会员模块（使用发卡平台激活码激活会员），后台管理模块。 技术栈： 前端：Vue3,ElementPlus,Axios,Pinia,ckeditor5[编辑器],docxtemplater[docx根据模板生成文档],file-saver,pizzip,xlsx 后端：Springboot3,Redis,Mybatis,腾讯云COS对象存储 数据库：MySQL8.0 DogBlog博客系统 2024年6月，开源地址：https://github.com/dawnstaryrx/django-dog-blog/ 项目简介：仿照Bear极简样式的个人博客系统。主要功能有：分类和标签的增删改查，文章（支持MarkDown格式）的增删改查下载，图片上传，RSS订阅。 技术栈：Django，依赖Django==5.0.6，markdown==3.6，Pillow==10.3.0。 维修系统 2024年4月-2024年5月 项目简介： 开发目的：对公司的维修业务进行信息化管理，使工作人员更加高效。 功能模块：用户模块（登录注册、信息修改），产品和客户的管理模块（增删改查），维修业务模块（维修请求、维修记录、回访记录的管理，统计并打印客户的年度报表），后台管理模块（管理网站设置，用户角色）。 技术栈： 前端：Vue3,BootStrap,Ajax,Pinia[状态管理器],echarts[图表展示],print-js[打印] 后端：Springboot3,Redis,Mybatis 数据库：MySQL8.0 Dawn论坛系统 2024年2月-2024年3月 项目简介：论坛系统。有登录注册模块、个人信息管理模块、文章发布模块、点赞评论签到关注功能和后台管理模块。 技术栈： 前端：Vue3,BootStrap,Ajax,Pinia,Aplayer[音乐播放],v-md-editor[编辑器],hls.js[代码高亮],vue3-emoji-picker[表情] 后端：Springboot3,Redis,Mybatis 数据库：MySQL8.0 我学习/了解过的项目 部署-个人博客（Hugo，使用Github Actions运行，并配置域名） 部署-企业知识库系统（供企业内部使用） 编程教学系统，参考开源项目 导航系统（未写完，前端需要优化） 若依（快速开发框架，后台管理，权限管理） 部署-独角数卡（发卡系统，与软著服务系统配合使用） 仿微信（Netty），未学完 黑马商城（微服务拆分） 黑马点评（学习Redis） 苍穹外卖 部署-华夏ERP系统（为公司部署开源项目） 部署-悟空CRM系统（为公司部署开源项目） 静态企业官网（按照模板修改） 黑马——大事件项目（JavaWeb入门） 我的技术栈 后端：Springboot,Django,Mybatis,MybatisPlus 中间件：Nacos,Gateway网关,Seata,RabbitMQ 数据库：MySQL,Redis 前端：Html,CSS,JS,Vue,Bootstrap,ElementUI,Axios,Pinia 其他：Docker,Git,Nginx,Maven </description>
     </item>
   </channel>
 </rss>
