@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Wed, 27 Nov 2024 15:11:19 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 01 Jun 2025 20:41:50 +0800</lastBuildDate>
     <atom:link href="https://blog.gooodh.com/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Springboot多模块项目搭建</title>
+      <link>https://blog.gooodh.com/springboot%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Sun, 01 Jun 2025 20:41:50 +0800</pubDate>
+      <guid>https://blog.gooodh.com/springboot%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</guid>
+      <description>在 IntelliJ IDEA 中搭建一个 Spring Boot 多模块项目 是企业级开发中常见的需求，能有效地实现模块解耦、职责划分。以下是从 0 开始搭建的完整步骤，分为 结构设计、操作步骤、依赖管理 和 示例代码 四部分：&#xA;一、项目结构设计（示例） 假设你要搭建一个简单的系统，分为三个模块：&#xA;springboot-multimodule/&#xD;├── pom.xml （父项目）&#xD;├── common/ （通用模块：工具类、通用实体）&#xD;│ └── pom.xml&#xD;├── service/ （服务模块：业务逻辑）&#xD;│ └── pom.xml&#xD;├── web/ （Web模块：控制层，暴露接口）&#xD;│ └── pom.xml 二、使用 IntelliJ IDEA 创建步骤 1. 创建父工程（Parent Project） 打开 IDEA，选择 New Project → Maven 取消勾选 Create from archetype，点击 Next GroupId: com.example，ArtifactId: springboot-multimodule 勾选 Create as root project，点击 Finish 编辑父项目的 pom.xml： &amp;lt;project xmlns=&amp;#34;http://maven.apache.org/POM/4.0.0&amp;#34; ...&amp;gt; &amp;lt;modelVersion&amp;gt;4.</description>
+    </item>
     <item>
       <title>React</title>
       <link>https://blog.gooodh.com/react/</link>

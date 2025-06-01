@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="shortcut icon" href="https://blog.gooodh.com/images/favicon.png" />
+<title>Springboot多模块项目搭建 | ᕕ( ᐛ )ᕗ yrx&#39;s Blog</title>
+<meta name="title" content="Springboot多模块项目搭建" />
+<meta name="description" content="在 IntelliJ IDEA 中搭建一个 Spring Boot 多模块项目 是企业级开发中常见的需求，能有效地实现模块解耦、职责划分。以下是从 0 开始搭建的完整步骤，分为 结构设计、操作步骤、依赖管理 和 示例代码 四部分：
+一、项目结构设计（示例） 假设你要搭建一个简单的系统，分为三个模块：
+springboot-multimodule/├── pom.xml （父项目）├── common/ （通用模块：工具类、通用实体）│ └── pom.xml├── service/ （服务模块：业务逻辑）│ └── pom.xml├── web/ （Web模块：控制层，暴露接口）│ └── pom.xml 二、使用 IntelliJ IDEA 创建步骤 1. 创建父工程（Parent Project） 打开 IDEA，选择 New Project → Maven 取消勾选 Create from archetype，点击 Next GroupId: com.example，ArtifactId: springboot-multimodule 勾选 Create as root project，点击 Finish 编辑父项目的 pom.xml： &lt;project xmlns=&#34;http://maven.apache.org/POM/4.0.0&#34; ...&gt; &lt;modelVersion&gt;4." />
+<meta name="keywords" content="java," />
+
+
+<meta property="og:url" content="https://blog.gooodh.com/springboot%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/">
+  <meta property="og:site_name" content="ᕕ( ᐛ )ᕗ yrx&#39;s Blog">
+  <meta property="og:title" content="Springboot多模块项目搭建">
+  <meta property="og:description" content="在 IntelliJ IDEA 中搭建一个 Spring Boot 多模块项目 是企业级开发中常见的需求，能有效地实现模块解耦、职责划分。以下是从 0 开始搭建的完整步骤，分为 结构设计、操作步骤、依赖管理 和 示例代码 四部分：
+一、项目结构设计（示例） 假设你要搭建一个简单的系统，分为三个模块：
+springboot-multimodule/├── pom.xml （父项目）├── common/ （通用模块：工具类、通用实体）│ └── pom.xml├── service/ （服务模块：业务逻辑）│ └── pom.xml├── web/ （Web模块：控制层，暴露接口）│ └── pom.xml 二、使用 IntelliJ IDEA 创建步骤 1. 创建父工程（Parent Project） 打开 IDEA，选择 New Project → Maven 取消勾选 Create from archetype，点击 Next GroupId: com.example，ArtifactId: springboot-multimodule 勾选 Create as root project，点击 Finish 编辑父项目的 pom.xml： &lt;project xmlns=&#34;http://maven.apache.org/POM/4.0.0&#34; ...&gt; &lt;modelVersion&gt;4.">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2025-06-01T20:41:50+08:00">
+    <meta property="article:modified_time" content="2025-06-01T20:41:50+08:00">
+    <meta property="article:tag" content="Java">
+    <meta property="og:image" content="https://blog.gooodh.com/images/share.png">
+
+
+
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://blog.gooodh.com/images/share.png">
+  <meta name="twitter:title" content="Springboot多模块项目搭建">
+  <meta name="twitter:description" content="在 IntelliJ IDEA 中搭建一个 Spring Boot 多模块项目 是企业级开发中常见的需求，能有效地实现模块解耦、职责划分。以下是从 0 开始搭建的完整步骤，分为 结构设计、操作步骤、依赖管理 和 示例代码 四部分：
+一、项目结构设计（示例） 假设你要搭建一个简单的系统，分为三个模块：
+springboot-multimodule/├── pom.xml （父项目）├── common/ （通用模块：工具类、通用实体）│ └── pom.xml├── service/ （服务模块：业务逻辑）│ └── pom.xml├── web/ （Web模块：控制层，暴露接口）│ └── pom.xml 二、使用 IntelliJ IDEA 创建步骤 1. 创建父工程（Parent Project） 打开 IDEA，选择 New Project → Maven 取消勾选 Create from archetype，点击 Next GroupId: com.example，ArtifactId: springboot-multimodule 勾选 Create as root project，点击 Finish 编辑父项目的 pom.xml： &lt;project xmlns=&#34;http://maven.apache.org/POM/4.0.0&#34; ...&gt; &lt;modelVersion&gt;4.">
+
+
+
+
+  <meta itemprop="name" content="Springboot多模块项目搭建">
+  <meta itemprop="description" content="在 IntelliJ IDEA 中搭建一个 Spring Boot 多模块项目 是企业级开发中常见的需求，能有效地实现模块解耦、职责划分。以下是从 0 开始搭建的完整步骤，分为 结构设计、操作步骤、依赖管理 和 示例代码 四部分：
+一、项目结构设计（示例） 假设你要搭建一个简单的系统，分为三个模块：
+springboot-multimodule/├── pom.xml （父项目）├── common/ （通用模块：工具类、通用实体）│ └── pom.xml├── service/ （服务模块：业务逻辑）│ └── pom.xml├── web/ （Web模块：控制层，暴露接口）│ └── pom.xml 二、使用 IntelliJ IDEA 创建步骤 1. 创建父工程（Parent Project） 打开 IDEA，选择 New Project → Maven 取消勾选 Create from archetype，点击 Next GroupId: com.example，ArtifactId: springboot-multimodule 勾选 Create as root project，点击 Finish 编辑父项目的 pom.xml： &lt;project xmlns=&#34;http://maven.apache.org/POM/4.0.0&#34; ...&gt; &lt;modelVersion&gt;4.">
+  <meta itemprop="datePublished" content="2025-06-01T20:41:50+08:00">
+  <meta itemprop="dateModified" content="2025-06-01T20:41:50+08:00">
+  <meta itemprop="wordCount" content="270">
+  <meta itemprop="image" content="https://blog.gooodh.com/images/share.png">
+  <meta itemprop="keywords" content="Java">
+<meta name="referrer" content="no-referrer-when-downgrade" />
+
+  <style>
+  html{
+  
+  
+  
+  
+    font-family: "Noto Sans SC", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+  }
+  body {
+    
+    margin: auto;
+    padding: 20px;
+    max-width: 720px;
+    text-align: left;
+    background-color: #fff;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  strong,
+  b {
+    color: #222;
+  }
+
+  a {
+    color: #3273dc;
+    text-decoration:none;
+     
+  }
+
+  .title {
+    text-decoration: none;
+    border: 0;
+  }
+
+  .title span {
+    font-weight: 400;
+  }
+
+  nav a {
+    margin-right: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px;
+  }
+
+  content {
+    line-height: 1.6;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  code {
+    padding: 2px 5px;
+    background-color: #f2f2f2;
+  }
+
+  pre code {
+    color: #222;
+    display: block;
+    padding: 20px;
+    white-space: pre-wrap;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  div.highlight pre {
+    background-color: initial;
+    color: initial;
+  }
+
+  div.highlight code {
+    background-color: unset;
+    color: unset;
+  }
+
+  blockquote {
+    border-left: 1px solid #999;
+    color: #222;
+    padding-left: 20px;
+    font-style: italic;
+  }
+
+  footer {
+    padding: 25px;
+    text-align: center;
+  }
+
+  .helptext {
+    color: #777;
+    font-size: small;
+  }
+
+  .errorlist {
+    color: #eba613;
+    font-size: small;
+  }
+
+   
+  ul.blog-posts {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  ul.blog-posts li {
+    display: flex;
+  }
+
+  ul.blog-posts li span {
+    flex: 0 0 130px;
+  }
+
+  ul.blog-posts li a:visited {
+    color: #8b6fcb;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background-color: #333;
+      color: #ddd;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    strong,
+    b {
+      color: #eee;
+    }
+
+    a {
+      color: #8cc2dd;
+    }
+
+    code {
+      background-color: #777;
+    }
+
+    pre code {
+      color: #ddd;
+    }
+
+    blockquote {
+      color: #ccc;
+    }
+
+    textarea,
+    input {
+      background-color: #252525;
+      color: #ddd;
+    }
+
+    .helptext {
+      color: #aaa;
+    }
+  }
+
+</style>
+
+</head>
+
+<body>
+  <header><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<a href="/" class="title">
+  <h2>ᕕ( ᐛ )ᕗ yrx&#39;s Blog</h2>
+</a>
+<nav><a href="/">主页</a>
+
+
+<a href="/blog">博客</a>
+
+
+</nav>
+</header>
+  <main>
+ 
+<h1>Springboot多模块项目搭建</h1>
+<p>
+  <i>
+    <time datetime='2025-06-01' pubdate>
+      01 Jun, 2025
+    </time>
+  </i>
+</p>
+ 
+<content>
+  <p>在 IntelliJ IDEA 中搭建一个 <strong>Spring Boot 多模块项目</strong> 是企业级开发中常见的需求，能有效地实现模块解耦、职责划分。以下是从 0 开始搭建的完整步骤，分为 <strong>结构设计、操作步骤、依赖管理</strong> 和 <strong>示例代码</strong> 四部分：</p>
+<hr>
+<h2 id="一项目结构设计示例">一、项目结构设计（示例）</h2>
+<p>假设你要搭建一个简单的系统，分为三个模块：</p>
+<pre tabindex="0"><code>springboot-multimodule/
+├── pom.xml                   （父项目）
+├── common/                   （通用模块：工具类、通用实体）
+│   └── pom.xml
+├── service/                  （服务模块：业务逻辑）
+│   └── pom.xml
+├── web/                      （Web模块：控制层，暴露接口）
+│   └── pom.xml
+</code></pre><hr>
+<h2 id="二使用-intellij-idea-创建步骤">二、使用 IntelliJ IDEA 创建步骤</h2>
+<h3 id="1-创建父工程parent-project">1. 创建父工程（Parent Project）</h3>
+<ul>
+<li>打开 IDEA，选择 <code>New Project</code> → <code>Maven</code></li>
+<li>取消勾选 <code>Create from archetype</code>，点击 <code>Next</code></li>
+<li>GroupId: <code>com.example</code>，ArtifactId: <code>springboot-multimodule</code></li>
+<li>勾选 <code>Create as root project</code>，点击 <code>Finish</code></li>
+<li>编辑父项目的 <code>pom.xml</code>：</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;project</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://maven.apache.org/POM/4.0.0&#34;</span> <span style="color:#960050;background-color:#1e0010">...</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;modelVersion&gt;</span>4.0.0<span style="color:#f92672">&lt;/modelVersion&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>com.example<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>springboot-multimodule<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;version&gt;</span>1.0-SNAPSHOT<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;packaging&gt;</span>pom<span style="color:#f92672">&lt;/packaging&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;modules&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;module&gt;</span>common<span style="color:#f92672">&lt;/module&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;module&gt;</span>service<span style="color:#f92672">&lt;/module&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;module&gt;</span>web<span style="color:#f92672">&lt;/module&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/modules&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;properties&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;java.version&gt;</span>17<span style="color:#f92672">&lt;/java.version&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;spring.boot.version&gt;</span>3.2.0<span style="color:#f92672">&lt;/spring.boot.version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/properties&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependencyManagement&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-dependencies<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;version&gt;</span>${spring.boot.version}<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;type&gt;</span>pom<span style="color:#f92672">&lt;/type&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;scope&gt;</span>import<span style="color:#f92672">&lt;/scope&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependencyManagement&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;build&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;pluginManagement&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;plugins&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;plugin&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/plugin&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/plugins&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/pluginManagement&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/build&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/project&gt;</span>
+</span></span></code></pre></div><hr>
+<h3 id="2-添加模块">2. 添加模块</h3>
+<p>右键父项目 → <code>New</code> → <code>Module</code> → <code>Maven</code>，分别创建 <code>common</code>、<code>service</code>、<code>web</code> 三个子模块。每次创建时：</p>
+<ul>
+<li>GroupId 和 ArtifactId 填写对应名称，如 <code>com.example.common</code></li>
+<li><code>Parent</code> 设置为 <code>springboot-multimodule</code></li>
+</ul>
+<hr>
+<h2 id="三子模块配置">三、子模块配置</h2>
+<h3 id="1-common-模块通用模块">1. <code>common</code> 模块：通用模块</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;project</span> <span style="color:#960050;background-color:#1e0010">...</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;parent&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;groupId&gt;</span>com.example<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;artifactId&gt;</span>springboot-multimodule<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;version&gt;</span>1.0-SNAPSHOT<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/parent&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>common<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">&lt;!-- 例如：通用的工具包、Lombok --&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>org.projectlombok<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>lombok<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;optional&gt;</span>true<span style="color:#f92672">&lt;/optional&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/project&gt;</span>
+</span></span></code></pre></div><h3 id="2-service-模块业务模块">2. <code>service</code> 模块：业务模块</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;project</span> <span style="color:#960050;background-color:#1e0010">...</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;parent&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;groupId&gt;</span>com.example<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;artifactId&gt;</span>springboot-multimodule<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;version&gt;</span>1.0-SNAPSHOT<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/parent&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>service<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>com.example<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>common<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;version&gt;</span>1.0-SNAPSHOT<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/project&gt;</span>
+</span></span></code></pre></div><h3 id="3-web-模块web-接口模块">3. <code>web</code> 模块：Web 接口模块</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;project</span> <span style="color:#960050;background-color:#1e0010">...</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;parent&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;groupId&gt;</span>com.example<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;artifactId&gt;</span>springboot-multimodule<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;version&gt;</span>1.0-SNAPSHOT<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/parent&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;artifactId&gt;</span>web<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>com.example<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>service<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;version&gt;</span>1.0-SNAPSHOT<span style="color:#f92672">&lt;/version&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependency&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-web<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependency&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dependencies&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;build&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;plugins&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;plugin&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-maven-plugin<span style="color:#f92672">&lt;/artifactId&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;/plugin&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/plugins&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/build&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/project&gt;</span>
+</span></span></code></pre></div><hr>
+<h2 id="四添加启动类与示例">四、添加启动类与示例</h2>
+<h3 id="web-模块的启动类"><code>web</code> 模块的启动类：</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.example.web;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.boot.SpringApplication;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@SpringBootApplication</span>(scanBasePackages <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.example&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WebApplication</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>        SpringApplication.<span style="color:#a6e22e">run</span>(WebApplication.<span style="color:#a6e22e">class</span>, args);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="示例-controller">示例 Controller</h3>
+<p><code>web</code> 模块下的 <code>HelloController.java</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/api&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloController</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/hello&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">hello</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Hello from multi-module Spring Boot!&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="五其他建议">五、其他建议</h2>
+<ul>
+<li>使用 <code>@ComponentScan(basePackages = &quot;com.example&quot;)</code> 或配置 <code>scanBasePackages</code> 来确保跨模块的 Bean 能够被扫描。</li>
+<li>保证各模块的版本一致，统一由父项目控制。</li>
+<li>可以将数据库相关代码放到 <code>service</code> 中，Controller 层只调用 Service 层。</li>
+</ul>
+
+</content>
+<p>
+  
+  <a href="https://blog.gooodh.com/tag/java/">#Java</a>
+  
+</p>
+
+  </main>
+  <footer>
+<small>
+  <a href="https://github.com/dawnstaryrx" target="_blank">GitHub</a> |
+  <a href="https://www.zhihu.com/people/yang-rong-xing-25" target="_blank">知乎</a>
+  <br>
+  Made with <a href="https://github.com/janraasch/hugo-bearblog/">Hugo ʕ•ᴥ•ʔ Bear</a>
+</small>
+<script type="text/javascript"   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+
+</footer>
+
+    
+</body>
+
+</html>

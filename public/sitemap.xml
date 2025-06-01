@@ -3,12 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://blog.gooodh.com/</loc>
-    <lastmod>2024-11-27T15:11:19+08:00</lastmod>
+    <lastmod>2025-06-01T20:41:50+08:00</lastmod>
   </url><url>
-    <loc>https://blog.gooodh.com/react/</loc>
-    <lastmod>2024-11-27T15:11:19+08:00</lastmod>
+    <loc>https://blog.gooodh.com/tag/java/</loc>
+    <lastmod>2025-06-01T20:41:50+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.gooodh.com/springboot%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</loc>
+    <lastmod>2025-06-01T20:41:50+08:00</lastmod>
   </url><url>
     <loc>https://blog.gooodh.com/blog/</loc>
+    <lastmod>2025-06-01T20:41:50+08:00</lastmod>
+  </url><url>
+    <loc>https://blog.gooodh.com/react/</loc>
     <lastmod>2024-11-27T15:11:19+08:00</lastmod>
   </url><url>
     <loc>https://blog.gooodh.com/html2img/</loc>
@@ -72,9 +78,6 @@
     <lastmod>2024-08-03T06:45:03+08:00</lastmod>
   </url><url>
     <loc>https://blog.gooodh.com/springsecurity2%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E7%8E%B0%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83/</loc>
-    <lastmod>2024-08-01T16:06:35+08:00</lastmod>
-  </url><url>
-    <loc>https://blog.gooodh.com/tag/java/</loc>
     <lastmod>2024-08-01T16:06:35+08:00</lastmod>
   </url><url>
     <loc>https://blog.gooodh.com/tag/springsecurity/</loc>
