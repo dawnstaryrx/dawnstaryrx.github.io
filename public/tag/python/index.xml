@@ -7,8 +7,22 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Thu, 04 Jul 2024 21:06:56 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 21 Jun 2025 15:30:09 +0800</lastBuildDate>
     <atom:link href="https://blog.gooodh.com/tag/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sx03_SFTP文件存储转发</title>
+      <link>https://blog.gooodh.com/sx03_sftp%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E8%BD%AC%E5%8F%91/</link>
+      <pubDate>Sat, 21 Jun 2025 15:30:09 +0800</pubDate>
+      <guid>https://blog.gooodh.com/sx03_sftp%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E8%BD%AC%E5%8F%91/</guid>
+      <description>This is a page about »Sx03_SFTP文件存储转发«.</description>
+    </item>
+    <item>
+      <title>Sx02_加签验签</title>
+      <link>https://blog.gooodh.com/sx02_%E5%8A%A0%E7%AD%BE%E9%AA%8C%E7%AD%BE/</link>
+      <pubDate>Sat, 21 Jun 2025 15:29:32 +0800</pubDate>
+      <guid>https://blog.gooodh.com/sx02_%E5%8A%A0%E7%AD%BE%E9%AA%8C%E7%AD%BE/</guid>
+      <description>This is a page about »Sx02_加签验签«.</description>
+    </item>
     <item>
       <title>[Django]项目创建与增删改查</title>
       <link>https://blog.gooodh.com/django%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/</link>

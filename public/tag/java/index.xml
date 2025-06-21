@@ -7,8 +7,29 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Sun, 01 Jun 2025 20:41:50 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 21 Jun 2025 15:30:09 +0800</lastBuildDate>
     <atom:link href="https://blog.gooodh.com/tag/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sx03_SFTP文件存储转发</title>
+      <link>https://blog.gooodh.com/sx03_sftp%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E8%BD%AC%E5%8F%91/</link>
+      <pubDate>Sat, 21 Jun 2025 15:30:09 +0800</pubDate>
+      <guid>https://blog.gooodh.com/sx03_sftp%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E8%BD%AC%E5%8F%91/</guid>
+      <description>This is a page about »Sx03_SFTP文件存储转发«.</description>
+    </item>
+    <item>
+      <title>Sx02_加签验签</title>
+      <link>https://blog.gooodh.com/sx02_%E5%8A%A0%E7%AD%BE%E9%AA%8C%E7%AD%BE/</link>
+      <pubDate>Sat, 21 Jun 2025 15:29:32 +0800</pubDate>
+      <guid>https://blog.gooodh.com/sx02_%E5%8A%A0%E7%AD%BE%E9%AA%8C%E7%AD%BE/</guid>
+      <description>This is a page about »Sx02_加签验签«.</description>
+    </item>
+    <item>
+      <title>Java密码校验</title>
+      <link>https://blog.gooodh.com/java%E5%AF%86%E7%A0%81%E6%A0%A1%E9%AA%8C/</link>
+      <pubDate>Sat, 21 Jun 2025 15:29:18 +0800</pubDate>
+      <guid>https://blog.gooodh.com/java%E5%AF%86%E7%A0%81%E6%A0%A1%E9%AA%8C/</guid>
+      <description>package org.example; import java.util.Arrays; import java.util.List; import java.util.regex.Pattern; // 密码 8-16位 // 只能包含字母 数字 及符号~!@#$%^&amp;amp;_ // 不包含用户名 // 不包含3个及以上重复、连续及键盘排序字符 public class PwdValidator { // 允许的特殊字符 private static final String SPECIAL_CHARS = &amp;#34;~!@#$%^&amp;amp;_&amp;#34;; public static boolean validatePassword(String password, String username) { // 校验长度8-16位 if (password.length() &amp;lt; 8 || password.length() &amp;gt; 16) { System.out.println(&amp;#34;密码长度为 8 到 16位&amp;#34;); return false; } // 只能包含字母 数字 及符号~!@#$%^&amp;amp;_ if (!Pattern.matches(&amp;#34;^[a-zA-Z0-9&amp;#34; + Pattern.quote(SPECIAL_CHARS) + &amp;#34;]+$&amp;#34;, password)) { return false; } // 密码不包含用户名 // if(password.</description>
+    </item>
     <item>
       <title>Springboot多模块项目搭建</title>
       <link>https://blog.gooodh.com/springboot%E5%A4%9A%E6%A8%A1%E5%9D%97%E9%A1%B9%E7%9B%AE%E6%90%AD%E5%BB%BA/</link>

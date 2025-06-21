@@ -7,8 +7,22 @@
     <generator>Hugo</generator>
     <language>en-US</language>
     <copyright>Copyright © 2020, Jane Doe.</copyright>
-    <lastBuildDate>Thu, 28 Mar 2024 08:30:10 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 21 Jun 2025 15:30:09 +0800</lastBuildDate>
     <atom:link href="https://blog.gooodh.com/tag/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sx03_SFTP文件存储转发</title>
+      <link>https://blog.gooodh.com/sx03_sftp%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E8%BD%AC%E5%8F%91/</link>
+      <pubDate>Sat, 21 Jun 2025 15:30:09 +0800</pubDate>
+      <guid>https://blog.gooodh.com/sx03_sftp%E6%96%87%E4%BB%B6%E5%AD%98%E5%82%A8%E8%BD%AC%E5%8F%91/</guid>
+      <description>This is a page about »Sx03_SFTP文件存储转发«.</description>
+    </item>
+    <item>
+      <title>Sx02_加签验签</title>
+      <link>https://blog.gooodh.com/sx02_%E5%8A%A0%E7%AD%BE%E9%AA%8C%E7%AD%BE/</link>
+      <pubDate>Sat, 21 Jun 2025 15:29:32 +0800</pubDate>
+      <guid>https://blog.gooodh.com/sx02_%E5%8A%A0%E7%AD%BE%E9%AA%8C%E7%AD%BE/</guid>
+      <description>This is a page about »Sx02_加签验签«.</description>
+    </item>
     <item>
       <title>[Redis3]Redis缓存</title>
       <link>https://blog.gooodh.com/redis3redis%E7%BC%93%E5%AD%98/</link>
