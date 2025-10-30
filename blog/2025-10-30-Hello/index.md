@@ -1,7 +1,7 @@
 ---
 slug: Hello
 title: Hello
-authors: [杨荣兴]
+authors: yrx
 tags: [facebook, hello, docusaurus]
 ---
 
