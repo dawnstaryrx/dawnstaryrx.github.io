@@ -5,7 +5,7 @@ yrx:
   image_url: https://avatars.githubusercontent.com/u/76671136?s=400&u=3a6e96d02d7dbb2bff4638035739ddd4982195a5&v=4
   page:
     # customize the url of the author page at /blog/authors/<permalink>
-    permalink: '/all-sebastien-lorber-articles'
+    permalink: '/all-yrx-articles'
   socials:
     x: sebastienlorber
     linkedin: sebastienlorber
