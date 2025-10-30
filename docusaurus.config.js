@@ -78,11 +78,11 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      algolia: {
-        appId: 'QWPDFETT0Z',
-        apiKey: '0b0967de905f6bae9cad65c057231c9b',
-        indexName: 'Blog',
-      },
+      // algolia: {
+      //   appId: 'QWPDFETT0Z',
+      //   apiKey: '0b0967de905f6bae9cad65c057231c9b',
+      //   indexName: 'Blog',
+      // },
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       colorMode: {
@@ -160,6 +160,19 @@ const config = {
         darkTheme: prismThemes.dracula,
       },
     }),
+    plugins: [
+    [
+      '@easyops-cn/docusaurus-search-local',
+      {
+        hashed: true,           // 缓存索引文件，避免每次重建
+        language: ['zh', 'en'], // 支持中英文搜索
+        indexDocs: true,        // 索引文档
+        indexBlog: true,        // 索引博客
+        indexPages: true,       // 索引自定义页面
+        highlightSearchTermsOnTargetPage: true, // 搜索结果页高亮关键字
+      },
+    ],
+  ],
 };
 
 export default config;
