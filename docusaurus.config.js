@@ -102,7 +102,12 @@ const config = {
             position: 'left',
             label: '知识库',
           },
-          
+          {
+            type: 'docSidebar',
+            sidebarId: 'projectSidebar', // 对应新建的 sidebar
+            position: 'left',
+            label: '项目',
+          },
           {
             href: 'https://github.com/facebook/docusaurus',
             label: 'GitHub',
@@ -118,7 +123,7 @@ const config = {
             items: [
               {
                 label: 'Tutorial',
-                to: '/docs/intro',
+                to: '/docs/knowledge/intro',
               },
             ],
           },
