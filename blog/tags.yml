@@ -1,19 +1,14 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+linux:
+  label: Linux
+  permalink: /linux
+  description: Linux服务器相关
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+front:
+  label: 前端
+  permalink: /front
+  description: 前端相关内容
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
-
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+java:
+  label: Java
+  permalink: /java
+  description: Java相关内容
