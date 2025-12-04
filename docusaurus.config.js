@@ -119,46 +119,60 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: '文章',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/knowledge/intro',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-              },
-              {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
-              },
-              {
-                label: 'X',
-                href: 'https://x.com/docusaurus',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'Blog',
+                label: '博客',
                 to: '/blog',
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: '知识库',
+                to: '/docs/knowledge/intro',
+              },
+              {
+                label: '项目',
+                to: '/docs/project/intro',
               },
             ],
           },
+          {
+            title: '社区',
+            items: [
+              {
+                label: 'GitHub',
+                href: 'https://github.com/dawnstaryrx',
+              },
+              {
+                label: '知乎',
+                href: 'https://www.zhihu.com/people/zhilangxingchen',
+              },
+            ],
+          },
+          {
+            title: '关注我',
+            items: [
+              {
+                html: `
+                  <img src="/img/follow.png" alt="关注我" style="width:300px; border-radius:8px;" />
+                `,
+              },
+            ],
+          },
+          // {
+          //   title: 'More',
+          //   items: [
+          //     {
+          //       label: '博客',
+          //       to: '/blog',
+          //     },
+          //     {
+          //       label: 'GitHub',
+          //       href: 'https://github.com/facebook/docusaurus',
+          //     },
+          //   ],
+          // },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} 东方既白. Built with Docusaurus.`,
       },
       prism: {
         theme: prismThemes.github,

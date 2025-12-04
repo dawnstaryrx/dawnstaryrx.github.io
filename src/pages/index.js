@@ -19,8 +19,14 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/docs/knowledge/intro">
+            style={{ marginRight: '12px' }}
+            to="https://www.zhihu.com/people/zhilangxingchen">
             知乎
+          </Link>
+          <Link
+            className="button button--secondary button--lg"
+            to="https://github.com/dawnstaryrx">
+            GitHub
           </Link>
         </div>
       </div>

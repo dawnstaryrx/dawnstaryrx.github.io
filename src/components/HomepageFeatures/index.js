@@ -4,32 +4,32 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: '记录开发日常',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        分享前后端开发过程中的经验、踩坑与解决方案。从编码细节到系统架构，
+        这里记录每一次成长与思考，帮助你也帮助未来的自己。
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: '技术洞察与项目实践',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        内容覆盖 Java后端、前端、服务器、AI 等技术。
+        借由实际项目与日常实验沉淀知识，理解技术背后的逻辑。
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: '一起交流，共同进步',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        热爱技术，也热爱分享。欢迎交流你的观点与想法。
+        技术之路不必孤单，我们可以一起构建更好的知识世界。
       </>
     ),
   },
