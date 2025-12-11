@@ -59,6 +59,8 @@ const config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
+	  blogSidebarCount: 15, // 显示全部文章（或改成数字）
+	  blogSidebarTitle: '所有博客', // 侧边栏标题
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // editUrl:
