@@ -12,3 +12,8 @@ java:
   label: Java
   permalink: /java
   description: Java相关内容
+
+tool:
+  label: Tool
+  permalink: /tool
+  description: 工具
