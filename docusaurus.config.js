@@ -93,10 +93,11 @@ const config = {
       navbar: {
         title: '东方既白',
         logo: {
-          alt: 'My Site Logo',
+          alt: '东方既白',
           src: 'img/logo.svg',
         },
         items: [
+          {to: '/', label: '首页', position: 'left', activeBaseRegex: '^/$'},
           {to: '/blog', label: '博客', position: 'left'},
           {
             type: 'docSidebar',
@@ -106,7 +107,7 @@ const config = {
           },
           {
             type: 'docSidebar',
-            sidebarId: 'projectSidebar', // 对应新建的 sidebar
+            sidebarId: 'projectSidebar',
             position: 'left',
             label: '项目',
           },
@@ -114,6 +115,7 @@ const config = {
             href: 'https://github.com/dawnstaryrx/dawnstaryrx.github.io',
             label: 'GitHub',
             position: 'right',
+            className: 'navbar-github-link',
           },
         ],
       },

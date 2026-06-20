@@ -1,11 +1,251 @@
-.features {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+.statsSection {
+  padding: 4rem 0;
+  background: var(--ifm-background-color);
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.statCard {
+  position: relative;
+  padding: 28px 24px;
+  border-radius: 16px;
+  background: var(--custom-card-bg);
+  border: 1px solid var(--custom-card-border);
+  box-shadow: var(--custom-card-shadow);
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.statCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--custom-accent-blue), var(--custom-accent-purple));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(59, 130, 246, 0.12);
+}
+
+.statCard:hover::before {
+  opacity: 1;
+}
+
+.statIcon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.statNumber {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--custom-accent-blue), var(--custom-accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: var(--custom-text-secondary);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.techSection {
+  padding: 5rem 0;
+  background: var(--ifm-background-color);
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.sectionTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--custom-text-primary);
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+}
+
+.sectionDesc {
+  font-size: 0.95rem;
+  color: var(--custom-text-secondary);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.techGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.techCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 24px 16px;
+  border-radius: 16px;
+  background: var(--custom-card-bg);
+  border: 1px solid var(--custom-card-border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+}
+
+.techCard:hover {
+  transform: translateY(-6px);
+  border-color: transparent;
+  background: var(--custom-glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 12px 40px rgba(59, 130, 246, 0.1),
+    0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+.techCardIcon {
+  font-size: 2rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.techCard:hover .techCardIcon {
+  transform: scale(1.15);
+  filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.3));
+}
+
+.techCardName {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--custom-text-primary);
+}
+
+.projectSection {
+  padding: 5rem 0;
+  background: var(--ifm-background-color);
+}
+
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.projectCard {
+  position: relative;
+  padding: 28px;
+  border-radius: 16px;
+  background: var(--custom-card-bg);
+  border: 1px solid var(--custom-card-border);
+  box-shadow: var(--custom-card-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.projectCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+  border-color: var(--ifm-color-primary);
+}
+
+[data-theme='dark'] .projectCard:hover {
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+}
+
+.projectCardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.projectCardTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--custom-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.projectCardDesc {
+  font-size: 0.875rem;
+  color: var(--custom-text-secondary);
+  line-height: 1.6;
+}
+
+.projectCardTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
+.projectCardTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: rgba(59, 130, 246, 0.08);
+  color: var(--ifm-color-primary);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.projectCardLink {
+  font-size: 0.85rem;
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.projectCardLink:hover {
+  color: var(--ifm-color-primary-dark);
+}
+
+@media (max-width: 768px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .techGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .projectGrid {
+    grid-template-columns: 1fr;
+  }
 }

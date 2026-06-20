@@ -1,64 +1,145 @@
+import React from 'react';
 import clsx from 'clsx';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {useBlogPost} from '@docusaurus/theme-common/internal';
+import {motion} from 'framer-motion';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
-const FeatureList = [
+const statsData = [
+  {label: '文章', number: '10+', icon: '✍️'},
+  {label: '分类', number: '5', icon: '📂'},
+  {label: '标签', number: '15+', icon: '🏷️'},
+  {label: '项目', number: '2+', icon: '🚀'},
+];
+
+const techStack = [
+  {name: 'Java', icon: '☕', color: '#e76f00'},
+  {name: 'Spring Boot', icon: '🍃', color: '#6db33f'},
+  {name: 'React', icon: '⚛️', color: '#61dafb'},
+  {name: 'Vue', icon: '💚', color: '#42b883'},
+  {name: 'MySQL', icon: '🐬', color: '#4479a1'},
+  {name: 'Redis', icon: '🔴', color: '#dc382d'},
+  {name: 'Docker', icon: '🐳', color: '#2496ed'},
+  {name: 'AI', icon: '🤖', color: '#8b5cf6'},
+];
+
+const projects = [
   {
-    title: '记录开发日常',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        分享前后端开发过程中的经验、踩坑与解决方案。从编码细节到系统架构，
-        这里记录每一次成长与思考，帮助你也帮助未来的自己。
-      </>
-    ),
+    title: 'AI辅助软著编写系统',
+    desc: '基于AI技术的软件著作权文档自动生成系统，提升软著申请效率。',
+    tags: ['Java', 'Spring Boot', 'AI', 'Vue'],
+    link: '/docs/project/intro',
   },
   {
-    title: '技术洞察与项目实践',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        内容覆盖 Java后端、前端、服务器、AI 等技术。
-        借由实际项目与日常实验沉淀知识，理解技术背后的逻辑。
-      </>
-    ),
-  },
-  {
-    title: '一起交流，共同进步',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        热爱技术，也热爱分享。欢迎交流你的观点与想法。
-        技术之路不必孤单，我们可以一起构建更好的知识世界。
-      </>
-    ),
+    title: 'Go导航系统',
+    desc: '高效的网址导航系统，支持分类管理、搜索和个性化配置。',
+    tags: ['Go', 'Vue', 'MySQL'],
+    link: '/docs/project/intro',
   },
 ];
 
-function Feature({Svg, title, description}) {
+const animProps = {
+  initial: {opacity: 0, y: 20},
+  whileInView: {opacity: 1, y: 0},
+  viewport: {once: true, margin: '-50px'},
+  transition: {duration: 0.5},
+};
+
+function StatsSection() {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+    <section className={styles.statsSection}>
+      <div className="container">
+        <div className={styles.statsGrid}>
+          {statsData.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              className={styles.statCard}
+              {...animProps}
+              transition={{...animProps.transition, delay: i * 0.1}}
+            >
+              <div className={styles.statIcon}>{stat.icon}</div>
+              <div className={styles.statNumber}>{stat.number}</div>
+              <div className={styles.statLabel}>{stat.label}</div>
+            </motion.div>
+          ))}
+        </div>
       </div>
-      <div className="text--center padding-horiz--md">
-        <Heading as="h3">{title}</Heading>
-        <p>{description}</p>
+    </section>
+  );
+}
+
+function TechSection() {
+  return (
+    <section className={styles.techSection}>
+      <div className="container">
+        <motion.div className={styles.sectionHeader} {...animProps}>
+          <Heading as="h2" className={styles.sectionTitle}>技术栈</Heading>
+          <p className={styles.sectionDesc}>日常使用的技术与工具</p>
+        </motion.div>
+        <div className={styles.techGrid}>
+          {techStack.map((tech, i) => (
+            <motion.div
+              key={tech.name}
+              className={styles.techCard}
+              {...animProps}
+              transition={{...animProps.transition, delay: i * 0.06}}
+            >
+              <div
+                className={styles.techCardIcon}
+                style={{background: `${tech.color}15`}}
+              >
+                {tech.icon}
+              </div>
+              <span className={styles.techCardName}>{tech.name}</span>
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
+  );
+}
+
+function ProjectSection() {
+  return (
+    <section className={styles.projectSection}>
+      <div className="container">
+        <motion.div className={styles.sectionHeader} {...animProps}>
+          <Heading as="h2" className={styles.sectionTitle}>项目</Heading>
+          <p className={styles.sectionDesc}>实践中的技术沉淀</p>
+        </motion.div>
+        <div className={styles.projectGrid}>
+          {projects.map((project, i) => (
+            <motion.a
+              key={project.title}
+              className={styles.projectCard}
+              href={project.link}
+              {...animProps}
+              transition={{...animProps.transition, delay: i * 0.1}}
+            >
+              <div className={styles.projectCardHeader}>
+                <h3 className={styles.projectCardTitle}>{project.title}</h3>
+              </div>
+              <p className={styles.projectCardDesc}>{project.desc}</p>
+              <div className={styles.projectCardTags}>
+                {project.tags.map(tag => (
+                  <span key={tag} className={styles.projectCardTag}>{tag}</span>
+                ))}
+              </div>
+            </motion.a>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
 export default function HomepageFeatures() {
   return (
-    <section className={styles.features}>
-      <div className="container">
-        <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
-          ))}
-        </div>
-      </div>
-    </section>
+    <>
+      <StatsSection />
+      <TechSection />
+      <ProjectSection />
+    </>
   );
 }

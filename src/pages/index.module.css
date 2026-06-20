@@ -1,23 +1,270 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
   position: relative;
+  min-height: calc(100vh - 64px);
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 1.5rem 2rem;
   overflow: hidden;
 }
 
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
+.heroBgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--custom-divider) 1px, transparent 1px),
+    linear-gradient(90deg, var(--custom-divider) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.4;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 30%, transparent 100%);
 }
 
-.buttons {
+[data-theme='dark'] .heroBgGrid {
+  opacity: 0.15;
+}
+
+.heroAurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.heroAuroraBlob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.35;
+  animation: aurora 12s ease-in-out infinite;
+}
+
+.heroAuroraBlob1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--custom-aurora-1), transparent 70%);
+  top: -15%;
+  left: -10%;
+  animation-delay: 0s;
+}
+
+.heroAuroraBlob2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--custom-aurora-2), transparent 70%);
+  top: 10%;
+  right: -10%;
+  animation-delay: -4s;
+}
+
+.heroAuroraBlob3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--custom-aurora-3), transparent 70%);
+  bottom: -10%;
+  left: 30%;
+  animation-delay: -8s;
+}
+
+[data-theme='dark'] .heroAuroraBlob {
+  opacity: 0.2;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 10;
+  max-width: 800px;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 24px;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  background: var(--custom-glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--custom-glass-border);
+  font-size: 0.85rem;
+  color: var(--ifm-color-primary);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.heroBadgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ifm-color-primary);
+  animation: float 3s ease-in-out infinite;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: var(--custom-text-primary);
+  margin: 0;
+}
+
+.heroTitleGradient {
+  background: linear-gradient(135deg, var(--custom-gradient-start), var(--custom-gradient-end), var(--custom-aurora-3));
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientFlow 6s ease infinite;
+}
+
+.heroSubtitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: var(--custom-text-secondary);
+  line-height: 1.7;
+  max-width: 600px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.heroTechTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   justify-content: center;
+}
+
+.heroTechTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: var(--custom-glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--custom-glass-border);
+  font-size: 0.85rem;
+  color: var(--custom-text-secondary);
+  font-weight: 500;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.heroTechTag:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
+}
+
+.heroButtons {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.heroBtnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--custom-accent-blue), var(--custom-accent-purple));
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+}
+
+.heroBtnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4);
+  color: #fff;
+}
+
+.heroBtnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  background: var(--custom-glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--custom-glass-border);
+  color: var(--custom-text-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.heroBtnSecondary:hover {
+  border-color: var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15);
+}
+
+.heroScroll {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--custom-text-tertiary);
+  font-size: 0.75rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.heroScrollLine {
+  width: 1px;
+  height: 24px;
+  background: linear-gradient(to bottom, var(--custom-text-tertiary), transparent);
+}
+
+@media (max-width: 768px) {
+  .heroBanner {
+    padding: 5rem 1.25rem 3rem;
+    min-height: 90vh;
+  }
+
+  .heroAuroraBlob1 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .heroAuroraBlob2 {
+    width: 250px;
+    height: 250px;
+  }
+
+  .heroAuroraBlob3 {
+    width: 200px;
+    height: 200px;
+  }
+
+  .heroTechTags {
+    gap: 6px;
+  }
+
+  .heroTechTag {
+    padding: 4px 10px;
+    font-size: 0.78rem;
+  }
 }
